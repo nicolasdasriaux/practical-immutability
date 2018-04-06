@@ -1,11 +1,14 @@
 package fr.carbonit;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.carbonit.model.*;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import io.vavr.jackson.datatype.VavrModule;
 
 public class App {
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws JsonProcessingException {
         final Seq<Integer> ids1 = List.of(1, 2, 3);
         final Seq<Integer> ids2 = ids1.prepend(0);
         final Seq<String> names = ids1.map(i -> "Name " + i);
@@ -15,9 +18,9 @@ public class App {
         dump("names", names);
 
         final Seq<Item> items1 = List.of(
-                ImmutableItem.of(3, "Table"),
-                ImmutableItem.of(4, "Fork"),
-                ImmutableItem.of(5, "Knife")
+                ImmutableItem.builder().id(3).name("Table").build(),
+                ImmutableItem.builder().id(4).name("Fork").build(),
+                ImmutableItem.builder().id(5).name("Knife").build()
         );
 
         final Seq<Item> items2 = items1.removeFirst(item -> item.id() == 3);
@@ -28,8 +31,8 @@ public class App {
         final Customer customer1 = ImmutableCustomer.builder()
                 .id(1)
                 .setValueTitle("Mr.")
-                .firstName("Paul")
-                .lastName("Dupond")
+                .firstName("John")
+                .lastName("Doe")
                 .addOrder(ImmutableOrder.builder()
                         .id(1)
                         .addItem(ImmutableItem.of(1, "Ball"))
@@ -55,6 +58,10 @@ public class App {
         dump("customer1.fullName", customer1.fullName());
         dump("customer2", customer2);
         dump("customer3", customer3);
+
+        final ObjectMapper mapper = new ObjectMapper().registerModule(new VavrModule());
+        final String json = mapper.writer().writeValueAsString(customer1);
+        dump("json", json);
     }
 
     private static void dump(final String name, final Object value) {

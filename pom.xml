@@ -25,6 +25,12 @@
         </dependency>
 
         <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.immutables.vavr</groupId>
             <artifactId>vavr-encodings</artifactId>
             <version>0.4.0</version>
@@ -32,9 +38,15 @@
         </dependency>
 
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>0.9.0</version>
+            <artifactId>vavr-jackson</artifactId>
+            <version>0.9.2</version>
         </dependency>
 
         <dependency>
@@ -50,7 +62,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.7.0</version>
                 <configuration>
                     <compilerVersion>1.8</compilerVersion>
                     <source>1.8</source>

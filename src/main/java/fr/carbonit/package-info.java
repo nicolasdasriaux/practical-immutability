@@ -1,6 +1,4 @@
-@VavrEncodingEnabled
-@Value.Style(depluralize = true)
+@ImmutableStyle
 package fr.carbonit;
 
-import org.immutables.value.Value;
-import org.immutables.vavr.encodings.VavrEncodingEnabled;
+import fr.carbonit.model.ImmutableStyle;

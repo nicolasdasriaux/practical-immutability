@@ -1,5 +1,6 @@
 package fr.carbonit.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.immutables.value.Value;
 import org.immutables.vavr.encodings.VavrEncodingEnabled;
 
@@ -10,7 +11,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PACKAGE, ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
+@Value.Style(typeAbstract = "Abstract*", typeImmutable = "*", depluralize = true)
 @VavrEncodingEnabled
-@Value.Style(depluralize = true)
+@JsonSerialize
 public @interface ImmutableStyle {
 }

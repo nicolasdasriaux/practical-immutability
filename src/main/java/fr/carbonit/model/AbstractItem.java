@@ -6,6 +6,7 @@ import org.immutables.value.Value;
 public interface AbstractItem {
     @Value.Parameter
     int id();
+
     @Value.Parameter
     String name();
 }

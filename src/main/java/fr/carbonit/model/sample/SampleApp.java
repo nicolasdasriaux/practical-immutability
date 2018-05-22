@@ -1,5 +1,7 @@
 package fr.carbonit.model.sample;
 
+import io.vavr.collection.*;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -131,7 +133,7 @@ public class SampleApp {
 
         part("Preventing null and incompleteness", () -> {
             example("Build incomplete", () -> {
-                Customer customer = Customer.builder()
+                final Customer customer = Customer.builder()
                         .id(1)
                         .build();
 
@@ -139,7 +141,7 @@ public class SampleApp {
             });
 
             example("Build null", () -> {
-                Customer customer = Customer.builder()
+                final Customer customer = Customer.builder()
                         .id(1)
                         .firstName(null)
                         .lastName("Martin")
@@ -233,6 +235,61 @@ public class SampleApp {
                                 .build();
 
                 System.out.println("modifiedCustomer=" + modifiedCustomer);
+            });
+        });
+
+        part("Immutable Collections", () -> {
+            example("Seq", () -> {
+                final Seq<Integer> ids = List.of(1, 2, 3, 4, 5);
+
+                final Seq<String> availableIds = ids
+                        .prepend(0) // Add 0 at head of list
+                        .append(6) // Add 6 as last element of list
+                        .filter(i -> i % 2 == 0) // Keep only even numbers
+                        .map(i -> "#" + i); // Transform to rank
+
+                System.out.println(availableIds);
+            });
+
+            example("IndexedSeq", () -> {
+                final IndexedSeq<String> commands = Vector.of(
+                        "command", "ls", "pwd", "cd", "man");
+
+                final IndexedSeq<String> availableCommands = commands
+                        .tail()  // Drop head of list keeping only tail
+                        .remove("man"); // Remove man command
+
+                System.out.println(availableCommands);
+            });
+
+            example("Set", () -> {
+                final Set<String> greetings = HashSet.of("hello", "goodbye");
+
+                final Set<String> availableGreetings = greetings
+                        .addAll(List.of("hi", "bye", "hello")); // Add more greetings
+
+                System.out.println(availableGreetings);
+            });
+
+            example("Map", () -> {
+                final Map<Integer, String> idToName = HashMap.ofEntries(
+                        Map.entry(1, "Peter"),
+                        Map.entry(2, "John"),
+                        Map.entry(3, "Mary"),
+                        Map.entry(4, "Kate"));
+
+                final Map<Integer, String> updatedIdToName = idToName
+                        .remove(1) // Remove entry with key 1
+                        .put(5, "Bart") // Add entry
+                        .mapValues(String::toUpperCase);
+
+                System.out.println(updatedIdToName);
+            });
+
+            example("Compare by value", () -> {
+                System.out.println(HashSet.of(1, 2, 3).equals(HashSet.of(3, 2, 1)));
+
+                assert HashSet.of(1, 2, 3).equals(HashSet.of(3, 2, 11));
             });
         });
     }

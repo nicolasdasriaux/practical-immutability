@@ -1,6 +1,7 @@
 package fr.carbonit.model.sample;
 
 import io.vavr.collection.*;
+import io.vavr.control.Option;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -290,6 +291,39 @@ public class SampleApp {
                 System.out.println(HashSet.of(1, 2, 3).equals(HashSet.of(3, 2, 1)));
 
                 assert HashSet.of(1, 2, 3).equals(HashSet.of(3, 2, 11));
+            });
+        });
+        part("Option", () -> {
+            example("Present", () -> {
+                final Option<String> maybeTitle = Option.some("Mister");
+
+                final String displayedTitle = maybeTitle
+                        .map(String::toUpperCase) // Transform value, as present
+                        .getOrElse("<No Title>"); // Get value, as present
+
+                System.out.println(displayedTitle);
+            });
+
+            example("Absent", () -> {
+                final Option<String> maybeTitle = Option.none();
+
+                final String displayedTitle = maybeTitle
+                        .map(String::toUpperCase) // Does nothing, as absent
+                        .getOrElse("<No Title>"); // Return parameter, as absent
+
+                System.out.println(displayedTitle);
+            });
+
+            example("From Nullable (null)", () -> {
+                final String nullableTitle = null;
+                final Option<String> maybeTitle = Option.of(nullableTitle);
+                System.out.println(maybeTitle);
+            });
+
+            example("From Nullable (non null)", () -> {
+                final Option<String> maybeTitle = Option.none();
+                final String nullableTitle = maybeTitle.getOrNull();
+                System.out.println(nullableTitle);
             });
         });
     }

@@ -1,18 +1,93 @@
 autoscale: true
+build-lists: true
+
+# Practical Immutability
+
+---
+
+# What Object Oriented Programming is
+
+* Object Identity
+  * Uniquely identify an instance (pointer, reference, address ...)
+* Inheritance and polymorphism
+  * Classify and customize behavior in classifications
+* Encapsulation
+  * Ensure integrity of object :thumbsup:
+  * Essence of OOP
+
+---
+
+# What Encapsulation is
+
+* A constructor should either
+  * :thumbsup: construct a **consistent** instance from its parameters
+  * :bomb: or just fail if it cannot
+* Applied on a **consistent** instance, a method should  either
+  * :thumbsup: modify the object to another **consistent** state
+  * :bomb: or just fail if it cannot
+* Protection of consistency by constructors and methods ensures integrity of object
+* Consistency can be described by a set of integrity rules called **class invariant**
+
+---
+
+# Setters `==` No Encapsulation at All `==` No OOP
+
+``` java
+public class Customer {
+    private int id;
+    private String firstName;
+    private String lastName;
+    public Customer() {}
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+}
+```
+
+* What are the integrity rules?
+* How are they protected?
+* This is structured programming, it works, but this is not OOP.
+
+---
+
+# OOP Revisited
+
+* Encapsulation is not optional in OOP
+* If you cannot describe (and protect) class invariant, there is no class encapsulation
+* There exists **classes without invariant**:
+  * _Forms_ which are never guaranteed to be consistent except after validation
+  * Or anything coming from an external system
+* OOP does not require mutability and it works very well with mutability
+
+---
 
 # _Immutables_
 
-* zzzzz
-* zzzzz
-* zzzzz
+> Java annotation processors to generate simple, safe and consistent value objects.
+-- From [https://immutables.github.io](https://immutables.github.io)
+
+* Focused on immutable classes with minimum boilerplate
+* Does not modify code but generates additional code
+* Fully customizable
+* Integrates with many _collection_ and _option type_ libraries
+* May look similar to _Lombok_ at first sight but is considerably more polished and feature complete
 
 ---
 
 # _Vavr_
 
-* zzzzz
-* zzzzz
-* zzzzz
+> Vavr core is a functional library for Java.
+-- From [http://www.vavr.io](http://www.vavr.io)
+
+* Formerly known as JavaSlang
+* Provides immutable collections
+* Also provides functions and control structures (such as `Option`)
+* Fully interoperable with Java collections and `Optional`
+* Requires Java 8
+* Integrates with _Immutables_
 
 ---
 
@@ -21,6 +96,13 @@ autoscale: true
 
 ---
 
+# Immutable Class
+
+* Constructor returns a new object
+* Methods do not modify the object but return a **new object** with the modifications applied instead
+* Should prevent inconsistencies with class invariant
+
+---
 # Declaring an Immutable Class
 
 ``` java
@@ -291,8 +373,8 @@ Will fail with an exception
   * always return a **new collection** with the transformation applied
   * and keep the **original collection unchanged**
 * Immutable collections **compare by value**
-  * `.equals(other)` and `.hashCode()` are consistently implemented
-* In principle, they should not accept `null` as element
+  * `.equals(other)` and `.hashCode()` are consistently implemented :thumbsup:
+* In principle, they **should not accept `null`** as element
   * but Vavr does :imp:
 * Immutable Collection are special efficient data structures called _persistent data structures_
 
@@ -307,7 +389,9 @@ Will fail with an exception
 | `Set`          | `Set`            |
 | `Map`          | `Map`            |
 
-_Vavr_ collections can easily be wrapped back to Java collections using `.toJavaXXX()` methods
+* Collections can be wrapped
+  * from Java to _Vavr_ using `.ofAll(...)` methods
+  * and from _Vavr_ to Java using `.toJavaXXX()` methods
 
 ---
 
@@ -382,7 +466,7 @@ final Map<Integer, String> updatedIdToName = idToName
         .mapValues(String::toUpperCase);
 ```
 
-Result will output as
+Will output as
 
 ```
 HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
@@ -395,12 +479,78 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 
 ---
 
-Optional Values (with Vavr)
-===========================
+# Option Type
 
-### `null` vs `Option
+* An option type is a generic type such as _Vavr_ `Option<T>` that models the presence or the absence of a value of type `T`.
+* Options **compare by value** :thumbsup:
+* In principle, options **should not accept `null`** as present value
+  * but Vavr does :imp:
 
-### Using `Option` (examples)
+
+___
+
+# Present Value (`some`)
+
+``` java
+final Option<String> maybeTitle = Option.some("Mister");
+
+final String displayedTitle = maybeTitle
+        .map(String::toUpperCase) // Transform value, as present
+        .getOrElse("<No Title>"); // Get value, as present
+```
+
+Will output
+
+```
+MISTER
+```
+
+---
+
+# Absent Value (`none`)
+
+``` java
+final Option<String> maybeTitle = Option.none();
+
+final String displayedTitle = maybeTitle
+        .map(String::toUpperCase) // Does nothing, as absent
+        .getOrElse("<No Title>"); // Return parameter, as absent
+
+```
+
+Will output
+
+```
+<No Title>
+```
+
+---
+
+# Bridging with Nullable
+
+From nullable to `Option`
+
+``` java
+final Option<String> maybeTitle =
+        Option.of(nullableTitle);
+```
+
+From `Option` to nullable
+
+``` java
+final String nullableTitle =
+        maybeTitle.getOrNull();
+```
+
+---
+
+# Immutable All the Way
+## with _Immutables_ and _Vavr_
+
+---
+
+# In Real Life
+# What about Spring MVC, Jackson, Hibernate ...
 
 ---
 
@@ -412,12 +562,3 @@ Optional Values (with Vavr)
 * No non-terminal `return` (equivalent to `goto`)
 
 ---
-
-# Immutable All the Way
-## with _Immutables_ and _Vavr_
-
----
-
-# final (non-final) vs immutable (mutable)
-
-# Immutable Collections (with Vavr)

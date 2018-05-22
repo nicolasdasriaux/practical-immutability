@@ -84,45 +84,33 @@ public class SampleApp {
 
                 System.out.println("customer=" + customer);
                 System.out.println("customer.fullName=" + customer.fullName());
-
             });
         });
 
         part("Comparing", () -> {
+            /*
+            Simplifies tests
+             */
             example("Equal", () -> {
-                final Customer customer1 =
-                        Customer.builder()
-                                .id(1)
-                                .firstName("John")
-                                .lastName("Doe")
-                                .build();
+                final Customer customer1 = Customer.builder()
+                        .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer2 =
-                        Customer.builder()
-                                .id(1)
-                                .firstName("John")
-                                .lastName("Doe")
-                                .build();
+                final Customer customer2 = Customer.builder()
+                        .id(1).firstName("John").lastName("Doe").build();
 
-                System.out.println("customer1.equals(customer2)=" + customer1.equals(customer2));
+                assert customer1.equals(customer2); // Same attributes
+                assert customer1.hashCode() == customer2.hashCode();
             });
 
             example("Non Equal", () -> {
-                final Customer customer1 =
-                        Customer.builder()
-                                .id(1)
-                                .firstName("John")
-                                .lastName("Doe")
-                                .build();
+                final Customer customer1 = Customer.builder()
+                        .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer2 =
-                        Customer.builder()
-                                .id(1)
-                                .firstName("Paul")
-                                .lastName("Martin")
-                                .build();
+                final Customer customer3 = Customer.builder()
+                        .id(1).firstName("Paul").lastName("Martin").build();
 
-                System.out.println("customer1.equals(customer2)=" + customer1.equals(customer2));
+                assert !customer1.equals(customer3); // Different attributes
+                assert customer1.hashCode() != customer3.hashCode();
             });
         });
 
@@ -135,7 +123,7 @@ public class SampleApp {
                                 .lastName("Doe")
                                 .build();
 
-                System.out.println("customer.toString=" + customer.toString());
+                System.out.println(customer.toString());
             });
 
             /* @Redacted */
@@ -198,8 +186,6 @@ public class SampleApp {
         });
 
         part("Optionality instead of null", () -> {
-            exa
-
         });
 
         part("Ensuring invariants", () -> {

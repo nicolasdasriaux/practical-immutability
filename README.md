@@ -100,7 +100,9 @@ public class Customer {
 
 * Constructor returns a new object
 * Methods do not modify the object but return a **new object** with the modifications applied instead
-* Should prevent inconsistencies with class invariant
+* For an immutable class, _Immutables_ generates
+ * a `Builder` to create and modify instances :thumbsup:
+ * a set of `.withXXX(xxx)` methods to modify instances :thumbsup:
 
 ---
 # Declaring an Immutable Class
@@ -241,7 +243,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 
 * Attributes should never be `null`
   * `null` is evil! :smiling_imp:
-* _Immutables_ will rejects `null` by default :thumbsup:
+* _Immutables_ will reject `null` by default :thumbsup:
 * Optional attribute should be explicit using an **option type**
   * _Vavr_ `Option` is a good option :wink:
   * More later
@@ -466,7 +468,7 @@ final Map<Integer, String> updatedIdToName = idToName
         .mapValues(String::toUpperCase);
 ```
 
-Will output as
+Will output
 
 ```
 HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
@@ -485,7 +487,6 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 * Options **compare by value** :thumbsup:
 * In principle, options **should not accept `null`** as present value
   * but Vavr does :imp:
-
 
 ___
 

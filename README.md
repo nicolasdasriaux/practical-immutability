@@ -32,7 +32,7 @@ build-lists: true
 
 # Setters `==` No Encapsulation at All `==` No OOP
 
-``` java
+```java
 public class Customer {
     private int id;
     private String firstName;
@@ -60,7 +60,7 @@ public class Customer {
 * There exists **classes without invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
   * Or anything coming from an external system
-* OOP does not require mutability and it works very well with mutability
+* OOP does not require mutability and it works very well with immutability
 
 ---
 
@@ -107,7 +107,7 @@ public class Customer {
 ---
 # Declaring an Immutable Class
 
-``` java
+```java
 @Value.Immutable
 public abstract class AbstractCustomer {
     abstract int id();
@@ -120,7 +120,7 @@ public abstract class AbstractCustomer {
 
 # Creating an Instance
 
-``` java
+```java
 final Customer customer =
     Customer.builder()
         .id(1)
@@ -133,7 +133,7 @@ final Customer customer =
 
 # Modifying an Instance (one attribute)
 
-``` java
+```java
 final Customer modifiedCustomer =
     customer.withLastName("Martin");
 ```
@@ -146,7 +146,7 @@ final Customer modifiedCustomer =
 
 # Modifying an Instance (multiple attributes)
 
-``` java
+```java
 final Customer modifiedCustomer =
     Customer.builder().from(customer)
         .firstName("Paul")
@@ -160,10 +160,10 @@ final Customer modifiedCustomer =
 
 # Calculating an Attribute from Other Attributes
 
-```java 
+```java
 @Value.Immutable
 public abstract class AbstractCustomer {
-    ...
+    // ...
     public String fullName() {
         return firstName() + " " + lastName();
     }
@@ -195,7 +195,7 @@ public abstract class AbstractCustomer {
 
 # Comparing Immutable Instances
 
-``` java
+```java
 final Customer customer1 = Customer.builder()
         .id(1).firstName("John").lastName("Doe").build();
 
@@ -226,7 +226,7 @@ assert customer1.hashCode() != customer3.hashCode();
 
 # Printing Immutable Instance
 
-``` java
+```java
 System.out.println(customer.toString());
 ```
 
@@ -235,7 +235,6 @@ Will output something like
 ```
 Customer{id=1, firstName=John, lastName=Doe}
 ```
-
 
 ---
 
@@ -252,7 +251,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 
 # Immutables ensures presence of values when creating an instance
 
-``` java
+```java
 Customer.builder().id(1).build()
 ```
 
@@ -264,7 +263,7 @@ Will fail with an exception
 
 # Immutables prevents introduction of `null` values
 
-``` java
+```java
 Customer.builder()
     .id(1).firstName(null).lastName("Martin")
     .build()
@@ -294,10 +293,10 @@ Will all fail with an exception
 
 # Expressing Class Invariant
 
-``` java
+```java
 @Value.Immutable
 public abstract class AbstractCustomer {
-    ...
+    // ...
     
     @Value.Check
     protected void check() {
@@ -320,7 +319,7 @@ public abstract class AbstractCustomer {
 
 # Ensuring Invariant at Creation
 
-``` java
+```java
 final Customer customer =
         Customer.builder()
                 .id(-1)
@@ -337,7 +336,7 @@ Will fail with an exception
 
 # Ensuring Invariant at Modification
 
-``` java
+```java
 final Customer modifiedCustomer =
         customer.withFirstName(" Paul ");
 ```
@@ -350,7 +349,7 @@ Will fail with an exception
 
 # Ensuring Invariant at Modification
 
-``` java
+```java
 final Customer modifiedCustomer =
         Customer.builder()
                 .from(customer)
@@ -384,12 +383,12 @@ Will fail with an exception
 
 # _Vavr_ Immutable Collections
 
-| Mutable (Java) | Mutable (_Vavr_) |
-|----------------|------------------|
-| `Collection`   | `Seq`            |
-| `List`         | `IndexedSeq`     |
-| `Set`          | `Set`            |
-| `Map`          | `Map`            |
+| Mutable (Java) | Immutable (_Vavr_) |
+|----------------|--------------------|
+| `Collection`   | `Seq`              |
+| `List`         | `IndexedSeq`       |
+| `Set`          | `Set`              |
+| `Map`          | `Map`              |
 
 * Collections can be wrapped
   * from Java to _Vavr_ using `.ofAll(...)` methods
@@ -399,7 +398,7 @@ Will fail with an exception
 
 # Immutable Sequence
 
-``` java
+```java
 final Seq<Integer> ids = List.of(1, 2, 3, 4, 5);
 
 final Seq<String> availableIds = ids
@@ -419,7 +418,7 @@ List(#0, #2, #4, #6)
 
 # Immutable Indexed Sequence
 
-``` java
+```java
 final IndexedSeq<String> commands = Vector.of(
         "command", "ls", "pwd", "cd", "man");
 
@@ -438,7 +437,7 @@ Vector(ls, pwd, cd)
 
 # Immutable Set
 
-``` java
+```java
 final Set<String> greetings = HashSet.of("hello", "goodbye");
 
 final Set<String> availableGreetings = greetings
@@ -455,7 +454,7 @@ HashSet(hi, bye, goodbye, hello)
 
 # Immutable Map
 
-``` java
+```java
 final Map<Integer, String> idToName = HashMap.ofEntries(
         Map.entry(1, "Peter"),
         Map.entry(2, "John"),
@@ -492,7 +491,7 @@ ___
 
 # Present Value (`some`)
 
-``` java
+```java
 final Option<String> maybeTitle = Option.some("Mister");
 
 final String displayedTitle = maybeTitle
@@ -510,7 +509,7 @@ MISTER
 
 # Absent Value (`none`)
 
-``` java
+```java
 final Option<String> maybeTitle = Option.none();
 
 final String displayedTitle = maybeTitle
@@ -531,14 +530,14 @@ Will output
 
 From nullable to `Option`
 
-``` java
+```java
 final Option<String> maybeTitle =
         Option.of(nullableTitle);
 ```
 
 From `Option` to nullable
 
-``` java
+```java
 final String nullableTitle =
         maybeTitle.getOrNull();
 ```
@@ -551,7 +550,7 @@ final String nullableTitle =
 ---
 
 # In Real Life
-# What about Spring MVC, Jackson, Hibernate ...
+## What about Spring MVC, Jackson, Hibernate ...
 
 ---
 

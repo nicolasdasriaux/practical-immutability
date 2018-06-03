@@ -293,6 +293,7 @@ public class SampleApp {
                 assert HashSet.of(1, 2, 3).equals(HashSet.of(3, 2, 11));
             });
         });
+
         part("Option", () -> {
             example("Present", () -> {
                 final Option<String> maybeTitle = Option.some("Mister");
@@ -324,6 +325,92 @@ public class SampleApp {
                 final Option<String> maybeTitle = Option.none();
                 final String nullableTitle = maybeTitle.getOrNull();
                 System.out.println(nullableTitle);
+            });
+        });
+
+        part("Class with Option Attribute", () -> {
+            example("Create Without", () -> {
+                final ImmutableCustomer customer = ImmutableCustomer.builder()
+                        .id(1)
+                        // Do no set optional attribute
+                        .firstName("Paul")
+                        .lastName("Simpson")
+                        .build();
+
+                System.out.println(customer);
+            });
+
+            example("Create With", () -> {
+                final ImmutableCustomer customer = ImmutableCustomer.builder()
+                        .id(1)
+                        .setValueTitle("Mister") // Set optional attribute
+                        .firstName("Paul")
+                        .lastName("Simpson")
+                        .build();
+
+                System.out.println(customer);
+            });
+
+            example("With Unset", () -> {
+                final ImmutableCustomer customer = ImmutableCustomer.builder()
+                        .id(1)
+                        .setValueTitle("Mister") // Set optional attribute
+                        .firstName("Paul")
+                        .lastName("Simpson")
+                        .build();
+
+                final ImmutableCustomer modifiedCustomer =
+                        ImmutableCustomer.copyOf(customer).withTitle(Option.none());
+
+                System.out.println(modifiedCustomer);
+            });
+
+            example("With Set", () -> {
+                final ImmutableCustomer customer =
+                        ImmutableCustomer.builder()
+                                .id(1)
+                                .firstName("Paul")
+                                .lastName("Simpson")
+                                .build();
+
+                final ImmutableCustomer modifiedCustomer =
+                        ImmutableCustomer.copyOf(customer).withTitle("Mister");
+
+                System.out.println(modifiedCustomer);
+            });
+
+            example("Build from Unset", () -> {
+                final ImmutableCustomer customer =
+                        ImmutableCustomer.builder()
+                                .id(1)
+                                .setValueTitle("Mister")
+                                .firstName("Paul")
+                                .lastName("Simpson")
+                                .build();
+
+                final ImmutableCustomer modifiedCustomer =
+                        ImmutableCustomer.builder().from(customer)
+                                .unsetTitle()
+                                .build();
+
+                System.out.println(modifiedCustomer);
+            });
+
+            example("Build Set", () -> {
+                final ImmutableCustomer customer =
+                        ImmutableCustomer.builder()
+                                .id(1)
+                                .firstName("Paul")
+                                .lastName("Simpson")
+                                .build();
+
+                final ImmutableCustomer modifiedCustomer =
+                        ImmutableCustomer.builder().from(customer)
+                                .setValueTitle("Miss")
+                                .firstName("Paula")
+                                .build();
+
+                System.out.println(modifiedCustomer);
             });
         });
     }

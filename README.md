@@ -1,7 +1,9 @@
 autoscale: true
 build-lists: true
 
-# Practical Immutability
+# Practical
+# [fit] **Immutability**
+## [fit] with _Immutables_ and _Vavr_
 
 ---
 
@@ -59,7 +61,7 @@ public class Customer {
 * If you cannot describe (and protect) class invariant, there is no class encapsulation
 * Sure, there exists **classes with very weak invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
-  * JPA classes annotated with `@Entity` 
+  * JPA entity annotated with `@Entity` :imp:
   * Or anything coming from an external system
 * OOP does not require mutability and it works very well with immutability
 
@@ -172,8 +174,8 @@ public abstract class Customer {
 }
 ```
 
-* From the outside, calculated attribute looks exactly the same as other attributes
-* Uniform access principle
+* From the outside, calculated attribute looks exactly the same as other attributes :thumbsup:
+* **Uniform access principle**
 
 ---
 
@@ -186,7 +188,7 @@ public abstract class Customer {
 
 # Comparing Immutable Instances
 
-* Immutable class implies comparison by value
+* Immutable class implies **comparison by value**
 * _Immutables_ generates consistent
   * `.equals(other)` :thumbsup:
   * `.hashCode()` :thumbsup:
@@ -251,7 +253,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 
 ---
 
-# Immutables ensures presence of values when creating an instance
+# _Immutables_ ensures presence of values when creating an instance
 
 ```java
 ImmutableCustomer.builder().id(1).build()
@@ -263,19 +265,23 @@ Will fail with an exception
 
 ---
 
-# Immutables prevents introduction of `null` values
+# _Immutables_ prevents introduction of `null` values
 
 ```java
 ImmutableCustomer.builder()
     .id(1).firstName(null).lastName("Martin")
     .build()
+```
 
+```java
 ImmutableCustomer.copyOf(customer).withFirstName(null)
+```
 
+```java
 ImmutableCustomer.builder().from(customer)
     .firstName(null).lastName("Martin")
     .build()
-````
+```
 
 Will all fail with an exception
 
@@ -299,7 +305,6 @@ Will all fail with an exception
 @Value.Immutable
 public abstract class Customer {
     // ...
-    
     @Value.Check
     protected void check() {
         Preconditions.checkState(
@@ -484,7 +489,7 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 
 # Option Type
 
-* An option type is a generic type such as _Vavr_ `Option<T>` that models the presence or the absence of a value of type `T`.
+* An option type is a generic type such as _Vavr_ `Option<T>` that models the **presence** or the **absence** of a value of type `T`.
 * Options **compare by value** :thumbsup:
 * In principle, options **should not accept `null`** as present value
   * but Vavr does :imp:
@@ -546,21 +551,231 @@ final String nullableTitle =
 
 ---
 
-# Immutable All the Way
+# Immutable from Classes to Collections
 ## with _Immutables_ and _Vavr_
 
 ---
 
+# Customer with an Optional Title
+
+```java
+public abstract class Customer {
+    abstract Option<String> title();
+    abstract int id();
+    abstract String firstName();
+    abstract String lastName();
+}
+```
+---
+
+# Create without Title
+
+````java
+ImmutableCustomer.builder()
+        .id(1)
+        // Do no set optional attribute
+        .firstName("Paul")
+        .lastName("Simpson")
+        .build();
+````
+
+* Assigns `Option.none()` as title
+* Will output
+  ```
+  Customer{title=None, id=1, firstName=Paul, lastName=Simpson}
+  ```
+  
+---
+
+# Create with Title
+
+```java
+ImmutableCustomer.builder()
+        .id(1)
+        .setValueTitle("Mister") // Set optional attribute
+        .firstName("Paul")
+        .lastName("Simpson")
+        .build();
+```
+
+* Assigns `Option.some("Mister")` as title
+* Will output
+  ```
+  Customer{title=Some(Mister), id=1, firstName=Paul, lastName=Simpson}
+  ```
+
+---
+
+# Unset Optional Title
+
+```java
+ImmutableCustomer.copyOf(customer).withTitle(Option.none());
+```
+
+Or
+
+```java
+ImmutableCustomer.builder().from(customer)
+        .unsetTitle()
+        .build();
+```
+
+---
+
+# Set Optional Title
+
+```java
+ImmutableCustomer.copyOf(customer).withTitle("Mister");
+```
+
+Or
+
+```java
+ImmutableCustomer.builder().from(customer)
+        .setValueTitle("Miss")
+        .firstName("Paula")
+        .build();
+```
+
+---
+
+# Todo List (of Todos)
+
+```java
+@Value.Immutable
+public abstract class TodoList {
+    @Value.Parameter public abstract String name();
+    public abstract Seq<Todo> todos();
+
+    public static TodoList of(final String name) {
+        return ImmutableTodoList.of(name);
+    }
+    // ...
+}
+```
+
+---
+
+# Todo List Invariant
+
+```java
+@Value.Immutable
+public abstract class TodoList {
+    //...
+    @Value.Check
+    protected void check() {
+        Preconditions.checkState(
+                StringValidation.isTrimmedAndNonEmpty(name()),
+                "Name should be trimmed and non empty (" + name() + ")");
+
+        Preconditions.checkState(
+                todos().forAll(Objects::nonNull),
+                "Todos should all be non-null");
+    }
+    //...
+}
+```
+
+---
+
+# Todo
+
+```java
+@Value.Immutable
+public abstract class Todo {
+    @Value.Parameter public abstract int id();
+    @Value.Parameter public abstract String name();
+    @Value.Default public boolean isDone() { return false; };
+
+    public static Todo of(final int id, final String name) {
+        return ImmutableTodo.of(id, name);
+    }
+    // ...
+}
+```
+
+---
+
+# Todo Invariant
+
+```java
+@Value.Immutable
+public abstract class Todo {
+    // ...
+    @Value.Check
+    public void check() {
+        Preconditions.checkState(
+                id() >= 1,
+                "ID should be a least 1 (" + id() + ")");
+
+        Preconditions.checkState(
+                StringValidation.isTrimmedAndNonEmpty(name()),
+                "Name should be trimmed and non empty (" + name() + ")");
+    }
+}
+
+```
+---
+
+# Add and Remove Todo
+
+```java
+@Value.Immutable
+public abstract class TodoList {
+    // ...
+    public TodoList addTodo(final Todo todo) {
+        return ImmutableTodoList.builder().from(this).addTodo(todo).build();
+    }
+
+    public TodoList removeTodo(final int todoId) {
+        final Seq<Todo> modifiedTodos =
+            this.todos().removeFirst(todo -> todo.id() == todoId);
+
+        return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
+    }
+    // ...
+}
+```
+
+---
+
+# Mark Todo as Done
+
+```java
+@Value.Immutable
+public abstract class TodoList {
+    // ...
+    public TodoList markTodoAsDone(final int todoId) {
+        final int todoIndex = todos().indexWhere(todo -> todo.id() == todoId);
+
+        if (todoIndex >= 0) {
+            final Seq<Todo> modifiedTodos = todos().update(todoIndex,
+                todo -> ImmutableTodo.copyOf(todo).withIsDone(true));
+            
+            return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
+        } else {
+            return this;
+        }
+    }
+}
+```
+
+---
+
+# Create and Manipulate Todo List
+
+```java
+final TodoList todoList = TodoList.of("Food")
+        .addTodo(Todo.of(1, "Leek"))
+        .addTodo(Todo.of(2, "Turnip"))
+        .addTodo(Todo.of(3, "Cabbage"));
+
+final TodoList modifiedTodoList = todoList
+        .markTodoAsDone(3)
+        .removeTodo(2);
+```
+
+---
+
 # In Real Life
-## What about Spring MVC, Jackson, Hibernate ...
-
----
-
-# Emulating Expressions
-
-* `final` everywhere (local variable, parameter, enhanced `for` loop, `catch`)
-* `if` and `? :`
-* `switch`
-* No non-terminal `return` (equivalent to `goto`)
-
----
+## What about _Spring MVC_, _Jackson_, _Hibernate_ ...

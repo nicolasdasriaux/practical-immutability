@@ -5,7 +5,7 @@ import io.vavr.control.Option;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public interface AbstractCustomer {
+public interface Customer {
     int id();
     Option<String> title();
     String firstName();

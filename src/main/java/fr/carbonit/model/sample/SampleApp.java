@@ -31,7 +31,7 @@ public class SampleApp {
         part("Building an Modifying", () -> {
             example("Build", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -42,7 +42,7 @@ public class SampleApp {
 
             example("With", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -51,14 +51,14 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        customer.withLastName("Martin");
+                        ImmutableCustomer.copyOf(customer).withLastName("Martin");
 
                 System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
 
             example("Build from", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -67,7 +67,7 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        Customer.builder().from(customer)
+                        ImmutableCustomer.builder().from(customer)
                                 .firstName("Paul")
                                 .lastName("Martin")
                                 .build();
@@ -79,7 +79,7 @@ public class SampleApp {
         part("Calculating attributes from other attributes", () -> {
             example("Calculated attribute and uniform access principle", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -95,10 +95,10 @@ public class SampleApp {
             Simplifies tests
              */
             example("Equal", () -> {
-                final Customer customer1 = Customer.builder()
+                final Customer customer1 = ImmutableCustomer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer2 = Customer.builder()
+                final Customer customer2 = ImmutableCustomer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
                 assert customer1.equals(customer2); // Same attributes
@@ -106,10 +106,10 @@ public class SampleApp {
             });
 
             example("Non Equal", () -> {
-                final Customer customer1 = Customer.builder()
+                final Customer customer1 = ImmutableCustomer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer3 = Customer.builder()
+                final Customer customer3 = ImmutableCustomer.builder()
                         .id(1).firstName("Paul").lastName("Martin").build();
 
                 assert !customer1.equals(customer3); // Different attributes
@@ -120,7 +120,7 @@ public class SampleApp {
         part("Displaying", () -> {
             example("To String", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -134,7 +134,7 @@ public class SampleApp {
 
         part("Preventing null and incompleteness", () -> {
             example("Build incomplete", () -> {
-                final Customer customer = Customer.builder()
+                final Customer customer = ImmutableCustomer.builder()
                         .id(1)
                         .build();
 
@@ -142,7 +142,7 @@ public class SampleApp {
             });
 
             example("Build null", () -> {
-                final Customer customer = Customer.builder()
+                final Customer customer = ImmutableCustomer.builder()
                         .id(1)
                         .firstName(null)
                         .lastName("Martin")
@@ -153,7 +153,7 @@ public class SampleApp {
 
             example("With null", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
@@ -162,14 +162,14 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        customer.withFirstName(null);
+                        ImmutableCustomer.copyOf(customer).withFirstName(null);
 
                 System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
 
             example("Build from null", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
@@ -178,7 +178,7 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .from(customer)
                                 .firstName(null)
                                 .lastName("Martin")
@@ -194,7 +194,7 @@ public class SampleApp {
         part("Ensuring invariants", () -> {
             example("Build inconsistent", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(-1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
@@ -205,7 +205,7 @@ public class SampleApp {
 
             example("With inconsistent", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
@@ -214,14 +214,14 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        customer.withFirstName(" Paul ");
+                        ImmutableCustomer.copyOf(customer).withFirstName(" Paul ");
 
                 System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
 
             example("Build from inconsistent", () -> {
                 final Customer customer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
@@ -230,7 +230,7 @@ public class SampleApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        Customer.builder()
+                        ImmutableCustomer.builder()
                                 .from(customer)
                                 .lastName("")
                                 .build();

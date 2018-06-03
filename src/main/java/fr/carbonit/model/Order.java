@@ -1,12 +1,10 @@
 package fr.carbonit.model;
 
+import io.vavr.collection.Seq;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public interface AbstractItem {
-    @Value.Parameter
+public interface Order {
     int id();
-
-    @Value.Parameter
-    String name();
+    Seq<Item> items();
 }

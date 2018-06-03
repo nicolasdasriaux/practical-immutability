@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PACKAGE, ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
-@Value.Style(typeAbstract = "Abstract*", typeImmutable = "*", depluralize = true)
+@Value.Style(depluralize = true)
 @VavrEncodingEnabled
 @JsonSerialize
 public @interface ImmutableStyle {

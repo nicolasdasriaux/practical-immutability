@@ -10,7 +10,7 @@ build-lists: true
 * Object Identity
   * Uniquely identify an instance (pointer, reference, address ...)
 * Inheritance and polymorphism
-  * Classify and customize behavior in classifications
+  * Classify and specialize behavior in classifications
 * Encapsulation
   * Ensure integrity of object :thumbsup:
   * Essence of OOP
@@ -57,8 +57,9 @@ public class Customer {
 
 * Encapsulation is not optional in OOP
 * If you cannot describe (and protect) class invariant, there is no class encapsulation
-* There exists **classes without invariant**:
+* Sure, there exists **classes with very weak invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
+  * JPA classes annotated with `@Entity` 
   * Or anything coming from an external system
 * OOP does not require mutability and it works very well with immutability
 
@@ -105,11 +106,12 @@ public class Customer {
  * a set of `.withXXX(xxx)` methods to modify instances :thumbsup:
 
 ---
+
 # Declaring an Immutable Class
 
 ```java
 @Value.Immutable
-public abstract class AbstractCustomer {
+public abstract class Customer {
     abstract int id();
     abstract String firstName();
     abstract String lastName();
@@ -122,7 +124,7 @@ public abstract class AbstractCustomer {
 
 ```java
 final Customer customer =
-    Customer.builder()
+    ImmutableCustomer.builder()
         .id(1)
         .firstName("John")
         .lastName("Doe")
@@ -135,7 +137,7 @@ final Customer customer =
 
 ```java
 final Customer modifiedCustomer =
-    customer.withLastName("Martin");
+    ImmutableCustomer.copyOf(customer).withLastName("Martin");
 ```
 
 * Returns a **new instance** that is modified
@@ -148,7 +150,7 @@ final Customer modifiedCustomer =
 
 ```java
 final Customer modifiedCustomer =
-    Customer.builder().from(customer)
+    ImmutableCustomer.builder().from(customer)
         .firstName("Paul")
         .lastName("Martin")
         .build();
@@ -162,7 +164,7 @@ final Customer modifiedCustomer =
 
 ```java
 @Value.Immutable
-public abstract class AbstractCustomer {
+public abstract class Customer {
     // ...
     public String fullName() {
         return firstName() + " " + lastName();
@@ -196,16 +198,16 @@ public abstract class AbstractCustomer {
 # Comparing Immutable Instances
 
 ```java
-final Customer customer1 = Customer.builder()
+final Customer customer1 = ImmutableCustomer.builder()
         .id(1).firstName("John").lastName("Doe").build();
 
-final Customer customer2 = Customer.builder()
+final Customer customer2 = ImmutableCustomer.builder()
         .id(1).firstName("John").lastName("Doe").build();
 
 assert customer1.equals(customer2); // Same attributes
 assert customer1.hashCode() == customer2.hashCode();
 
-final Customer customer3 = Customer.builder()
+final Customer customer3 = ImmutableCustomer.builder()
         .id(1).firstName("Paul").lastName("Martin").build();
 
 assert !customer1.equals(customer3); // Different attributes
@@ -252,7 +254,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 # Immutables ensures presence of values when creating an instance
 
 ```java
-Customer.builder().id(1).build()
+ImmutableCustomer.builder().id(1).build()
 ```
 
 Will fail with an exception
@@ -264,13 +266,13 @@ Will fail with an exception
 # Immutables prevents introduction of `null` values
 
 ```java
-Customer.builder()
+ImmutableCustomer.builder()
     .id(1).firstName(null).lastName("Martin")
     .build()
 
-customer.withFirstName(null)
+ImmutableCustomer.copyOf(customer).withFirstName(null)
 
-Customer.builder().from(customer)
+ImmutableCustomer.builder().from(customer)
     .firstName(null).lastName("Martin")
     .build()
 ````
@@ -295,7 +297,7 @@ Will all fail with an exception
 
 ```java
 @Value.Immutable
-public abstract class AbstractCustomer {
+public abstract class Customer {
     // ...
     
     @Value.Check
@@ -321,7 +323,7 @@ public abstract class AbstractCustomer {
 
 ```java
 final Customer customer =
-        Customer.builder()
+        ImmutableCustomer.builder()
                 .id(-1)
                 .firstName("Paul")
                 .lastName("Simpson")
@@ -338,7 +340,7 @@ Will fail with an exception
 
 ```java
 final Customer modifiedCustomer =
-        customer.withFirstName(" Paul ");
+        ImmutableCustomer.copyOf(customer).withFirstName(" Paul ");
 ```
 
 Will fail with an exception
@@ -351,7 +353,7 @@ Will fail with an exception
 
 ```java
 final Customer modifiedCustomer =
-        Customer.builder()
+        ImmutableCustomer.builder()
                 .from(customer)
                 .lastName("")
                 .build();
@@ -374,7 +376,7 @@ Will fail with an exception
   * always return a **new collection** with the transformation applied
   * and keep the **original collection unchanged**
 * Immutable collections **compare by value**
-  * `.equals(other)` and `.hashCode()` are consistently implemented :thumbsup:
+  * _Vavr_ implements `.equals(other)` and `.hashCode()` consistently :thumbsup:
 * In principle, they **should not accept `null`** as element
   * but Vavr does :imp:
 * Immutable Collection are special efficient data structures called _persistent data structures_

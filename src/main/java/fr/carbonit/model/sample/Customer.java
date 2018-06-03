@@ -6,7 +6,7 @@ import io.vavr.control.Option;
 import org.immutables.value.Value;
 
 @Value.Immutable
-public abstract class AbstractCustomer {
+public abstract class Customer {
     abstract Option<String> title();
     abstract int id();
     abstract String firstName();
@@ -29,5 +29,9 @@ public abstract class AbstractCustomer {
         Preconditions.checkState(
                 StringValidation.isTrimmedAndNonEmpty(lastName()),
                 "Last Name should be trimmed and non empty (" + lastName() + ")");
+    }
+
+    public static Customer of(final int id, final String firstName, final String lastName) {
+        return ImmutableCustomer.builder().id(id).firstName(firstName).lastName(lastName).build();
     }
 }

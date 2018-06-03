@@ -1,9 +1,7 @@
 package fr.carbonit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.carbonit.model.Customer;
-import fr.carbonit.model.Item;
-import fr.carbonit.model.Order;
+import fr.carbonit.model.*;
 import io.vavr.collection.*;
 import io.vavr.control.Try;
 import io.vavr.jackson.datatype.VavrModule;
@@ -13,23 +11,23 @@ import java.io.IOException;
 public class App {
     public static void main(final String[] args) throws IOException {
         {
-            final Customer customer = Customer.builder().id(1).firstName("Paul").lastName("Newman").build();
+            final Customer customer = ImmutableCustomer.builder().id(1).firstName("Paul").lastName("Newman").build();
 
             Try.of(() ->
-                    Customer.builder().id(1).build()
+                    ImmutableCustomer.builder().id(1).build()
             ).failed().forEach(System.out::println);
 
             Try.of(() ->
-                    Customer.builder().id(1).firstName(null).lastName("Newman").build()
+                    ImmutableCustomer.builder().id(1).firstName(null).lastName("Newman").build()
             ).failed().forEach(System.out::println);
 
 
             Try.of(() ->
-                    customer.withFirstName(null)
+                    ImmutableCustomer.copyOf(customer).withFirstName(null)
             ).failed().forEach(System.out::println);
 
             Try.of(() ->
-                    Customer.builder().from(customer).firstName(null).lastName("Johnson").build()
+                    ImmutableCustomer.builder().from(customer).firstName(null).lastName("Johnson").build()
             ).failed().forEach(System.out::println);
 
         }
@@ -80,39 +78,39 @@ public class App {
         dump("updatedIdToName", updatedIdToName);
 
         final Seq<Item> items = Vector.of(
-                Item.builder().id(3).name("Table").build(),
-                Item.builder().id(4).name("Fork").build(),
-                Item.builder().id(5).name("Knife").build()
+                ImmutableItem.builder().id(3).name("Table").build(),
+                ImmutableItem.builder().id(4).name("Fork").build(),
+                ImmutableItem.builder().id(5).name("Knife").build()
         );
 
         final Seq<Item> updatedItems = items
                 .removeFirst(item -> item.id() == 3)
-                .append(Item.builder().id(6).name("Plate").build());
+                .append(ImmutableItem.builder().id(6).name("Plate").build());
 
         dump("items", items);
         dump("updatedItems", updatedItems);
 
-        final Customer customer1 = Customer.builder()
+        final Customer customer1 = ImmutableCustomer.builder()
                 .id(1)
                 .setValueTitle("Mr.")
                 .firstName("John")
                 .lastName("Doe")
-                .addOrder(Order.builder()
+                .addOrder(ImmutableOrder.builder()
                         .id(1)
-                        .addItem(Item.of(1, "Ball"))
-                        .addItem(Item.of(2, "Pen"))
+                        .addItem(ImmutableItem.of(1, "Ball"))
+                        .addItem(ImmutableItem.of(2, "Pen"))
                         .build()
                 )
-                .addOrder(Order.builder()
+                .addOrder(ImmutableOrder.builder()
                         .id(2)
                         .items(items)
                         .build()
                 )
                 .build();
 
-        final Customer customer2 = customer1.withLastName("Martin");
+        final Customer customer2 = ImmutableCustomer.copyOf(customer1).withLastName("Martin");
 
-        final Customer customer3 = Customer.builder().from(customer1)
+        final Customer customer3 = ImmutableCustomer.builder().from(customer1)
                 .firstName("Paula")
                 .lastName("Martin")
                 .build();

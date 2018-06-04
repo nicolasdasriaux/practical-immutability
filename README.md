@@ -51,7 +51,7 @@ public class Customer {
 ```
 
 * What are the integrity rules? How are they protected?
-* This is structured programming, it works, but this is not OOP.
+* This is structured programming, it works, but this is not OOP
 
 ---
 
@@ -61,7 +61,7 @@ public class Customer {
 * If you cannot describe (and protect) class invariant, there is no class encapsulation
 * Sure, there exists **classes with very weak invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
-  * JPA entity annotated with `@Entity` :imp:
+  * JPA entity annotated with `@Entity` :broken_heart:
   * Or anything coming from an external system
 * OOP does not require mutability and it works very well with immutability
 
@@ -248,7 +248,7 @@ Customer{id=1, firstName=John, lastName=Doe}
   * `null` is evil! :smiling_imp:
 * _Immutables_ will reject `null` by default :thumbsup:
 * Optional attribute should be explicit using an **option type**
-  * _Vavr_ `Option` is a good option :wink:
+  * _Vavr_ `Option` is a good ... option :wink:
   * More later
 
 ---

@@ -822,14 +822,14 @@ final TodoList modifiedTodoList = todoList
 
 # Support for Common Technologies
 
-|                 | Immutables                                 | Vavr                              |
-|-----------------|--------------------------------------------|-----------------------------------|
-| Spring MVC      | :smile:                                    | :smile:                           |
-| Jackson         | :smile:                                    | :smile:<br>`vavr-jackson`         |
-| Bean Validation | :neutral_face:<br>`getXXX`, custom style   | :smile:<br>`vavr-beanvalidation2` |
-| Spring Data     | :worried:                                  | :smile:                           |
-| Hibernate       | :worried:                                  | :worried:                         |
-| jOOQ            | :smile:                                    | :smile:                           |
+|                 | Immutables                            | Vavr                           |
+|-----------------|---------------------------------------|--------------------------------|
+| Spring MVC      | :smile:                               | :smile:                        |
+| Jackson         | :smile:                               | :smile: `vavr-jackson`         |
+| Bean Validation | :neutral_face: `getXXX`, custom style | :smile: `vavr-beanvalidation2` |
+| Spring Data     | :worried:                             | :smile:                        |
+| Hibernate       | :worried:                             | :worried:                      |
+| jOOQ            | :smile:                               | :smile:                        |
 
 ---
 

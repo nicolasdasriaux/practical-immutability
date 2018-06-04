@@ -815,5 +815,28 @@ final TodoList modifiedTodoList = todoList
 
 ---
 
-# In Real Life
+# In Everyday Life
 ## What about _Spring MVC_, _Jackson_, _Hibernate_ ...
+
+---
+
+# Support for Common Technologies
+
+|                 | Immutables                                 | Vavr                              |
+|-----------------|--------------------------------------------|-----------------------------------|
+| Spring MVC      | :smile:                                    | :smile:                           |
+| Jackson         | :smile:                                    | :smile:<br>`vavr-jackson`         |
+| Bean Validation | :neutral_face:<br>`getXXX`, custom style   | :smile:<br>`vavr-beanvalidation2` |
+| Spring Data     | :worried:                                  | :smile:                           |
+| Hibernate       | :worried:                                  | :worried:                         |
+| jOOQ            | :smile:                                    | :smile:                           |
+
+---
+
+# [fit] Hibernate, or not Hibernate, that is the question
+
+* **Hibernate** requires absence of encapsulation :imp:
+  * Mutable classes
+  * Mutable collections
+* Facade Hibernate!
+* Or use **jOOQ**

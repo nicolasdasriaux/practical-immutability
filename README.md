@@ -1,5 +1,6 @@
 autoscale: true
-build-lists: true
+footer: Practical Immutability
+slidenumbers: true
 
 # Practical
 # [fit] **Immutability**
@@ -21,10 +22,10 @@ build-lists: true
 
 # What Encapsulation is
 
-* A constructor should either
+* A **constructor** should either
   * :thumbsup: construct a **consistent** instance from its parameters
   * :bomb: or just fail if it cannot
-* Applied on a **consistent** instance, a method should  either
+* Applied on a consistent instance, a **method** should  either
   * :thumbsup: modify the object to another **consistent** state
   * :bomb: or just fail if it cannot
 * Protection of consistency by constructors and methods ensures integrity of object
@@ -32,7 +33,7 @@ build-lists: true
 
 ---
 
-# Setters `==` No Encapsulation at All `==` No OOP
+# [fit] Setters `==` No Encapsulation at All `==` No OOP
 
 ```java
 public class Customer {
@@ -49,8 +50,7 @@ public class Customer {
 }
 ```
 
-* What are the integrity rules?
-* How are they protected?
+* What are the integrity rules? How are they protected?
 * This is structured programming, it works, but this is not OOP.
 
 ---
@@ -75,7 +75,7 @@ public class Customer {
 * Focused on immutable classes with minimum boilerplate
 * Does not modify code but generates additional code
 * Fully customizable
-* Integrates with many _collection_ and _option type_ libraries
+* Integrates with many **collection** and **option type** libraries
 * May look similar to _Lombok_ at first sight but is considerably more polished and feature complete
 
 ---
@@ -85,7 +85,7 @@ public class Customer {
 > Vavr core is a functional library for Java.
 -- From [http://www.vavr.io](http://www.vavr.io)
 
-* Formerly known as JavaSlang
+* Formerly known as _JavaSlang_
 * Provides immutable collections
 * Also provides functions and control structures (such as `Option`)
 * Fully interoperable with Java collections and `Optional`
@@ -253,7 +253,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 
 ---
 
-# _Immutables_ ensures presence of values when creating an instance
+# _Immutables_ ensures presence of attributes<br>when creating an instance
 
 ```java
 ImmutableCustomer.builder().id(1).build()
@@ -265,7 +265,7 @@ Will fail with an exception
 
 ---
 
-# _Immutables_ prevents introduction of `null` values
+# _Immutables_ prevents `null` attributes
 
 ```java
 ImmutableCustomer.builder()
@@ -324,7 +324,7 @@ public abstract class Customer {
 
 ---
 
-# Ensuring Invariant at Creation
+# _Immutables_ ensures invariant at creation
 
 ```java
 final Customer customer =
@@ -341,7 +341,7 @@ Will fail with an exception
 
 ---
 
-# Ensuring Invariant at Modification
+# _Immutables_ ensures invariant at modification
 
 ```java
 final Customer modifiedCustomer =
@@ -354,7 +354,7 @@ Will fail with an exception
 
 ---
 
-# Ensuring Invariant at Modification
+# _Immutables_ ensures invariant at modification
 
 ```java
 final Customer modifiedCustomer =
@@ -551,7 +551,7 @@ final String nullableTitle =
 
 ---
 
-# Immutable from Classes to Collections
+# Immutable<br>from Classes to Collections
 ## with _Immutables_ and _Vavr_
 
 ---
@@ -564,8 +564,27 @@ public abstract class Customer {
     abstract int id();
     abstract String firstName();
     abstract String lastName();
+    // ...
 }
 ```
+---
+
+# Prevent `null` in Title `Option`
+
+```java
+@Value.Immutable
+public abstract class Customer {
+    // ...
+    @Value.Check
+    protected void check() {
+        Preconditions.checkState(
+                title().forAll(Objects::nonNull), // Fix Vavr :-)
+                "Title should not contain null");
+        // ...
+    }
+}
+```
+
 ---
 
 # Create without Title
@@ -669,7 +688,7 @@ public abstract class TodoList {
                 "Name should be trimmed and non empty (" + name() + ")");
 
         Preconditions.checkState(
-                todos().forAll(Objects::nonNull),
+                todos().forAll(Objects::nonNull), // Fix Vavr :-)
                 "Todos should all be non-null");
     }
     //...
@@ -756,6 +775,25 @@ public abstract class TodoList {
         } else {
             return this;
         }
+    }
+    //...
+}
+```
+
+---
+
+# Count Pending and Done Todos
+
+```java
+@Value.Immutable
+public abstract class TodoList {
+    // ...
+    public int pendingCount() {
+        return todos().count(todo -> !todo.isDone());
+    }
+
+    public int doneCount() {
+        return todos().count(todo -> todo.isDone());
     }
 }
 ```

@@ -5,6 +5,8 @@ import fr.carbonit.model.StringValidation;
 import io.vavr.control.Option;
 import org.immutables.value.Value;
 
+import java.util.Objects;
+
 @Value.Immutable
 public abstract class Customer {
     abstract Option<String> title();
@@ -18,6 +20,10 @@ public abstract class Customer {
 
     @Value.Check
     protected void check() {
+        Preconditions.checkState(
+                title().forAll(Objects::nonNull),
+                "Title should not contain null");
+
         Preconditions.checkState(
                 id() >= 1,
                 "ID should be a least 1 (" + id() + ")");

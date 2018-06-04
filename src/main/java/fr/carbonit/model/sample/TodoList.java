@@ -51,6 +51,14 @@ public abstract class TodoList {
         }
     }
 
+    public int pendingCount() {
+        return todos().count(todo -> !todo.isDone());
+    }
+
+    public int doneCount() {
+        return todos().count(todo -> todo.isDone());
+    }
+
     public static void main(final String[] args) {
         final TodoList todoList = TodoList.of("Food")
                 .addTodo(Todo.of(1, "Leek"))

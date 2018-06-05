@@ -62,7 +62,7 @@ public class Customer {
 * Sure, there exists **classes with very weak invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
   * JPA entity annotated with `@Entity` :broken_heart:
-  * Or anything coming from an external system
+  * Or anything similar coming from an external system
 * OOP does not require mutability and it works very well with immutability
 
 ---
@@ -114,9 +114,9 @@ public class Customer {
 ```java
 @Value.Immutable
 public abstract class Customer {
-    abstract int id();
-    abstract String firstName();
-    abstract String lastName();
+    public abstract int id();
+    public abstract String firstName();
+    public abstract String lastName();
 }
 ```
 
@@ -384,7 +384,7 @@ Will fail with an exception
   * _Vavr_ implements `.equals(other)` and `.hashCode()` consistently :thumbsup:
 * In principle, they **should not accept `null`** as element
   * but Vavr does :imp:
-* Immutable Collection are special efficient data structures called _persistent data structures_
+* Immutable collections are special efficient data structures called **persistent data structures**
 
 ---
 
@@ -430,7 +430,7 @@ final IndexedSeq<String> commands = Vector.of(
         "command", "ls", "pwd", "cd", "man");
 
 final IndexedSeq<String> availableCommands = commands
-        .tail()  // Drop head of list keeping only tail
+        .tail() // Drop head of list keeping only tail
         .remove("man"); // Remove man command
 ```
 
@@ -559,11 +559,12 @@ final String nullableTitle =
 # Customer with an Optional Title
 
 ```java
+@Value.Immutable
 public abstract class Customer {
-    abstract Option<String> title();
-    abstract int id();
-    abstract String firstName();
-    abstract String lastName();
+    public abstract Option<String> title();
+    public abstract int id();
+    public abstract String firstName();
+    public abstract String lastName();
     // ...
 }
 ```
@@ -827,7 +828,7 @@ final TodoList modifiedTodoList = todoList
 | Spring MVC      | :smile:                               | :smile:                        |
 | Jackson         | :smile:                               | :smile: `vavr-jackson`         |
 | Bean Validation | :neutral_face: `getXXX`, custom style | :smile: `vavr-beanvalidation2` |
-| Spring Data     | :worried:                             | :smile:                        |
+| Spring Data     | :neutral_face:                        | :smile:                        |
 | Hibernate       | :worried:                             | :worried:                      |
 | jOOQ            | :smile:                               | :smile:                        |
 

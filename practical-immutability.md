@@ -253,7 +253,7 @@ Customer{id=1, firstName=John, lastName=Doe}
 
 ---
 
-# _Immutables_ ensures presence of attributes<br>when creating an instance
+# _Immutables_ prevents absence of attributes at creation
 
 ```java
 ImmutableCustomer.builder().id(1).build()
@@ -483,7 +483,7 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 ---
 
 # Immutable Option Type
-### with _Vavr_
+## with _Vavr_
 
 ---
 

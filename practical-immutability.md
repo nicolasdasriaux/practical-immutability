@@ -4,7 +4,7 @@ slidenumbers: true
 
 # Practical
 # [fit] **Immutability**
-## [fit] with _Immutables_ and _Vavr_
+## [fit] in Java with _Immutables_ and _Vavr_
 
 ---
 

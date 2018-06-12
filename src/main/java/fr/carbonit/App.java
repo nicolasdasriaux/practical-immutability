@@ -92,7 +92,7 @@ public class App {
 
         final Customer customer1 = ImmutableCustomer.builder()
                 .id(1)
-                .setValueTitle("Mr.")
+                .title("Mr.")
                 .firstName("John")
                 .lastName("Doe")
                 .addOrder(ImmutableOrder.builder()

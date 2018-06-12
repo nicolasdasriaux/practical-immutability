@@ -213,7 +213,7 @@ final Customer customer3 = ImmutableCustomer.builder()
         .id(1).firstName("Paul").lastName("Martin").build();
 
 assert !customer1.equals(customer3); // Different attributes
-assert customer1.hashCode() != customer3.hashCode();
+assert customer1.hashCode() != customer3.hashCode(); // Not a general property!
 ```
 ---
 
@@ -612,7 +612,7 @@ ImmutableCustomer.builder()
 ```java
 ImmutableCustomer.builder()
         .id(1)
-        .setValueTitle("Mister") // Set optional attribute
+        .title("Mister") // Set optional attribute
         .firstName("Paul")
         .lastName("Simpson")
         .build();
@@ -652,7 +652,7 @@ Or
 
 ```java
 ImmutableCustomer.builder().from(customer)
-        .setValueTitle("Miss")
+        .title("Miss")
         .firstName("Paula")
         .build();
 ```

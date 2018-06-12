@@ -343,7 +343,7 @@ public class SampleApp {
             example("Create With", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
                         .id(1)
-                        .setValueTitle("Mister") // Set optional attribute
+                        .title("Mister") // Set optional attribute
                         .firstName("Paul")
                         .lastName("Simpson")
                         .build();
@@ -354,7 +354,7 @@ public class SampleApp {
             example("With Unset", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
                         .id(1)
-                        .setValueTitle("Mister") // Set optional attribute
+                        .title("Mister") // Set optional attribute
                         .firstName("Paul")
                         .lastName("Simpson")
                         .build();
@@ -383,7 +383,7 @@ public class SampleApp {
                 final ImmutableCustomer customer =
                         ImmutableCustomer.builder()
                                 .id(1)
-                                .setValueTitle("Mister")
+                                .title("Mister")
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
@@ -406,7 +406,7 @@ public class SampleApp {
 
                 final ImmutableCustomer modifiedCustomer =
                         ImmutableCustomer.builder().from(customer)
-                                .setValueTitle("Miss")
+                                .title("Miss")
                                 .firstName("Paula")
                                 .build();
 

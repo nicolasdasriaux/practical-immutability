@@ -5,6 +5,7 @@ import io.vavr.control.Option;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Random;
 
 public class SampleApp {
     public static void main(String[] args) {
@@ -413,6 +414,47 @@ public class SampleApp {
                 System.out.println(modifiedCustomer);
             });
         });
+
+
+        part("Expressions", () -> {
+            example("if", () -> {
+                final int mark = new Random().nextInt(5) + 1;
+
+                final String mood; // No default value
+
+                // Every branch either assigns value or fails
+                // Compiler is happy
+                if (1 <= mark && mark <= 3) {
+                    mood = "Bad";
+                } else if (mark == 4) {
+                    mood = "OK";
+                } else if (5 <= mark && mark <= 7) {
+                    mood ="Good";
+                } else {
+                    throw new AssertionError("Unexpected mark (" + mark + ")");
+                }
+
+                System.out.println(mood);
+            });
+
+            example("switch", () -> {
+                final Color color = Color.values()[new Random().nextInt(Color.values().length) + 1];
+
+                final int mark;
+
+                switch (color) {
+                    case RED: mark = 1; break;
+                    case YELLOW: mark = 4; break;
+                    case GREEN: mark = 7; break;
+
+                    default:
+                        throw new AssertionError("Unexpected color (" + color + ")");
+                }
+
+                System.out.println(mark);
+            });
+        });
+
     }
 
     private static void part(final String name, final Runnable runnable) {

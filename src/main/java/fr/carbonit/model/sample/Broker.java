@@ -8,7 +8,7 @@ public abstract class Broker implements Intermediary {
     public abstract String lastName();
 
     @Override
-    public void match(IntermediaryMatcher matcher) {
-        matcher.onBroker().accept(this);
+    public <R> R match(final IntermediaryMatcher<R> matcher) {
+        return matcher.onBroker().apply(this);
     }
 }

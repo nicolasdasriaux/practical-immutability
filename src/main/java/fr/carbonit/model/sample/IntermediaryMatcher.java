@@ -2,11 +2,11 @@ package fr.carbonit.model.sample;
 
 import org.immutables.value.Value;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
-@Value.Immutable()
+@Value.Immutable
 @Value.Style(stagedBuilder = true)
-public interface IntermediaryMatcher {
-    Consumer<Agency> onAgency();
-    Consumer<Broker> onBroker();
+public interface IntermediaryMatcher<R> {
+    Function<Agency, R> onAgency();
+    Function<Broker, R> onBroker();
 }

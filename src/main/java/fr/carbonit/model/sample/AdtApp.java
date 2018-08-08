@@ -3,13 +3,24 @@ package fr.carbonit.model.sample;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class AdtApp {
     public static void main(String[] args) {
-
         final Seq<Intermediary> intermediaries = List.of(
-                ImmutableAgency.builder().name("Super Agence").build(),
+                ImmutableAgency.builder()
+                        .name("Agence")
+                        .agents(List.of(
+                                ImmutableAgent.builder().firstName("Paul").lastName("Vierzon").build(),
+                                ImmutableAgent.builder().firstName("Marie").lastName("Caton").build()
+                        ))
+                        .build(),
+                ImmutableAgency.builder()
+                        .agents(List.of(
+                                ImmutableAgent.builder().firstName("Paul").lastName("Vierzon").build(),
+                                ImmutableAgent.builder().firstName("Marie").lastName("Caton").build()
+                        ))
+                        .build(),
                 ImmutableBroker.builder().firstName("Paul").lastName("Simpson").build()
         );
 
@@ -28,45 +39,69 @@ public class AdtApp {
         intermediaries.forEach(intermediary ->
                 intermediary.match(
                         intermediaryVisitor(
-                                agency -> System.out.println(agency.name()),
-                                broker -> System.out.println(broker.firstName() + " " + broker.lastName())
+                                agency -> {
+                                    System.out.println(agency.name());
+                                    return null;
+                                },
+                                broker -> {
+                                    System.out.println(broker.firstName() + " " + broker.lastName());
+                                    return null;
+                                }
                         )
                 )
         );
 
-        intermediaries.forEach(intermediary ->
-                intermediary.match(
-                        ImmutableIntermediaryMatcher.builder()
-                                .onAgency(agency -> System.out.println(agency.name()))
-                                .onBroker(broker -> System.out.println(broker.firstName() + " " + broker.lastName()))
-                                .build()
-                )
-        );
+        final Function<Agency, String> AGENCY_LABEL = agency ->
+                agency.name()
+                        .getOrElse(() ->
+                                agency.agents()
+                                        .map(agent -> agent.firstName() + " " + agent.lastName())
+                                        .mkString(", ")
+                        );
+
+        final Function<Broker, String> BROKER_LABEL = broker -> broker.firstName() + " " + broker.lastName();
+
+        intermediaries.forEach(intermediary -> {
+            final String name = intermediary.match(
+                    ImmutableIntermediaryMatcher.<String>builder()
+                            .onAgency(AGENCY_LABEL)
+                            .onBroker(BROKER_LABEL)
+                            .build()
+            );
+
+            System.out.println(name);
+        });
     }
 
-    public static final IntermediaryMatcher DISPLAY_VISITOR() {
+    public static IntermediaryMatcher DISPLAY_VISITOR() {
         return new IntermediaryMatcher() {
             @Override
-            public Consumer<Agency> onAgency() {
-                return agency -> System.out.println(agency.name());
+            public Function<Agency, Void> onAgency() {
+                return agency -> {
+                    System.out.println(agency.name());
+                    return null;
+                };
             }
 
             @Override
-            public Consumer<Broker> onBroker() {
-                return broker -> System.out.println(broker.firstName() + " " + broker.lastName());
+            public Function<Broker, Void> onBroker() {
+                return broker -> {
+                    System.out.println(broker.firstName() + " " + broker.lastName());
+                    return null;
+                };
             }
         };
     }
 
-    public static IntermediaryMatcher intermediaryVisitor(Consumer<Agency> agencyConsumer, Consumer<Broker> brokerConsumer) {
+    public static <R> IntermediaryMatcher intermediaryVisitor(Function<Agency, R> agencyConsumer, Function<Broker, R> brokerConsumer) {
         return new IntermediaryMatcher() {
             @Override
-            public Consumer<Agency> onAgency() {
+            public Function<Agency, R> onAgency() {
                 return agencyConsumer;
             }
 
             @Override
-            public Consumer<Broker> onBroker() {
+            public Function<Broker, R> onBroker() {
                 return brokerConsumer;
             }
         };

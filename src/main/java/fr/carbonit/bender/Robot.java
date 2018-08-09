@@ -34,17 +34,18 @@ public abstract class Robot {
 
     public Robot move(final CityMap cityMap) {
         final Direction currentDirection = direction();
-        final Direction newDirection;
+
+        final Direction updatedDirection;
 
         if (obstacleInDirection(currentDirection, cityMap)) {
-            newDirection = priorities().find(direction -> !obstacleInDirection(direction, cityMap)).get();
+            updatedDirection = priorities().find(direction -> !obstacleInDirection(direction, cityMap)).get();
         } else {
-            newDirection = currentDirection;
+            updatedDirection = currentDirection;
         }
 
         return ImmutableRobot.builder().from(this)
-                .position(position().move(newDirection))
-                .direction(newDirection)
+                .position(position().move(updatedDirection))
+                .direction(updatedDirection)
                 .build();
     }
 

@@ -12,7 +12,7 @@ public enum Direction {
             case South: return 'S';
             case West: return 'W';
             case East: return 'E';
-            default: throw new IllegalArgumentException(String.format("Unknown Direction code (%s)", this));
+            default: throw new IllegalArgumentException(String.format("Unknown Direction (%s)", this));
         }
     }
 

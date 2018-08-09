@@ -1,4 +1,4 @@
-package fr.carbonit.model;
+package fr.carbonit.common;
 
 public class StringValidation {
     public static boolean isTrimmedAndNonEmpty(final String s) {

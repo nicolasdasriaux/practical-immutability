@@ -19,47 +19,47 @@ public abstract class Scene {
         final Tile currentTile = currentCityMap.tile(currentPosition);
 
         if (currentTile instanceof Empty || currentTile instanceof Start) {
-            final Robot newRobot = currentRobot.move(currentCityMap);
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            final Robot updatedRobot = currentRobot.move(currentCityMap);
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else if (currentTile instanceof Booth) {
-            final Robot newRobot = currentRobot.die();
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            final Robot updatedRobot = currentRobot.die();
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else if (currentTile instanceof Obstacle) {
             throw new IllegalStateException("Position should never be on Obstacle tile");
         } else if (currentTile instanceof BreakableObstacle) {
-            final CityMap newCityMap = currentCityMap.breakObstacle(currentPosition);
-            final Robot newRobot = currentRobot.move(newCityMap);
+            final CityMap updatedCityMap = currentCityMap.breakObstacle(currentPosition);
+            final Robot updatedRobot = currentRobot.move(updatedCityMap);
 
             return ImmutableScene.builder().from(this)
-                    .cityMap(newCityMap)
-                    .robot(newRobot)
+                    .cityMap(updatedCityMap)
+                    .robot(updatedRobot)
                     .build();
-        } else if (currentTile instanceof PathModifier) {
-            final PathModifier pathModifier = (PathModifier) currentTile;
+        } else if (currentTile instanceof DirectionModifier) {
+            final DirectionModifier directionModifier = (DirectionModifier) currentTile;
 
-            final Robot newRobot = currentRobot
-                    .changeDirection(pathModifier.direction())
+            final Robot updatedRobot = currentRobot
+                    .changeDirection(directionModifier.direction())
                     .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else if (currentTile instanceof CircuitInverter) {
-            final Robot newRobot = currentRobot
+            final Robot updatedRobot = currentRobot
                     .invert()
                     .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else if (currentTile instanceof Beer) {
-            final Robot newRobot = currentRobot
+            final Robot updatedRobot = currentRobot
                     .toggleBreaker()
                     .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else if (currentTile instanceof Teleporter) {
-            final Robot newRobot = currentRobot
+            final Robot updatedRobot = currentRobot
                     .triggerTeleporter(currentCityMap)
                     .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(newRobot);
+            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
         } else {
             throw new IllegalStateException(String.format("Unexpected Tile (%s)", currentTile));
         }

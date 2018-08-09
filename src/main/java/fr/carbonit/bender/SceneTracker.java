@@ -1,5 +1,6 @@
 package fr.carbonit.bender;
 
+import fr.carbonit.common.TODO;
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
 import org.immutables.value.Value;
@@ -9,11 +10,11 @@ public abstract class SceneTracker {
     public abstract Option<CityMap> previousCityMap();
     public abstract Set<Robot> robots();
 
-    public boolean willLoop(final Scene scene) {
+    public boolean willLoop(final Robot robot) {
         return TODO.IMPLEMENT();
     }
 
-    public SceneTracker track(final Scene scene) {
+    public SceneTracker track(final Robot robot) {
         return TODO.IMPLEMENT();
     }
 }
@@ -34,7 +35,7 @@ case class Scene(cityMap: CityMap, robot: Robot, robots: Set[Robot], loop: Boole
                 val newCityMap = cityMap.breakObstacle(currentPosition)
                 copy(cityMap = newCityMap, robot = robot.move()(newCityMap))
 
-            case PathModifier(direction) => copy(robot = robot.changeDirection(direction).move()(cityMap))
+            case DirectionModifier(direction) => copy(robot = robot.changeDirection(direction).move()(cityMap))
             case CircuitInverter => copy(robot = robot.invertPriorities().move()(cityMap))
             case Beer => copy(robot = robot.drinkBeer().move()(cityMap))
             case Teleporter => copy(robot = robot.enterTeleporter()(cityMap).move()(cityMap))

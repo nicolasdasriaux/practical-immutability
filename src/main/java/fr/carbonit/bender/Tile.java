@@ -39,12 +39,12 @@ public interface Tile {
     }
 
     @Value.Immutable
-    abstract class PathModifier implements Tile {
+    abstract class DirectionModifier implements Tile {
         @Value.Parameter
         public abstract Direction direction();
 
-        public static PathModifier of(final Direction direction) {
-            return ImmutablePathModifier.of(direction);
+        public static DirectionModifier of(final Direction direction) {
+            return ImmutableDirectionModifier.of(direction);
         }
     }
 
@@ -80,9 +80,9 @@ public interface Tile {
             return '#';
         } else if (this instanceof BreakableObstacle) {
             return 'X';
-        } else if (this instanceof PathModifier) {
-            final PathModifier pathModifier = (PathModifier) this;
-            return pathModifier.direction().toCode();
+        } else if (this instanceof DirectionModifier) {
+            final DirectionModifier directionModifier = (DirectionModifier) this;
+            return directionModifier.direction().toCode();
         } else if (this instanceof CircuitInverter) {
             return 'I';
         } else if (this instanceof Beer) {
@@ -101,7 +101,7 @@ public interface Tile {
             case '$': return Booth.of();
             case '#': return Obstacle.of();
             case 'X': return BreakableObstacle.of();
-            case 'N': case 'S': case 'E': case 'W': return PathModifier.of(Direction.fromCode(code));
+            case 'N': case 'S': case 'E': case 'W': return DirectionModifier.of(Direction.fromCode(code));
             case 'I': return CircuitInverter.of();
             case 'B': return Beer.of();
             case 'T': return Teleporter.of();

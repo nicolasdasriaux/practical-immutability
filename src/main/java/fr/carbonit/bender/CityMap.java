@@ -3,10 +3,7 @@ package fr.carbonit.bender;
 import fr.carbonit.bender.Tile.Empty;
 import fr.carbonit.bender.Tile.Start;
 import fr.carbonit.bender.Tile.Teleporter;
-import io.vavr.collection.CharSeq;
-import io.vavr.collection.IndexedSeq;
-import io.vavr.collection.Iterator;
-import io.vavr.collection.Seq;
+import io.vavr.collection.*;
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -24,7 +21,11 @@ public abstract class CityMap {
     }
 
     public CityMap breakObstacle(final Position position) {
-        final IndexedSeq<IndexedSeq<Tile>> updatedRows = rows().update(position.y(), row -> row.update(position.x(), Empty.of()));
+        final IndexedSeq<IndexedSeq<Tile>> updatedRows = rows().update(
+                position.y(),
+                row -> row.update(position.x(), Empty.of())
+        );
+
         return ImmutableCityMap.copyOf(this).withRows(updatedRows);
     }
 
@@ -33,6 +34,10 @@ public abstract class CityMap {
         final Position start = findPosition(rows, Start.of()).head();
         final Seq<Position> teleporters = findPosition(rows, Teleporter.of());
         return ImmutableCityMap.builder().rows(rows).start(start).teleporters(teleporters).build();
+    }
+
+    public static CityMap fromLines(final String... lines) {
+        return CityMap.fromLines(Array.of(lines));
     }
 
     private static Seq<Position> findPosition(final IndexedSeq<IndexedSeq<Tile>> rows, final Tile tile) {

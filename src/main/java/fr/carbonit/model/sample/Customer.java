@@ -1,7 +1,7 @@
 package fr.carbonit.model.sample;
 
 import com.google.common.base.Preconditions;
-import fr.carbonit.model.StringValidation;
+import fr.carbonit.common.StringValidation;
 import io.vavr.control.Option;
 import org.immutables.value.Value;
 

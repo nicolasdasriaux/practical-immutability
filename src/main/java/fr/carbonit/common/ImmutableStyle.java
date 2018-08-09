@@ -1,4 +1,4 @@
-package fr.carbonit.model;
+package fr.carbonit.common;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.immutables.value.Value;

@@ -1,14 +1,13 @@
 package fr.carbonit.bender;
 
-import io.vavr.collection.Stream;
-import io.vavr.collection.Vector;
+import io.vavr.collection.Iterator;
 
 /**
  * @           Start
  * $           Booth
  * #           Obstacle
  * X           BreakableObstacle
- * N, S, E, W  PathModifier
+ * N, S, E, W  DirectionModifier
  * I           CircuitInverter
  * B           Beer
  * T           Teleporter
@@ -16,17 +15,17 @@ import io.vavr.collection.Vector;
 public class BenderApp {
     public static void main(final String[] args) {
         final Scene initialScene = Scene.fromCityMap(
-                CityMap.fromLines(Vector.of(
+                CityMap.fromLines(
                         "##########",
                         "#@      B#",
                         "#   XX T #",
                         "#   N   X#",
                         "# T     $#",
                         "##########"
-                ))
+                )
         );
 
-        final Stream<Scene> scenes = Stream.iterate(initialScene, Scene::next).takeUntil(Scene::completed);
+        final Iterator<Scene> scenes = Iterator.iterate(initialScene, Scene::next).takeUntil(Scene::completed);
 
         System.out.println(Drawing.cityMapDrawing(initialScene.cityMap()));
         System.out.println();

@@ -1,4 +1,4 @@
 @ImmutableStyle
 package fr.carbonit;
 
-import fr.carbonit.model.ImmutableStyle;
+import fr.carbonit.common.ImmutableStyle;

@@ -6,6 +6,16 @@ public enum Direction {
     West,
     East;
 
+    public char toCode() {
+        switch (this) {
+            case North: return 'N';
+            case South: return 'S';
+            case West: return 'W';
+            case East: return 'E';
+            default: throw new IllegalArgumentException(String.format("Unknown Direction code (%s)", this));
+        }
+    }
+
     public static Direction fromCode(final char code) {
         switch (code) {
             case 'N': return North;

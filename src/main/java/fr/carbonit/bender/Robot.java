@@ -32,6 +32,22 @@ public abstract class Robot {
         return ImmutableRobot.copyOf(this).withDead(true);
     }
 
+    public Robot move(final CityMap cityMap) {
+        final Direction currentDirection = direction();
+        final Direction newDirection;
+
+        if (obstacleInDirection(currentDirection, cityMap)) {
+            newDirection = priorities().find(direction -> !obstacleInDirection(direction, cityMap)).get();
+        } else {
+            newDirection = currentDirection;
+        }
+
+        return ImmutableRobot.builder().from(this)
+                .position(position().move(newDirection))
+                .direction(newDirection)
+                .build();
+    }
+
     private boolean obstacleInDirection(final Direction direction, final CityMap cityMap) {
         return obstacle(cityMap.tile(position().move(direction)));
     }
@@ -46,32 +62,17 @@ public abstract class Robot {
         }
     }
 
-    public Robot move(final CityMap cityMap) {
-        final Direction newDirection;
-
-        if (!obstacleInDirection(direction(), cityMap)) {
-            newDirection = direction();
-        } else {
-            newDirection = priorities().find(direction -> !obstacleInDirection(direction, cityMap)).get();
-        }
-
-        return ImmutableRobot.builder().from(this)
-                .position(position().move(newDirection))
-                .direction(newDirection)
-                .build();
-    }
-
     public Seq<Direction> priorities() {
-        if(inverted()) {
-            return PRIORITIES.reverse();
-        } else {
-            return PRIORITIES;
-        }
+        return inverted() ? INVERTED_PRIORITIES : PRIORITIES;
     }
-    public Robot useTeleporter(final CityMap cityMap) {
+
+    public Robot triggerTeleporter(final CityMap cityMap) {
         final Position outPosition = cityMap.teleporterOutPosition(position());
         return ImmutableRobot.copyOf(this).withPosition(outPosition);
     }
+
+    public static final Seq<Direction> PRIORITIES = List.of(South, East, North, West);
+    public static final Seq<Direction> INVERTED_PRIORITIES = PRIORITIES.reverse();
 
     public static Robot fromStart(final Position position) {
         return ImmutableRobot.builder()
@@ -82,6 +83,4 @@ public abstract class Robot {
                 .dead(false)
                 .build();
     }
-
-    public static final Seq<Direction> PRIORITIES = List.of(South, East, North, West);
 }

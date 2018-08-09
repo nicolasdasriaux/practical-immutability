@@ -37,9 +37,9 @@ public abstract class CityMap {
 
     private static Seq<Position> findPosition(final IndexedSeq<IndexedSeq<Tile>> rows, final Tile tile) {
         return Iterator.range(0, rows.size()).flatMap(y ->
-            Iterator.range(0, rows.get(y).size())
-                    .filter(x -> rows.get(y).get(x).equals(tile))
-                    .map(x -> Position.of(x, y))
+                Iterator.range(0, rows.get(y).size())
+                        .filter(x -> rows.get(y).get(x).equals(tile))
+                        .map(x -> Position.of(x, y))
         ).toList();
     }
 }

@@ -69,6 +69,31 @@ public interface Tile {
         }
     }
 
+    default char toCode() {
+        if (this instanceof Empty) {
+            return ' ';
+        } else if (this instanceof Start) {
+            return '@';
+        } else if (this instanceof Booth) {
+            return '$';
+        } else if (this instanceof Obstacle) {
+            return '#';
+        } else if (this instanceof BreakableObstacle) {
+            return 'X';
+        } else if (this instanceof PathModifier) {
+            final PathModifier pathModifier = (PathModifier) this;
+            return pathModifier.direction().toCode();
+        } else if (this instanceof CircuitInverter) {
+            return 'I';
+        } else if (this instanceof Beer) {
+            return 'B';
+        } else if (this instanceof Teleporter) {
+            return 'T';
+        } else {
+            throw new IllegalArgumentException(String.format("Unknown tile (%s)", this));
+        }
+    }
+
     static Tile fromCode(final char code) {
         switch (code) {
             case ' ': return Empty.of();
@@ -80,7 +105,7 @@ public interface Tile {
             case 'I': return CircuitInverter.of();
             case 'B': return Beer.of();
             case 'T': return Teleporter.of();
-            default: throw new AssertionError(String.format("Unknown tile code (%s)", code));
+            default: throw new IllegalArgumentException(String.format("Unknown tile code (%s)", code));
         }
     }
 }

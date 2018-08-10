@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
 class DirectionTest {
-    static Stream<Arguments> directionCodesExamples() {
+    static Stream<Arguments> directionCodeExamples() {
         return Stream.of(
                 Arguments.of(North, 'N'),
                 Arguments.of(South, 'S'),
@@ -20,13 +20,13 @@ class DirectionTest {
     }
 
     @ParameterizedTest
-    @MethodSource("directionCodesExamples")
+    @MethodSource("directionCodeExamples")
     void toCode(final Direction direction, final char code) {
         assertThat(direction.toCode()).isEqualTo(code);
     }
 
     @ParameterizedTest
-    @MethodSource("directionCodesExamples")
+    @MethodSource("directionCodeExamples")
     void fromCode(final Direction direction, final char code) {
         assertThat(Direction.fromCode(code)).isEqualTo(direction);
     }

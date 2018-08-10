@@ -12,7 +12,7 @@ import io.vavr.collection.Iterator;
  * B           Beer
  * T           Teleporter
  */
-public class BenderApp {
+public class RobotApp {
     public static void main(final String[] args) {
         final Scene initialScene = Scene.fromCityMap(
                 CityMap.fromLines(

@@ -20,7 +20,7 @@ public class RobotApp {
                         "#@      B#",
                         "#   XX T #",
                         "#   N   X#",
-                        "# T     $#",
+                        "# T   I $#",
                         "##########"
                 )
         );

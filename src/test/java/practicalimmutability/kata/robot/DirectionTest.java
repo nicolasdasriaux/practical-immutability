@@ -7,25 +7,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static practicalimmutability.kata.robot.Direction.*;
 
 class DirectionTest {
-    static Stream<Arguments> codeExamples() {
+    static Stream<Arguments> directionCodesExamples() {
         return Stream.of(
-                Arguments.of(Direction.North, 'N'),
-                Arguments.of(Direction.South, 'S'),
-                Arguments.of(Direction.East, 'E'),
-                Arguments.of(Direction.West, 'W')
+                Arguments.of(North, 'N'),
+                Arguments.of(South, 'S'),
+                Arguments.of(East, 'E'),
+                Arguments.of(West, 'W')
         );
     }
 
     @ParameterizedTest
-    @MethodSource("codeExamples")
+    @MethodSource("directionCodesExamples")
     void toCode(final Direction direction, final char code) {
         assertThat(direction.toCode()).isEqualTo(code);
     }
 
     @ParameterizedTest
-    @MethodSource("codeExamples")
+    @MethodSource("directionCodesExamples")
     void fromCode(final Direction direction, final char code) {
         assertThat(Direction.fromCode(code)).isEqualTo(direction);
     }

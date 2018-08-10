@@ -4,6 +4,8 @@ import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import org.immutables.value.Value;
 
+import static practicalimmutability.kata.robot.Direction.*;
+
 @Value.Immutable
 public abstract class Robot {
     public abstract Position position();
@@ -68,13 +70,13 @@ public abstract class Robot {
         return ImmutableRobot.copyOf(this).withPosition(outPosition);
     }
 
-    public static final Seq<Direction> PRIORITIES = List.of(Direction.South, Direction.East, Direction.North, Direction.West);
+    public static final Seq<Direction> PRIORITIES = List.of(South, East, North, West);
     public static final Seq<Direction> INVERTED_PRIORITIES = PRIORITIES.reverse();
 
     public static Robot fromStart(final Position position) {
         return ImmutableRobot.builder()
                 .position(position)
-                .direction(Direction.South)
+                .direction(South)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)

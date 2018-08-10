@@ -8,7 +8,6 @@ import practicalimmutability.kata.common.TODO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
-
 class RobotTest {
     @Test
     void changeDirection() {

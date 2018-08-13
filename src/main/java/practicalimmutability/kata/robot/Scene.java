@@ -1,5 +1,6 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.Iterator;
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -62,6 +63,10 @@ public abstract class Scene {
         } else {
             throw new IllegalStateException(String.format("Unexpected Tile (%s)", currentTile));
         }
+    }
+
+    public Iterator<Scene> run() {
+        return Iterator.iterate(this, Scene::next).takeUntil(Scene::completed);
     }
 
     public static Scene fromCityMap(final CityMap cityMap) {

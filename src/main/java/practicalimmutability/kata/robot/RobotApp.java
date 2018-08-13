@@ -25,7 +25,7 @@ public class RobotApp {
                 )
         );
 
-        final Iterator<Scene> scenes = Iterator.iterate(initialScene, Scene::next).takeUntil(Scene::completed);
+        final Iterator<Scene> scenes = initialScene.run();
 
         System.out.println(Drawing.cityMapDrawing(initialScene.cityMap()));
         System.out.println();

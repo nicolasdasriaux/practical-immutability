@@ -7,7 +7,6 @@ import practicalimmutability.kata.robot.Tile.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CityMapTest {
-
     private final CityMap cityMap = CityMap.fromLines(
             // @formatter:off
            //0123456789

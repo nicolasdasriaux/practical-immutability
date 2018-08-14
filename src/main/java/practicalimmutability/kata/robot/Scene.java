@@ -1,5 +1,6 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.Tuple2;
 import io.vavr.collection.Iterator;
 import org.immutables.value.Value;
 
@@ -66,7 +67,10 @@ public abstract class Scene {
     }
 
     public Iterator<Scene> run() {
-        return Iterator.iterate(this, Scene::next).takeUntil(Scene::completed);
+        final Tuple2<Iterator<Scene>, Iterator<Scene>> prefixAndReminder =
+                Iterator.iterate(this, Scene::next).span(scene -> !scene.completed());
+
+        return Iterator.concat(prefixAndReminder._1(), prefixAndReminder._2().take(1));
     }
 
     public static Scene fromCityMap(final CityMap cityMap) {

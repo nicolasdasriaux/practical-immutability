@@ -6,7 +6,7 @@ import practicalimmutability.kata.robot.Tile.Start;
 import practicalimmutability.kata.robot.Tile.Teleporter;
 import org.immutables.value.Value;
 
-@Value.Immutable
+@Value.Immutable(prehash = true)
 public abstract class CityMap {
     public abstract IndexedSeq<IndexedSeq<Tile>> rows();
     public abstract Position start();

@@ -14,7 +14,7 @@ import io.vavr.collection.Iterator;
  */
 public class RobotApp {
     public static void main(final String[] args) {
-        final Scene initialScene = Scene.fromCityMap(
+        final Scene initialScene1 = Scene.fromCityMap(
                 CityMap.fromLines(
                         "##########",
                         "#@      B#",
@@ -25,13 +25,27 @@ public class RobotApp {
                 )
         );
 
-        final Iterator<Scene> scenes = initialScene.run();
+        final Scene initialScene2 = Scene.fromCityMap(
+                CityMap.fromLines(
+                        "##########",
+                        "#@       #",
+                        "#     ####",
+                        "#     #  #",
+                        "#     # $#",
+                        "##########"
+                )
+        );
+
+        final Scene initialScene = initialScene1;
+
+        final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
+        final Iterator<TrackedScene> trackedScenes = initialTrackedScene.run();
 
         System.out.println(Drawing.cityMapDrawing(initialScene.cityMap()));
         System.out.println();
 
-        scenes.forEach(scene -> {
-            System.out.println(Drawing.sceneDrawing(scene));
+        trackedScenes.forEach(trackedScene ->  {
+            System.out.println(Drawing.sceneDrawing(trackedScene.scene()));
             System.out.println();
         });
     }

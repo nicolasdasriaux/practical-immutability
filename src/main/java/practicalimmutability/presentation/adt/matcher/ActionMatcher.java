@@ -5,12 +5,12 @@ import practicalimmutability.presentation.adt.matcher.Action.Jump;
 import practicalimmutability.presentation.adt.matcher.Action.Sleep;
 import practicalimmutability.presentation.adt.matcher.Action.Walk;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 @Value.Immutable()
 @Value.Style(stagedBuilder = true)
-public abstract class ActionMatcher<R> {
-    public abstract Function<Sleep, R> onSleep();
-    public abstract Function<Walk, R> onWalk();
-    public abstract Function<Jump, R> onJump();
+public abstract class ActionMatcher<T, R> {
+    public abstract BiFunction<Sleep, T, R> onSleep();
+    public abstract BiFunction<Walk, T, R> onWalk();
+    public abstract BiFunction<Jump, T, R> onJump();
 }

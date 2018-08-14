@@ -39,7 +39,7 @@ public class StateApp {
         System.out.println(program2.run(10));
     }
 
-    private final static State<Integer, Integer> nextId = State.of(i -> StateAndResult.of(i + 1, i));
+    private final static State<Integer, Integer> nextId = State.of(i -> ResultAndState.of(i, i + 1));
     private final static State<Integer, String> nextName = nextId.map(i -> String.format("Name %d", i));
 
     private final static State<Integer, String> nextAddition = nextId.flatMap(i ->

@@ -1,6 +1,8 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.IndexedSeq;
 import io.vavr.collection.List;
+import io.vavr.collection.Vector;
 import org.junit.jupiter.api.Test;
 import practicalimmutability.kata.robot.Tile.*;
 
@@ -25,30 +27,30 @@ class CityMapTest {
 
     @Test
     void rows() {
-        final Empty __ = Empty.of();
-        final Start A_ = Start.of(); // The Alpha
-        final Booth Z_ = Booth.of(); // The Omega
-        final Obstacle X_ = Obstacle.of();
-        final BreakableObstacle x_ = BreakableObstacle.of();
-        final DirectionModifier N_ = DirectionModifier.of(Direction.North);
-        final DirectionModifier S_ = DirectionModifier.of(Direction.South);
-        final DirectionModifier W_ = DirectionModifier.of(Direction.West);
-        final DirectionModifier E_ = DirectionModifier.of(Direction.East);
-        final CircuitInverter I_ = CircuitInverter.of();
-        final Beer B_ = Beer.of();
-        final Teleporter T_ = Teleporter.of();
+        final Empty ___ = Empty.of();
+        final Start _A_ = Start.of(); // The Alpha
+        final Booth _Z_ = Booth.of(); // The Omega
+        final Obstacle _X_ = Obstacle.of();
+        final BreakableObstacle _x_ = BreakableObstacle.of();
+        final DirectionModifier _N_ = DirectionModifier.of(Direction.North);
+        final DirectionModifier _S_ = DirectionModifier.of(Direction.South);
+        final DirectionModifier _W_ = DirectionModifier.of(Direction.West);
+        final DirectionModifier _E_ = DirectionModifier.of(Direction.East);
+        final CircuitInverter _I_ = CircuitInverter.of();
+        final Beer _B_ = Beer.of();
+        final Teleporter _T_ = Teleporter.of();
 
-        final List<List<Tile>> expectedRows = List.of(
-                List.of(X_, X_, X_, X_, X_, X_, X_, X_, X_, X_),
-                List.of(X_, A_, __, __, __, __, __, __, __, X_),
-                List.of(X_, __, B_, __, I_, __, T_, __, __, X_),
-                List.of(X_, __, __, __, __, __, __, __, __, X_),
-                List.of(X_, __, __, N_, __, E_, __, __, __, X_),
-                List.of(X_, __, __, __, x_, __, __, __, __, X_),
-                List.of(X_, __, __, W_, __, S_, __, __, __, X_),
-                List.of(X_, __, __, __, __, __, __, __, __, X_),
-                List.of(X_, __, __, __, T_, __, __, __, Z_, X_),
-                List.of(X_, X_, X_, X_, X_, X_, X_, X_, X_, X_)
+        final IndexedSeq<IndexedSeq<Tile>> expectedRows = Vector.of(
+                Vector.of(_X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_),
+                Vector.of(_X_, _A_, ___, ___, ___, ___, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, _B_, ___, _I_, ___, _T_, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, ___, ___, ___, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, _N_, ___, _E_, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, ___, _x_, ___, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, _W_, ___, _S_, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, ___, ___, ___, ___, ___, ___, _X_),
+                Vector.of(_X_, ___, ___, ___, _T_, ___, ___, ___, _Z_, _X_),
+                Vector.of(_X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_)
         );
 
         assertThat(cityMap.rows()).isEqualTo(expectedRows);

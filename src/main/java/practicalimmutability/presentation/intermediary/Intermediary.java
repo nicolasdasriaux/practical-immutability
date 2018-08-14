@@ -1,4 +1,4 @@
-package practicalimmutability.presentation.adt;
+package practicalimmutability.presentation.intermediary;
 
 public interface Intermediary {
     <R> R match(IntermediaryMatcher<R> matcher);

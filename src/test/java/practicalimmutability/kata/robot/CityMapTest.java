@@ -1,7 +1,6 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.IndexedSeq;
-import io.vavr.collection.List;
 import io.vavr.collection.Vector;
 import org.junit.jupiter.api.Test;
 import practicalimmutability.kata.robot.Tile.*;

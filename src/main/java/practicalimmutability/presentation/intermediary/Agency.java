@@ -1,4 +1,4 @@
-package practicalimmutability.presentation.adt;
+package practicalimmutability.presentation.intermediary;
 
 import io.vavr.collection.Seq;
 import io.vavr.control.Option;

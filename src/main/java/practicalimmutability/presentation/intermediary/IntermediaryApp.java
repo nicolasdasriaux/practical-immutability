@@ -1,11 +1,11 @@
-package practicalimmutability.presentation.adt;
+package practicalimmutability.presentation.intermediary;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 
 import java.util.function.Function;
 
-public class AdtApp {
+public class IntermediaryApp {
     public static void main(final String[] args) {
         final Seq<Intermediary> intermediaries = List.of(
                 ImmutableAgency.builder()

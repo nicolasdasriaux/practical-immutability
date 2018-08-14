@@ -1,4 +1,4 @@
-package practicalimmutability.presentation.adt;
+package practicalimmutability.presentation.intermediary;
 
 import org.immutables.value.Value;
 

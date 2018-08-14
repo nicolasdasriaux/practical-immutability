@@ -3,9 +3,8 @@ package practicalimmutability.presentation;
 import io.vavr.collection.*;
 import io.vavr.control.Option;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Random;
+import static practicalimmutability.presentation.Examples.example;
+import static practicalimmutability.presentation.Examples.part;
 
 public class ExamplesApp {
     public static void main(final String[] args) {
@@ -386,71 +385,5 @@ public class ExamplesApp {
                 System.out.println(modifiedCustomer);
             });
         });
-
-        part("Expressions", () -> {
-            example("if", () -> {
-                final int mark = new Random().nextInt(5) + 1;
-
-                final String mood; // No default value
-
-                // Every branch either assigns value or fails
-                // Compiler is happy
-                if (1 <= mark && mark <= 3) {
-                    mood = "Bad";
-                } else if (mark == 4) {
-                    mood = "OK";
-                } else if (5 <= mark && mark <= 7) {
-                    mood ="Good";
-                } else {
-                    throw new AssertionError("Unexpected mark (" + mark + ")");
-                }
-
-                System.out.println(mood);
-            });
-
-            example("switch", () -> {
-                final Color color = Color.values()[new Random().nextInt(Color.values().length)];
-
-                final int mark;
-
-                switch (color) {
-                    case RED: mark = 1; break;
-                    case YELLOW: mark = 4; break;
-                    case GREEN: mark = 7; break;
-
-                    default:
-                        throw new AssertionError("Unexpected color (" + color + ")");
-                }
-
-                System.out.println(mark);
-            });
-        });
-    }
-
-    private static void part(final String name, final Runnable runnable) {
-        System.out.println("************************************************************");
-        System.out.println("*** " + name.toUpperCase());
-        System.out.println("************************************************************");
-        System.out.println();
-
-        runnable.run();
-    }
-
-    private static void example(final String name, final Runnable runnable) {
-        System.out.println("============================================================");
-        System.out.println(name);
-        System.out.println("------------------------------------------------------------");
-
-        try {
-            runnable.run();
-        } catch (final Exception exc) {
-            final StringWriter writer = new StringWriter();
-            final PrintWriter out = new PrintWriter(writer);
-            exc.printStackTrace(out);
-            System.out.println(writer.toString());
-        }
-
-        System.out.println("============================================================");
-        System.out.println();
     }
 }

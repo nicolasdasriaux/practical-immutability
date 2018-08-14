@@ -4,35 +4,35 @@ import org.immutables.value.Value;
 
 public interface Tile {
     @Value.Immutable(singleton = true)
-    class Empty implements Tile {
+    abstract class Empty implements Tile {
         public static Empty of() {
             return ImmutableEmpty.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class Start implements Tile {
+    abstract class Start implements Tile {
         public static Start of() {
             return ImmutableStart.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class Booth implements Tile {
+    abstract class Booth implements Tile {
         public static Booth of() {
             return ImmutableBooth.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class Obstacle implements Tile {
+    abstract class Obstacle implements Tile {
         public static Obstacle of() {
             return ImmutableObstacle.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class BreakableObstacle implements Tile {
+    abstract class BreakableObstacle implements Tile {
         public static BreakableObstacle of() {
             return ImmutableBreakableObstacle.of();
         }
@@ -49,21 +49,21 @@ public interface Tile {
     }
 
     @Value.Immutable(singleton = true)
-    class CircuitInverter implements Tile {
+    abstract class CircuitInverter implements Tile {
         public static CircuitInverter of() {
             return ImmutableCircuitInverter.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class Beer implements Tile {
+    abstract class Beer implements Tile {
         public static Beer of() {
             return ImmutableBeer.of();
         }
     }
 
     @Value.Immutable(singleton = true)
-    class Teleporter implements Tile {
+    abstract class Teleporter implements Tile {
         public static Teleporter of() {
             return ImmutableTeleporter.of();
         }

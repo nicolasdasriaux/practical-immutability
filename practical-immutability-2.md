@@ -8,7 +8,7 @@ slidenumbers: true
 
 ---
 
-# There is more than immutability of objects, collections and options.
+# There is more to immutability than objects, collections and options
 
 ---
 
@@ -34,19 +34,27 @@ slidenumbers: true
 ---
 
 # Expressions
-## in Java
+## in Java ... and with _Vavr_
 
 ---
 
 # Expressions vs. Instructions
 
-* ...
+* TODO...
 
 ---
 
-# `final` Everywhere
+# `final`, `final` Everywhere
 
-* ...
+* As many `final` as possible to **reduce moving parts**
+* Somewhat controversial for other than local variables
+
+| Type of variable             | Benefit of `final`                                                                     |
+|------------------------------|----------------------------------------------------------------------------------------|
+| Local variable               | Emulates **expressions** :thumbsup:<br/>Prevent confusing recycling of local variables |
+| Parameter                    | Prevents rare reassignment                                                             |
+| `for` enhanced loop variable | Prevents rare reassignment                                                             |
+| `catch` clause variable      | Prevents rare reassignment                                                             |
 
 ---
 
@@ -206,7 +214,7 @@ public abstract class Position { // ...
 
 ---
 
-# `Action` ADT
+# Encoding `Action` ADT
 
 ```java
 public interface Action {
@@ -280,6 +288,7 @@ public abstract class Player { // ...
 ---
 
 # `Action` Made Visitable
+
 ```java
 public interface Action {
     <R> R match(ActionMatcher<R> matcher); // ...
@@ -317,7 +326,7 @@ public abstract class ActionMatcher<R> {
 
 ---
 
-# Updating `Player` with `Action`... revisited :wink:
+# Updating `Player` with `Action`... Revisited :wink:
 
 ```java
 @Value.Immutable

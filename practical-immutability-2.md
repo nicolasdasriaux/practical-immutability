@@ -99,10 +99,38 @@ switch (color) {
 
 ---
 
-# Emulating `try` `catch` Expression
+# Another `Try` with _Vavr_
 
 ```java
+final int triedNumber = Try.of(() -> Integer.parseInt(input))
+        .filter(i -> i >= 0)
+        .map(i -> i * 10)
 ```
+
+| `input`   | `triedNumber` prints as                                                      |
+|-----------|------------------------------------------------------------------------------|
+| `"3"`     | `Success(30)`                                                                |
+| `"-10"`   | `Failure(java.util.NoSuchElementException: Predicate does not hold for -10)` |
+| `"WRONG"` | `Failure(java.lang.NumberFormatException: For input string: "WRONG")`        |
+
+---
+
+# `Try` to `Option`
+
+```java
+final Try<Integer> triedNumber = Try.of(() -> Integer.parseInt(input))
+        .filter(i -> i > 0)
+        .map(i -> i * 10);
+
+final Integer defaultedNumber = triedNumber.getOrElse(0);
+final Option<Integer> maybeNumber = triedNumber.toOption();
+```
+
+| `input`   | `defaultedNumber` prints as | `maybeNumber` prints as |
+|-----------|-----------------------------|-------------------------|
+| `"3"`     | `30`                        | `Some(30)`              |
+| `"-10"`   | `0`                         | `None`                  |
+| `"WRONG"` | `0`                         | `None`                  |
 
 ---
 

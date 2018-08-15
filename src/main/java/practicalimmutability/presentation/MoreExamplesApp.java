@@ -2,6 +2,8 @@ package practicalimmutability.presentation;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import practicalimmutability.presentation.adt.Position;
 import practicalimmutability.presentation.adt.matcher.Action;
 import practicalimmutability.presentation.adt.matcher.Action.Jump;
@@ -10,6 +12,7 @@ import practicalimmutability.presentation.adt.matcher.Action.Walk;
 import practicalimmutability.presentation.adt.matcher.Player;
 
 import java.util.Random;
+import java.util.function.Consumer;
 
 import static practicalimmutability.presentation.Examples.example;
 import static practicalimmutability.presentation.Examples.part;
@@ -60,6 +63,39 @@ public class MoreExamplesApp {
                 }
 
                 System.out.println(mark);
+            });
+
+            example("Try", () -> {
+                final Consumer<String> parse = input -> {
+                    final Try<Integer> triedNumber = Try.of(() -> Integer.parseInt(input))
+                            .filter(i -> i > 0)
+                            .map(i -> i * 10);
+
+                    System.out.println(triedNumber);
+                };
+
+                parse.accept("3");
+                parse.accept("-10");
+                parse.accept("WRONG");
+            });
+
+            example("Try to Option", () -> {
+                final Consumer<String> parse = input -> {
+                    final Try<Integer> triedNumber = Try.of(() -> Integer.parseInt(input))
+                            .filter(i -> i > 0)
+                            .map(i -> i * 10);
+
+                    final Integer defaultedNumber = triedNumber.getOrElse(0);
+                    final Option<Integer> maybeNumber = triedNumber.toOption();
+
+                    System.out.println(triedNumber);
+                    System.out.println(defaultedNumber);
+                    System.out.println(maybeNumber);
+                };
+
+                parse.accept("3");
+                parse.accept("-10");
+                parse.accept("WRONG");
             });
         });
 

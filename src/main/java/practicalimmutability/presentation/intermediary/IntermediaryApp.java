@@ -34,7 +34,7 @@ public class IntermediaryApp {
             }
         });
 
-        intermediaries.forEach(intermediary -> intermediary.match(DISPLAY_VISITOR()));
+        intermediaries.forEach(intermediary -> intermediary.match(DISPLAY_MATCHER()));
 
         intermediaries.forEach(intermediary ->
                 intermediary.match(
@@ -73,7 +73,7 @@ public class IntermediaryApp {
         });
     }
 
-    public static IntermediaryMatcher DISPLAY_VISITOR() {
+    public static IntermediaryMatcher DISPLAY_MATCHER() {
         return new IntermediaryMatcher() {
             @Override
             public Function<Agency, Void> onAgency() {

@@ -1,14 +1,18 @@
 package practicalimmutability.presentation;
 
 import io.vavr.collection.List;
-import practicalimmutability.presentation.adt.Action;
+import io.vavr.collection.Seq;
 import practicalimmutability.presentation.adt.Position;
+import practicalimmutability.presentation.adt.matcher.Action;
+import practicalimmutability.presentation.adt.matcher.Action.Jump;
+import practicalimmutability.presentation.adt.matcher.Action.Sleep;
+import practicalimmutability.presentation.adt.matcher.Action.Walk;
+import practicalimmutability.presentation.adt.matcher.Player;
 
 import java.util.Random;
 
 import static practicalimmutability.presentation.Examples.example;
 import static practicalimmutability.presentation.Examples.part;
-import static practicalimmutability.presentation.adt.Action.*;
 import static practicalimmutability.presentation.adt.Direction.Right;
 import static practicalimmutability.presentation.adt.Direction.Up;
 
@@ -67,6 +71,19 @@ public class MoreExamplesApp {
                         Sleep.of(),
                         Walk.of(Right)
                 );
+            });
+
+            example("Applying successive actions", () -> {
+                final Player initialPlayer = Player.of(Position.of(1, 1));
+
+                final Seq<Action> actions = List.of(
+                        Jump.of(Position.of(5, 8)), Walk.of(Up), Sleep.of(), Walk.of(Right));
+
+                final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
+                final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
+
+                System.out.println(finalPLayer);
+                System.out.println(players);
             });
         });
     }

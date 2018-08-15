@@ -15,6 +15,12 @@ import static practicalimmutability.presentation.adt.Direction.Up;
 public class MoreExamplesApp {
     public static void main(final String[] args) {
         part("Expressions", () -> {
+            example("?:", () -> {
+                final boolean enabled = false;
+                final String status = enabled ? "Enabled" : "Disabled";
+                System.out.println(status);
+            });
+
             example("if", () -> {
                 final int mark = new Random().nextInt(5) + 1;
 

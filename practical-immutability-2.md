@@ -1,10 +1,14 @@
 autoscale: true
-footer: Practical Immutability
+footer: More ... Practical Immutability
 slidenumbers: true
 
-#  More :wink: Practical
+#  More ... Practical
 # [fit] **Immutability**
 ## [fit] in Java with _Immutables_ and _Vavr_
+
+---
+
+# There is more than immutability of objects, collections and options.
 
 ---
 
@@ -30,6 +34,7 @@ slidenumbers: true
 ---
 
 # Expressions
+## in Java
 
 ---
 
@@ -41,8 +46,19 @@ slidenumbers: true
 
 # `final` Everywhere
 
+* ...
+
+---
+
+# ... `?` ... `:` ... Expression
+
 ```java
+final String status = enabled ? "On" : "Off";
 ```
+
+* An actual conditional expression!
+* Only one of that kind in Java
+* Only for very simple one-liners
 
 ---
 
@@ -90,19 +106,20 @@ switch (color) {
 
 ---
 
-# Algebraic Data Types :astonished:
+# Algebraic Data Types
+## with _Immutables_
 
 ---
 
-# [fit] What?
+# [fit] What is that :shit:?
 
 ---
 
 # Algebraic Data Type
 
 * **ADT** in short
-* Also called **discriminated union**
-* `enum` on steroids
+* Also called **discriminated union** in some other world
+* **`enum` on steroids**
   * Some alternatives might hold one or more **attributes**
   * Attributes may vary in number and in type from one alternative to another
 
@@ -145,8 +162,7 @@ public abstract class Position {
 
 ```java
 @Value.Immutable
-public abstract class Position {
-    // ...
+public abstract class Position { // ...
     public Position move(final Direction direction) {
         switch (direction) {
             case Up: return ImmutablePosition.copyOf(this).withY(y() - 1);
@@ -156,8 +172,7 @@ public abstract class Position {
             default: throw new IllegalArgumentException(
                         String.format("Unknown Direction (%s)", direction));
         }
-    }
-    // ...
+    } // ...
 }
 ```
 
@@ -171,13 +186,11 @@ public interface Action {
     abstract class Sleep implements Action {
         public static Sleep of() { return ImmutableSleep.of(); }
     }
-    
     @Value.Immutable
     abstract class Walk implements Action {
         @Value.Parameter public abstract Direction direction();
         public static Walk of(final Direction direction) { return ImmutableWalk.of(direction); }
     }
-    
     @Value.Immutable
     abstract class Jump implements Action {
         @Value.Parameter public abstract Position position();
@@ -219,8 +232,7 @@ public abstract class Player {
 
 ```java
 @Value.Immutable
-public abstract class Player {
-    // ...
+public abstract class Player { // ...
     public Player act(final Action action) {
         if (action instanceof Sleep) {
             return this;
@@ -233,16 +245,69 @@ public abstract class Player {
         } else {
             throw new IllegalArgumentException(String.format("Unknown Action (%s)", action));
         }
+    } // ...
+}
+```
+
+---
+
+# `Action` Made Visitable
+```java
+public interface Action {
+    <R> R match(ActionMatcher<R> matcher); // ...
+    abstract class Sleep implements Action { // ...
+        public <R> R match(final ActionMatcher<R> matcher) {
+            return matcher.onSleep().apply(this);
+        }
+    } // ...
+    abstract class Walk implements Action { // ...
+        public <R> R match(final ActionMatcher<R> matcher) {
+            return matcher.onWalk().apply(this);
+        }
+    } // ...
+    abstract class Jump implements Action { // ...
+       public <R> R match(final ActionMatcher<R> matcher) {
+            return matcher.onJump().apply(this);
+       }
     }
-    // ...
+}
+```
+
+---
+
+# Visited by `ActionMatcher`
+
+```java
+@Value.Immutable
+@Value.Style(stagedBuilder = true)
+public abstract class ActionMatcher<R> {
+    public abstract Function<Sleep, R> onSleep();
+    public abstract Function<Walk, R> onWalk();
+    public abstract Function<Jump, R> onJump();
+}
+```
+
+---
+
+# Updating `Player` with `Action`... revisited :wink:
+
+```java
+@Value.Immutable
+public abstract class Player { // ...
+    private static final ActionMatcher<Function<Player, Player>> ACT_MATCHER =
+            ImmutableActionMatcher.<Function<Player, Player>>builder()
+                    .onSleep(sleep -> player -> player)
+                    .onWalk(walk -> player ->
+                            ImmutablePlayer.of(player.position().move(walk.direction()))
+                    )
+                    .onJump(jump -> player ->
+                            ImmutablePlayer.of(jump.position())
+                    )
+                    .build();
+
+    public Player act(final Action action) {
+        return action.match(ACT_MATCHER).apply(this);
+    } // ...
 }
 
 ```
----
- 
-# `instanceof` is not as evil as you think
-
-```java
-```
-
----

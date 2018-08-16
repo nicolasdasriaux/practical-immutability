@@ -1,10 +1,14 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
+import io.vavr.collection.Stream;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
@@ -74,21 +78,21 @@ class RobotTest {
     }
 
     @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class Move {
         @ParameterizedTest
         @EnumSource(Direction.class)
-        void nonBreakerRobotWithoutObstacle(final Direction direction) {
+        void robotWithoutObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
                     // @formatter:off
-                   //0123456
+                   //0123456 | @formatter:on
                     "#######", // 0
                     "#@    #", // 1
                     "#     #", // 2
                     "#     #", // 3
                     "#     #", // 4
                     "#    $#", // 5
-                    "#######"  // 10
-                    // @formatter:on
+                    "#######"  // 6
             );
 
             final Position position = Position.of(3, 3);
@@ -111,15 +115,15 @@ class RobotTest {
         void breakerRobotWithBreakableObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
                     // @formatter:off
-                   //0123456
+                   //0123456 | @formatter:on
                     "#######", // 0
                     "#@    #", // 1
                     "#  X  #", // 2
                     "# X X #", // 3
                     "#  X  #", // 4
                     "#    $#", // 5
-                    "#######"  // 10
-                   // @formatter:on
+                    "#######"  // 6
+                   //
             );
 
             final Position position = Position.of(3, 3);
@@ -136,6 +140,398 @@ class RobotTest {
 
             assertThat(breakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
+
+        Stream<Arguments> nonInvertedRobotWithObstacleExamples() {
+            return Stream.of(
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#     #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, South
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#     #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# #   #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, South
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#   # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, South
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#     #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#   # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# #   #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#   # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#   # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, West
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#   # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, West
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# # # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#   # #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, West
+                    )
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("nonInvertedRobotWithObstacleExamples")
+        void nonInvertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
+            final Position initialPosition = Position.of(3, 3);
+
+            final Robot robot = ImmutableRobot.builder()
+                    .position(initialPosition)
+                    .direction(initialDirection)
+                    .breaker(false)
+                    .inverted(false)
+                    .dead(false)
+                    .build();
+
+            final Position finalPosition = initialPosition.move(finalDirection);
+
+            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+                    .position(finalPosition)
+                    .direction(finalDirection)
+                    .build();
+
+            assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
+        }
+
+        Stream<Arguments> invertedRobotWithObstacleExamples() {
+            return Stream.of(
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "#     #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, West
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#     #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, West
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# #   #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "#   # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, West
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# #   #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# #   #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# #   #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#     #", // 2
+                                    "# # # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, North
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# # # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            North, South
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# #   #", // 3
+                                    "#  #  #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            South, East
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# # # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            West, South
+                    ),
+                    Arguments.of(
+                            CityMap.fromLines(
+                                    // @formatter:off
+                                   //0123456 | @formatter:on
+                                    "#######", // 0
+                                    "#@    #", // 1
+                                    "#  #  #", // 2
+                                    "# # # #", // 3
+                                    "#     #", // 4
+                                    "#    $#", // 5
+                                    "#######"  // 6
+                            ),
+                            East, South
+                    )
+            );
+        }
+
+        @ParameterizedTest
+        @MethodSource("invertedRobotWithObstacleExamples")
+        void invertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
+            final Position initialPosition = Position.of(3, 3);
+
+            final Robot robot = ImmutableRobot.builder()
+                    .position(initialPosition)
+                    .direction(initialDirection)
+                    .breaker(false)
+                    .inverted(true)
+                    .dead(false)
+                    .build();
+
+            final Position finalPosition = initialPosition.move(finalDirection);
+
+            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+                    .position(finalPosition)
+                    .direction(finalDirection)
+                    .build();
+
+            assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
+        }
     }
 
     @Test
@@ -149,14 +545,14 @@ class RobotTest {
                 .build();
 
         assertThat(nonInvertedRobot.priorities()).isEqualTo(List.of(South, East, North, West));
-        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(South, East, North, West).reverse());
+        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(West, North, East, South));
     }
 
     @Test
     void triggerTeleporter() {
         final CityMap cityMap = CityMap.fromLines(
                 // @formatter:off
-               //01234567
+               //01234567 | @formatter:on
                 "########", // 0
                 "#      #", // 1
                 "# @    #", // 2
@@ -168,7 +564,6 @@ class RobotTest {
                 "#    $ #", // 8
                 "#      #", // 9
                 "########"  // 10
-                // @formatter:on
         );
 
         final Robot inTeleporterRobot = ImmutableRobot.builder()

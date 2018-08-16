@@ -11,7 +11,7 @@ import static practicalimmutability.kata.robot.Direction.*;
 class CityMapTest {
     private final CityMap cityMap = CityMap.fromLines(
             // @formatter:off
-           //0123456789
+           //0123456789 | @formatter:on
             "##########", // 0
             "#@       #", // 1
             "# B I T  #", // 2
@@ -22,7 +22,6 @@ class CityMapTest {
             "#        #", // 7
             "#   T   $#", // 8
             "##########"  // 9
-            // @formatter:on
     );
 
     @Test

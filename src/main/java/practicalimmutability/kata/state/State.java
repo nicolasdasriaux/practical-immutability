@@ -40,7 +40,7 @@ public abstract class State<S, A> {
         return ImmutableState.of(transition);
     }
 
-    public static <S, A> State<S, A> pure(final A a) {
+    public static <S, A> State<S, A> point(final A a) {
         return State.of(s -> ResultAndState.of(a, s));
     }
 

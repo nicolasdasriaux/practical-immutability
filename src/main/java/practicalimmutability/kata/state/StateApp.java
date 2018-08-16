@@ -29,7 +29,7 @@ public class StateApp {
 
         final State<Integer, Seq<String>> program2 =
                 List.range(1, 10).foldLeft(
-                        State.pure(Vector.empty()),
+                        State.point(Vector.empty()),
                         (state, i) ->
                                 state.flatMap(additions ->
                                         nextAddition.map(element -> additions.append(element))

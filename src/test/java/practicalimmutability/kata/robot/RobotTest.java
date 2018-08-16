@@ -1,11 +1,10 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import practicalimmutability.kata.common.TODO;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
@@ -74,10 +73,69 @@ class RobotTest {
         assertThat(livingRobot.die()).isEqualTo(deadRobot);
     }
 
-    @Test
-    @Disabled
-    void move() {
-        TODO.IMPLEMENT();
+    @Nested
+    class Move {
+        @ParameterizedTest
+        @EnumSource(Direction.class)
+        void nonBreakerRobotWithoutObstacle(final Direction direction) {
+            final CityMap cityMap = CityMap.fromLines(
+                    // @formatter:off
+                   //0123456
+                    "#######", // 0
+                    "#@    #", // 1
+                    "#     #", // 2
+                    "#     #", // 3
+                    "#     #", // 4
+                    "#    $#", // 5
+                    "#######"  // 10
+                    // @formatter:on
+            );
+
+            final Position position = Position.of(3, 3);
+
+            final Robot nonBreakerRobot = ImmutableRobot.builder()
+                    .position(position)
+                    .direction(direction)
+                    .breaker(false)
+                    .inverted(false)
+                    .dead(false)
+                    .build();
+
+            final Robot movedRobot = ImmutableRobot.copyOf(nonBreakerRobot).withPosition(position.move(direction));
+
+            assertThat(nonBreakerRobot.move(cityMap)).isEqualTo(movedRobot);
+        }
+
+        @ParameterizedTest
+        @EnumSource(Direction.class)
+        void breakerRobotWithBreakableObstacle(final Direction direction) {
+            final CityMap cityMap = CityMap.fromLines(
+                    // @formatter:off
+                   //0123456
+                    "#######", // 0
+                    "#@    #", // 1
+                    "#  X  #", // 2
+                    "# X X #", // 3
+                    "#  X  #", // 4
+                    "#    $#", // 5
+                    "#######"  // 10
+                   // @formatter:on
+            );
+
+            final Position position = Position.of(3, 3);
+
+            final Robot breakerRobot = ImmutableRobot.builder()
+                    .position(position)
+                    .direction(direction)
+                    .breaker(true)
+                    .inverted(false)
+                    .dead(false)
+                    .build();
+
+            final Robot movedRobot = ImmutableRobot.copyOf(breakerRobot).withPosition(position.move(direction));
+
+            assertThat(breakerRobot.move(cityMap)).isEqualTo(movedRobot);
+        }
     }
 
     @Test
@@ -121,13 +179,7 @@ class RobotTest {
                 .dead(false)
                 .build();
 
-        final ImmutableRobot outTeleporterRobot = ImmutableRobot.builder()
-                .position(Position.of(5, 6))
-                .direction(South)
-                .breaker(false)
-                .inverted(false)
-                .dead(false)
-                .build();
+        final Robot outTeleporterRobot = ImmutableRobot.copyOf(inTeleporterRobot).withPosition(Position.of(5, 6));
 
         assertThat(inTeleporterRobot.triggerTeleporter(cityMap)).isEqualTo(outTeleporterRobot);
     }

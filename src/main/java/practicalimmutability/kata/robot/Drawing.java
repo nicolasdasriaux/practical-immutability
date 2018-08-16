@@ -16,11 +16,12 @@ public class Drawing {
     }
 
     private static String robotStatusDrawing(final Robot robot) {
+        final String directionStatus = Character.toString(robot.direction().toCode());
         final String breakerStatus = robot.breaker() ? "B" : "-";
         final String invertedStatus = robot.inverted() ? "I" : "-";
         final String priorities = robot.priorities().map(Direction::toCode).mkString();
         final String deadStatus = robot.dead() ? "$" : "-";
-        return String.format("| %s | %s (%s) | %s |", breakerStatus, invertedStatus, priorities, deadStatus);
+        return String.format("| %s | %s | %s (%s) | %s |", directionStatus, breakerStatus, invertedStatus, priorities, deadStatus);
     }
 
     private static String sceneGridDrawing(final Scene scene) {
@@ -30,11 +31,7 @@ public class Drawing {
         return Iterator.range(0, cityMap.rows().size()).map(y ->
                 Iterator.range(0, cityMap.rows().get(y).size()).map(x -> {
                     final Position position = Position.of(x, y);
-                    return robot.position().equals(position) ? robotDrawing(robot) : cityMap.tile(position).toCode();
+                    return robot.position().equals(position) ? '*' : cityMap.tile(position).toCode();
                 }).mkString()).mkString("\n");
-    }
-
-    private static char robotDrawing(final Robot robot) {
-        return Character.toLowerCase(robot.direction().toCode());
     }
 }

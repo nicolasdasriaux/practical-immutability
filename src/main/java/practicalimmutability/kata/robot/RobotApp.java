@@ -36,7 +36,24 @@ public class RobotApp {
                 )
         );
 
-        final Scene initialScene = initialScene1;
+        final Scene initialScene3 = Scene.fromCityMap(
+                CityMap.fromLines(
+                        // @formatter:off
+                       //0123456789 | @formatter:on
+                        "##########", // 0
+                        "#@   E   #", // 1
+                        "#   E S  #", // 2
+                        "# T NNW I#", // 3
+                        "#        #", // 4
+                        "#        #", // 5
+                        "#   # I  #", // 6
+                        "#       ##", // 7
+                        "#  T B X$#", // 8
+                        "##########"  // 9
+                )
+        );
+
+        final Scene initialScene = initialScene3;
 
         final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
         final Iterator<TrackedScene> trackedScenes = initialTrackedScene.run();

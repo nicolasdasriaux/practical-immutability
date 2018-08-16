@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import practicalimmutability.kata.robot.Tile.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static practicalimmutability.kata.robot.Direction.*;
 
 class CityMapTest {
     private final CityMap cityMap = CityMap.fromLines(
@@ -31,10 +32,10 @@ class CityMapTest {
         final Booth _Z_ = Booth.of(); // The Omega
         final Obstacle _X_ = Obstacle.of();
         final BreakableObstacle _x_ = BreakableObstacle.of();
-        final DirectionModifier _N_ = DirectionModifier.of(Direction.North);
-        final DirectionModifier _S_ = DirectionModifier.of(Direction.South);
-        final DirectionModifier _W_ = DirectionModifier.of(Direction.West);
-        final DirectionModifier _E_ = DirectionModifier.of(Direction.East);
+        final DirectionModifier _N_ = DirectionModifier.of(North);
+        final DirectionModifier _S_ = DirectionModifier.of(South);
+        final DirectionModifier _W_ = DirectionModifier.of(West);
+        final DirectionModifier _E_ = DirectionModifier.of(East);
         final CircuitInverter _I_ = CircuitInverter.of();
         final Beer _B_ = Beer.of();
         final Teleporter _T_ = Teleporter.of();

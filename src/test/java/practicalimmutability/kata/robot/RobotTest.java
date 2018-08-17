@@ -85,7 +85,7 @@ class RobotTest {
         void robotWithoutObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
                     // @formatter:off
-                   //0123456 | @formatter:on
+                  // 0123456
                     "#######", // 0
                     "#@    #", // 1
                     "#     #", // 2
@@ -93,6 +93,7 @@ class RobotTest {
                     "#     #", // 4
                     "#    $#", // 5
                     "#######"  // 6
+                    // @formatter:on
             );
 
             final Position position = Position.of(3, 3);
@@ -115,7 +116,7 @@ class RobotTest {
         void breakerRobotWithBreakableObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
                     // @formatter:off
-                   //0123456 | @formatter:on
+                  // 0123456
                     "#######", // 0
                     "#@    #", // 1
                     "#  X  #", // 2
@@ -123,7 +124,7 @@ class RobotTest {
                     "#  X  #", // 4
                     "#    $#", // 5
                     "#######"  // 6
-                   //
+                    // @formatter:on
             );
 
             final Position position = Position.of(3, 3);
@@ -146,7 +147,7 @@ class RobotTest {
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -154,13 +155,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, South
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -168,13 +170,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -182,13 +185,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, South
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -196,13 +200,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, South
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -210,13 +215,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -224,13 +230,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -238,13 +245,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -252,13 +260,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -266,13 +275,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, West
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -280,13 +290,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, West
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -294,13 +305,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -308,6 +320,7 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, West
                     )
@@ -342,7 +355,7 @@ class RobotTest {
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -350,13 +363,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, West
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -364,13 +378,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, West
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -378,13 +393,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -392,13 +408,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, West
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -406,13 +423,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -420,13 +438,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -434,13 +453,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
@@ -448,13 +468,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, North
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -462,13 +483,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             North, South
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -476,13 +498,14 @@ class RobotTest {
                                     "#  #  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             South, East
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -490,13 +513,14 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             West, South
                     ),
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
-                                   //0123456 | @formatter:on
+                                  // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#  #  #", // 2
@@ -504,6 +528,7 @@ class RobotTest {
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
+                                    // @formatter:on
                             ),
                             East, South
                     )
@@ -552,7 +577,7 @@ class RobotTest {
     void triggerTeleporter() {
         final CityMap cityMap = CityMap.fromLines(
                 // @formatter:off
-               //01234567 | @formatter:on
+              // 01234567
                 "########", // 0
                 "#      #", // 1
                 "# @    #", // 2
@@ -564,6 +589,7 @@ class RobotTest {
                 "#    $ #", // 8
                 "#      #", // 9
                 "########"  // 10
+                // @formatter:on
         );
 
         final Robot inTeleporterRobot = ImmutableRobot.builder()

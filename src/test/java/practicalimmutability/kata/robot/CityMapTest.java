@@ -11,7 +11,7 @@ import static practicalimmutability.kata.robot.Direction.*;
 class CityMapTest {
     private final CityMap cityMap = CityMap.fromLines(
             // @formatter:off
-           //0123456789 | @formatter:on
+          // 0123456789
             "##########", // 0
             "#@       #", // 1
             "# B I T  #", // 2
@@ -22,6 +22,7 @@ class CityMapTest {
             "#        #", // 7
             "#   T   $#", // 8
             "##########"  // 9
+            // @formatter:on
     );
 
     @Test
@@ -79,16 +80,19 @@ class CityMapTest {
     @Test
     void breakObstacle() {
         final CityMap expectedCityMap = CityMap.fromLines(
-                "##########",
-                "#@       #",
-                "# B I T  #",
-                "#        #",
-                "#  N E   #",
-                "#        #",
-                "#  W S   #",
-                "#        #",
-                "#   T   $#",
-                "##########"
+                // @formatter:off
+              // 0123456789
+                "##########", // 0
+                "#@       #", // 1
+                "# B I T  #", // 2
+                "#        #", // 3
+                "#  N E   #", // 4
+                "#        #", // 5
+                "#  W S   #", // 6
+                "#        #", // 7
+                "#   T   $#", // 8
+                "##########"  // 9
+                // @formatter:on
         );
 
         assertThat(cityMap.breakObstacle(Position.of(4, 5))).isEqualTo(expectedCityMap);

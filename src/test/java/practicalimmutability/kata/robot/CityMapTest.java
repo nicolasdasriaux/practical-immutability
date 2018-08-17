@@ -67,7 +67,7 @@ class CityMapTest {
 
     @Test
     void tile() {
-        assertThat(cityMap.tile(Position.of(8, 8))).isEqualTo(Booth.of());
+        assertThat(cityMap.tile(Position.of(4, 8))).isEqualTo(Teleporter.of());
     }
 
     @Test

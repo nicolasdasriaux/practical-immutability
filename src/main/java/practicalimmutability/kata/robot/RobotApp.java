@@ -39,7 +39,7 @@ public class RobotApp {
         final Scene initialScene3 = Scene.fromCityMap(
                 CityMap.fromLines(
                         // @formatter:off
-                       //0123456789 | @formatter:on
+                      // 0123456789
                         "##########", // 0
                         "#@   E   #", // 1
                         "#   E S  #", // 2
@@ -50,6 +50,7 @@ public class RobotApp {
                         "#       ##", // 7
                         "#  T B X$#", // 8
                         "##########"  // 9
+                        // @formatter:on
                 )
         );
 

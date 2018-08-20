@@ -304,7 +304,7 @@ public class ExamplesApp {
             example("Create Without", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
                         .id(1)
-                        // Do no set optional attribute
+                        // Does no set optional attribute
                         .firstName("Paul")
                         .lastName("Simpson")
                         .build();
@@ -315,7 +315,7 @@ public class ExamplesApp {
             example("Create With", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
                         .id(1)
-                        .title("Mister") // Set optional attribute
+                        .title("Mister") // Sets optional attribute
                         .firstName("Paul")
                         .lastName("Simpson")
                         .build();
@@ -326,7 +326,7 @@ public class ExamplesApp {
             example("With Unset", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
                         .id(1)
-                        .title("Mister") // Set optional attribute
+                        .title("Mister") // Sets optional attribute
                         .firstName("Paul")
                         .lastName("Simpson")
                         .build();

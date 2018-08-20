@@ -10,11 +10,11 @@ slidenumbers: true
 
 # What Object Oriented Programming is
 
-* Object Identity
+* **Object Identity**
   * Uniquely identify an instance (pointer, reference, address ...)
-* Inheritance and polymorphism
+* **Inheritance** and **polymorphism**
   * Classify and specialize behavior in classifications
-* Encapsulation
+* **Encapsulation**
   * Ensure integrity of object :thumbsup:
   * Essence of OOP
 
@@ -57,7 +57,7 @@ public class Customer {
 
 # OOP Revisited
 
-* Encapsulation is not optional in OOP
+* **Encapsulation is not optional in OOP**
 * If you cannot describe (and protect) class invariant, there is no class encapsulation
 * Sure, there exists **classes with very weak invariant**:
   * _Forms_ which are never guaranteed to be consistent except after validation
@@ -101,8 +101,8 @@ public class Customer {
 
 # Immutable Class
 
-* Constructor returns a new object
-* Methods do not modify the object but return a **new object** with the modifications applied instead
+* **Constructor** returns a new object
+* **Methods** do not modify the object but return a **new object** with the modifications applied instead
 * For an immutable class, _Immutables_ generates
   * a `Builder` to create and modify instances :thumbsup:
   * a set of `.withXXX(xxx)` methods to modify instances :thumbsup:
@@ -159,6 +159,7 @@ final Customer modifiedCustomer =
 ```
 
 * Several attributes modified with no intermediary instances
+* Also allows modifying multiple attributes that should remain consistent with each other
 
 ---
 
@@ -383,7 +384,7 @@ Will fail with an exception
 * Immutable collections **compare by value**
   * _Vavr_ implements `.equals(other)` and `.hashCode()` consistently :thumbsup:
 * In principle, they **should not accept `null`** as element
-  * but Vavr does :imp:
+  * but _Vavr_ does :imp:
 * Immutable collections are special efficient data structures called **persistent data structures**
 
 ---
@@ -415,7 +416,7 @@ final Seq<String> availableIds = ids
         .map(i -> "#" + i); // Transform to rank
 ```
 
-Will output
+`availableIds` will print as
 
 ```
 List(#0, #2, #4, #6)
@@ -434,7 +435,7 @@ final IndexedSeq<String> availableCommands = commands
         .remove("man"); // Remove man command
 ```
 
-Will output
+`availableCommands` will print as
 
 ```
 Vector(ls, pwd, cd)
@@ -451,7 +452,7 @@ final Set<String> availableGreetings = greetings
         .addAll(List.of("hi", "bye", "hello")); // Add more greetings
 ```
 
-Will output
+`availableGreetings` will print as
 
 ```
 HashSet(hi, bye, goodbye, hello)
@@ -474,7 +475,7 @@ final Map<Integer, String> updatedIdToName = idToName
         .mapValues(String::toUpperCase);
 ```
 
-Will output
+`updatedIdToName` will print as
 
 ```
 HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
@@ -492,7 +493,7 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 * An option type is a generic type such as _Vavr_ `Option<T>` that models the **presence** or the **absence** of a value of type `T`.
 * Options **compare by value** :thumbsup:
 * In principle, options **should not accept `null`** as present value
-  * but Vavr does :imp:
+  * but _Vavr_ does :imp:
 
 ___
 
@@ -506,7 +507,7 @@ final String displayedTitle = maybeTitle
         .getOrElse("<No Title>"); // Get value, as present
 ```
 
-Will output
+`displayedTitle` will print as
 
 ```
 MISTER
@@ -525,7 +526,7 @@ final String displayedTitle = maybeTitle
 
 ```
 
-Will output
+`displayedTitle` will print as
 
 ```
 <No Title>
@@ -556,7 +557,7 @@ final String nullableTitle =
 
 ---
 
-# Customer with an Optional Title
+# `Customer` with an Optional Title
 
 ```java
 @Value.Immutable
@@ -570,7 +571,7 @@ public abstract class Customer {
 ```
 ---
 
-# Prevent `null` in Title `Option`
+# Preventing `null` in Title `Option`
 
 ```java
 @Value.Immutable
@@ -588,45 +589,45 @@ public abstract class Customer {
 
 ---
 
-# Create without Title
+# Creating a `Customer` without a Title
 
 ````java
 ImmutableCustomer.builder()
         .id(1)
-        // Do no set optional attribute
+        // Does no set optional attribute
         .firstName("Paul")
         .lastName("Simpson")
         .build();
 ````
 
 * Assigns `Option.none()` as title
-* Will output
+* Will print as
   ```
   Customer{title=None, id=1, firstName=Paul, lastName=Simpson}
   ```
   
 ---
 
-# Create with Title
+# Creating a `Customer` with a Title
 
 ```java
 ImmutableCustomer.builder()
         .id(1)
-        .title("Mister") // Set optional attribute
+        .title("Mister") // Sets optional attribute
         .firstName("Paul")
         .lastName("Simpson")
         .build();
 ```
 
 * Assigns `Option.some("Mister")` as title
-* Will output
+* Will print as
   ```
   Customer{title=Some(Mister), id=1, firstName=Paul, lastName=Simpson}
   ```
 
 ---
 
-# Unset Optional Title
+# Unsetting Optional Title
 
 ```java
 ImmutableCustomer.copyOf(customer).withTitle(Option.none());
@@ -642,7 +643,7 @@ ImmutableCustomer.builder().from(customer)
 
 ---
 
-# Set Optional Title
+# Setting Optional Title
 
 ```java
 ImmutableCustomer.copyOf(customer).withTitle("Mister");
@@ -659,7 +660,7 @@ ImmutableCustomer.builder().from(customer)
 
 ---
 
-# Todo List (of Todos)
+# `TodoList` class
 
 ```java
 @Value.Immutable
@@ -676,7 +677,7 @@ public abstract class TodoList {
 
 ---
 
-# Todo List Invariant
+# `TodoList` Invariant
 
 ```java
 @Value.Immutable
@@ -698,7 +699,7 @@ public abstract class TodoList {
 
 ---
 
-# Todo
+# `Todo` class
 
 ```java
 @Value.Immutable
@@ -716,7 +717,7 @@ public abstract class Todo {
 
 ---
 
-# Todo Invariant
+# `Todo` Invariant
 
 ```java
 @Value.Immutable
@@ -737,7 +738,7 @@ public abstract class Todo {
 ```
 ---
 
-# Add and Remove Todo
+# Adding and Removing `Todo`
 
 ```java
 @Value.Immutable
@@ -759,7 +760,7 @@ public abstract class TodoList {
 
 ---
 
-# Mark Todo as Done
+# Marking `Todo` as Done
 
 ```java
 @Value.Immutable
@@ -783,7 +784,7 @@ public abstract class TodoList {
 
 ---
 
-# Count Pending and Done Todos
+# Counting Pending and Done `Todo`s
 
 ```java
 @Value.Immutable
@@ -801,7 +802,7 @@ public abstract class TodoList {
 
 ---
 
-# Create and Manipulate Todo List
+# Creating and Manipulating `TodoList`
 
 ```java
 final TodoList todoList = TodoList.of("Food")

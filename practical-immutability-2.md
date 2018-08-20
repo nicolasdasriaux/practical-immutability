@@ -49,12 +49,12 @@ slidenumbers: true
 * As many `final` as possible to **reduce moving parts**
 * Somewhat controversial for other than local variables
 
-| Type of variable             | Benefit of `final`                                                                     |
-|------------------------------|----------------------------------------------------------------------------------------|
-| Local variable               | Emulates **expressions** :thumbsup:<br/>Prevent confusing recycling of local variables |
-| Parameter                    | Prevents rare reassignment                                                             |
-| `for` enhanced loop variable | Prevents rare reassignment                                                             |
-| `catch` clause variable      | Prevents rare reassignment                                                             |
+| Type of variable             | Benefit of `final`                                                                      |
+|------------------------------|-----------------------------------------------------------------------------------------|
+| Local variable               | Emulates **expressions** :thumbsup:<br/>Prevents confusing recycling of local variables |
+| Parameter                    | Prevents rare reassignment                                                              |
+| `for` enhanced loop variable | Prevents rare reassignment                                                              |
+| `catch` clause variable      | Prevents rare reassignment                                                              |
 
 ---
 

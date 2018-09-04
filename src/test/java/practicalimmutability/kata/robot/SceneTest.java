@@ -1,7 +1,7 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.Tuple;
-import io.vavr.Tuple2;
+import io.vavr.Tuple3;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import org.junit.jupiter.api.Nested;
@@ -219,7 +219,7 @@ class SceneTest {
         }
 
         @Test
-        void reactToBeerInverterAndMove() {
+        void reactToBeerAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
                     // @formatter:off
                   // 012345
@@ -308,20 +308,20 @@ class SceneTest {
             final Scene initialScene = Scene.fromCityMap(initialCityMap);
             final Seq<Scene> scenes = initialScene.run().toList();
 
-            final Seq<Tuple2<Position, Direction>> positionsAndDirections = scenes.map(scene -> {
+            final Seq<Tuple3<Position, Direction, Boolean>> positionsAndDirections = scenes.map(scene -> {
                 final Robot robot = scene.robot();
-                return Tuple.of(robot.position(), robot.direction());
+                return Tuple.of(robot.position(), robot.direction(), robot.dead());
             });
 
             assertThat(positionsAndDirections).isEqualTo(List.of(
-                    Tuple.of(Position.of(1, 1), South),
-                    Tuple.of(Position.of(1, 2), South),
-                    Tuple.of(Position.of(1, 3), South),
-                    Tuple.of(Position.of(1, 4), South),
-                    Tuple.of(Position.of(2, 4), East),
-                    Tuple.of(Position.of(3, 4), East),
-                    Tuple.of(Position.of(4, 4), East),
-                    Tuple.of(Position.of(4, 4), East)
+                    Tuple.of(Position.of(1, 1), South, false),
+                    Tuple.of(Position.of(1, 2), South, false),
+                    Tuple.of(Position.of(1, 3), South, false),
+                    Tuple.of(Position.of(1, 4), South, false),
+                    Tuple.of(Position.of(2, 4), East, false),
+                    Tuple.of(Position.of(3, 4), East, false),
+                    Tuple.of(Position.of(4, 4), East, false),
+                    Tuple.of(Position.of(4, 4), East, true)
             ));
         }
 
@@ -347,48 +347,97 @@ class SceneTest {
             final Scene initialScene = Scene.fromCityMap(initialCityMap);
             final Seq<Scene> scenes = initialScene.run().toList();
 
-            final Seq<Tuple2<Position, Direction>> positionsAndDirections = scenes.map(scene -> {
+            final Seq<Tuple3<Position, Direction, Boolean>> positionsAndDirections = scenes.map(scene -> {
                 final Robot robot = scene.robot();
-                return Tuple.of(robot.position(), robot.direction());
+                return Tuple.of(robot.position(), robot.direction(), robot.dead());
             });
 
             assertThat(positionsAndDirections).isEqualTo(List.of(
-                    Tuple.of(Position.of(1, 1), South),
-                    Tuple.of(Position.of(1, 2), South),
-                    Tuple.of(Position.of(1, 3), South),
-                    Tuple.of(Position.of(1, 4), South),
-                    Tuple.of(Position.of(1, 5), South),
-                    Tuple.of(Position.of(1, 6), South),
-                    Tuple.of(Position.of(1, 7), South),
-                    Tuple.of(Position.of(1, 8), South),
-                    Tuple.of(Position.of(2, 8), East),
-                    Tuple.of(Position.of(3, 8), East),
-                    Tuple.of(Position.of(3, 3), East),
-                    Tuple.of(Position.of(4, 3), East),
-                    Tuple.of(Position.of(4, 2), North),
-                    Tuple.of(Position.of(5, 2), East),
-                    Tuple.of(Position.of(6, 2), East),
-                    Tuple.of(Position.of(6, 3), South),
-                    Tuple.of(Position.of(5, 3), West),
-                    Tuple.of(Position.of(5, 2), North),
-                    Tuple.of(Position.of(5, 1), North),
-                    Tuple.of(Position.of(6, 1), East),
-                    Tuple.of(Position.of(7, 1), East),
-                    Tuple.of(Position.of(8, 1), East),
-                    Tuple.of(Position.of(8, 2), South),
-                    Tuple.of(Position.of(8, 3), South),
-                    Tuple.of(Position.of(8, 4), South),
-                    Tuple.of(Position.of(8, 5), South),
-                    Tuple.of(Position.of(8, 6), South),
-                    Tuple.of(Position.of(7, 6), West),
-                    Tuple.of(Position.of(6, 6), West),
-                    Tuple.of(Position.of(5, 6), West),
-                    Tuple.of(Position.of(5, 7), South),
-                    Tuple.of(Position.of(5, 8), South),
-                    Tuple.of(Position.of(6, 8), East),
-                    Tuple.of(Position.of(7, 8), East),
-                    Tuple.of(Position.of(8, 8), East),
-                    Tuple.of(Position.of(8, 8), East)
+                    Tuple.of(Position.of(1, 1), South, false),
+                    Tuple.of(Position.of(1, 2), South, false),
+                    Tuple.of(Position.of(1, 3), South, false),
+                    Tuple.of(Position.of(1, 4), South, false),
+                    Tuple.of(Position.of(1, 5), South, false),
+                    Tuple.of(Position.of(1, 6), South, false),
+                    Tuple.of(Position.of(1, 7), South, false),
+                    Tuple.of(Position.of(1, 8), South, false),
+                    Tuple.of(Position.of(2, 8), East, false),
+                    Tuple.of(Position.of(3, 8), East, false),
+                    Tuple.of(Position.of(3, 3), East, false),
+                    Tuple.of(Position.of(4, 3), East, false),
+                    Tuple.of(Position.of(4, 2), North, false),
+                    Tuple.of(Position.of(5, 2), East, false),
+                    Tuple.of(Position.of(6, 2), East, false),
+                    Tuple.of(Position.of(6, 3), South, false),
+                    Tuple.of(Position.of(5, 3), West, false),
+                    Tuple.of(Position.of(5, 2), North, false),
+                    Tuple.of(Position.of(5, 1), North, false),
+                    Tuple.of(Position.of(6, 1), East, false),
+                    Tuple.of(Position.of(7, 1), East, false),
+                    Tuple.of(Position.of(8, 1), East, false),
+                    Tuple.of(Position.of(8, 2), South, false),
+                    Tuple.of(Position.of(8, 3), South, false),
+                    Tuple.of(Position.of(8, 4), South, false),
+                    Tuple.of(Position.of(8, 5), South, false),
+                    Tuple.of(Position.of(8, 6), South, false),
+                    Tuple.of(Position.of(7, 6), West, false),
+                    Tuple.of(Position.of(6, 6), West, false),
+                    Tuple.of(Position.of(5, 6), West, false),
+                    Tuple.of(Position.of(5, 7), South, false),
+                    Tuple.of(Position.of(5, 8), South, false),
+                    Tuple.of(Position.of(6, 8), East, false),
+                    Tuple.of(Position.of(7, 8), East, false),
+                    Tuple.of(Position.of(8, 8), East, false),
+                    Tuple.of(Position.of(8, 8), East, true)
+            ));
+        }
+
+        @Test
+        void complexObstaclesRun() {
+            final CityMap initialCityMap = CityMap.fromLines(
+                    // @formatter:off
+                  // 0123456789
+                    "##########", // 0
+                    "#@  T S N#", // 1
+                    "#   # X  #", // 2
+                    "#  #    E#", // 3
+                    "##       #", // 4
+                    "# T    XW#", // 5
+                    "#        #", // 6
+                    "#        #", // 7
+                    "#       $#", // 8
+                    "##########"  // 9
+                  // 0123456789
+                    // @formatter:on
+            );
+
+            final Scene initialScene = Scene.fromCityMap(initialCityMap);
+            final Seq<Scene> scenes = initialScene.run().take(100).toList();
+
+            final Seq<Tuple3<Position, Direction, Boolean>> positionsAndDirections = scenes.map(scene -> {
+                final Robot robot = scene.robot();
+                return Tuple.of(robot.position(), robot.direction(), robot.dead());
+            });
+
+            assertThat(positionsAndDirections).isEqualTo(List.of(
+                    Tuple.of(Position.of(1, 1), South, false),
+                    Tuple.of(Position.of(1, 2), South, false),
+                    Tuple.of(Position.of(1, 3), South, false),
+                    Tuple.of(Position.of(2, 3), East, false),
+                    Tuple.of(Position.of(2, 4), South, false),
+                    Tuple.of(Position.of(2, 5), South, false),
+                    Tuple.of(Position.of(5, 1), East, false),
+                    Tuple.of(Position.of(6, 1), East, false),
+                    Tuple.of(Position.of(7, 1), East, false),
+                    Tuple.of(Position.of(8, 1), East, false),
+                    Tuple.of(Position.of(8, 2), South, false),
+                    Tuple.of(Position.of(8, 3), South, false),
+                    Tuple.of(Position.of(8, 4), South, false),
+                    Tuple.of(Position.of(8, 5), South, false),
+                    Tuple.of(Position.of(8, 6), South, false),
+                    Tuple.of(Position.of(8, 7), South, false),
+                    Tuple.of(Position.of(8, 8), South, false),
+                    Tuple.of(Position.of(8, 8), South, true)
             ));
         }
     }

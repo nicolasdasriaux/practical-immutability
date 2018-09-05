@@ -3,6 +3,10 @@ package practicalimmutability.kata.robot;
 import io.vavr.collection.Iterator;
 
 /**
+ * Use this main class to help you visualize what happens when running a scene
+ * Feel free to modify the code to experiment and improve visualization
+ *
+ * Cheat Sheet
  * @           Start
  * $           Booth
  * #           Obstacle
@@ -11,6 +15,10 @@ import io.vavr.collection.Iterator;
  * I           CircuitInverter
  * B           Beer
  * T           Teleporter
+ *
+ * You can add your own {@link Drawing#trackedSceneDrawing(TrackedScene)} method inspiring from
+ * {@link Drawing#cityMapDrawing(CityMap)} and {@link Drawing#sceneDrawing(Scene)}.
+ *
  */
 public class RobotApp {
     public static void main(final String[] args) {
@@ -54,8 +62,10 @@ public class RobotApp {
                 )
         );
 
-        final Scene initialScene = initialScene3;
+        runScene(initialScene3);
+    }
 
+    private static void runScene(final Scene initialScene) {
         final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
         final Iterator<TrackedScene> trackedScenes = initialTrackedScene.run();
 

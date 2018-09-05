@@ -11,5 +11,3 @@
 * Conclusion
 
 ## Future Presentations
-
-* Move `State` immutable state machine to `presentation` package

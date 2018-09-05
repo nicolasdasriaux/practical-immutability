@@ -10,6 +10,11 @@ public abstract class Position {
     @Value.Parameter
     public abstract int y();
 
+    /**
+     * Get position when moving to a direction
+     *
+     * Difficulty: *
+     */
     public Position move(final Direction direction) {
         switch(direction) {
             case North: return ImmutablePosition.copyOf(this).withY(y() - 1);
@@ -20,6 +25,11 @@ public abstract class Position {
         }
     }
 
+    /**
+     * Create a position
+     *
+     * Difficulty: *
+     */
     public static Position of(final int x, final  int y) {
         return ImmutablePosition.of(x, y);
     }

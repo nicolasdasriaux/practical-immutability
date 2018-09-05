@@ -4,6 +4,9 @@ import io.vavr.Tuple2;
 import io.vavr.collection.Iterator;
 import org.immutables.value.Value;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 @Value.Immutable
 public abstract class TrackedScene {
     @Value.Parameter
@@ -28,6 +31,14 @@ public abstract class TrackedScene {
         return ImmutableTrackedScene.of(updatedScene, updatedTracking);
     }
 
+    /**
+     * Difficulty: ****
+     * Hints
+     * {@link Iterator#iterate(Object, Function)}
+     * {@link Iterator#span(Predicate)}}
+     * {@link Tuple2#_1}
+     * {@link Tuple2#_2}
+     */
     public Iterator<TrackedScene> run() {
         final Tuple2<Iterator<TrackedScene>, Iterator<TrackedScene>> prefixAndReminder =
                 Iterator.iterate(this, TrackedScene::next).span(trackedScene -> !trackedScene.completed());

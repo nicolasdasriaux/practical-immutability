@@ -6,6 +6,11 @@ public enum Direction {
     West,
     East;
 
+    /**
+     * Get the code for this direction
+     *
+     * Difficulty: *
+     */
     public char toCode() {
         switch (this) {
             case North: return 'N';
@@ -16,6 +21,11 @@ public enum Direction {
         }
     }
 
+    /**
+     * Get a direction from a code
+     *
+     * Difficulty: *
+     */
     public static Direction fromCode(final char code) {
         switch (code) {
             case 'N': return North;

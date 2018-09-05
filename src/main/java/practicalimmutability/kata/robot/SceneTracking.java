@@ -13,6 +13,11 @@ public abstract class SceneTracking {
         return  false;
     }
 
+    /**
+     * Difficulty: ***
+     * Hints
+     * {@link Set#contains(Object)}
+     */
     public SceneTracking track(final Scene scene) {
         final CityMap previousCityMap = previousCityMap();
         final CityMap cityMap = scene.cityMap();

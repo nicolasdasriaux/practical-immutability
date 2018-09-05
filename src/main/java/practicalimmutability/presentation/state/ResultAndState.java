@@ -1,4 +1,4 @@
-package practicalimmutability.kata.state;
+package practicalimmutability.presentation.state;
 
 import org.immutables.value.Value;
 

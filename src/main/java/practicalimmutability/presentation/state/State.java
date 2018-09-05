@@ -1,7 +1,7 @@
-package practicalimmutability.kata.state;
+package practicalimmutability.presentation.state;
 
-import practicalimmutability.kata.common.Unit;
 import org.immutables.value.Value;
+import practicalimmutability.presentation.Unit;
 
 import java.util.function.Function;
 

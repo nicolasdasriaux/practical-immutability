@@ -1,11 +1,11 @@
-package practicalimmutability.kata.state;
+package practicalimmutability.presentation.state;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.collection.Vector;
-import practicalimmutability.kata.common.Unit;
+import practicalimmutability.presentation.Unit;
 
 public class StateApp {
     public static void main(String[] args) {

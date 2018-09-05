@@ -40,7 +40,11 @@ slidenumbers: true
 
 # Expressions vs. Instructions
 
-* TODO...
+* An **expression** evaluates to a value
+  * Value can be directly assigned to a `final` variable
+  * Expressions, when _pure_, do not cause any side-effect
+* An **instruction** does something and has no value
+  * Instructions always cause side-effects
 
 ---
 
@@ -49,12 +53,12 @@ slidenumbers: true
 * As many `final` as possible to **reduce moving parts**
 * Somewhat controversial for other than local variables
 
-| Type of variable             | Benefit of `final`                                                                      |
-|------------------------------|-----------------------------------------------------------------------------------------|
-| Local variable               | Emulates **expressions** :thumbsup:<br/>Prevents confusing recycling of local variables |
-| Parameter                    | Prevents rare reassignment                                                              |
-| `for` enhanced loop variable | Prevents rare reassignment                                                              |
-| `catch` clause variable      | Prevents rare reassignment                                                              |
+| Type of variable             | Benefit of `final`                                                      |
+|------------------------------|-------------------------------------------------------------------------|
+| Local variable               | Emulates **expressions** :thumbsup:<br/>Prevents confusing reassignment |
+| Parameter                    | Prevents rare reassignment                                              |
+| `for` enhanced loop variable | Prevents rare reassignment                                              |
+| `catch` clause variable      | Prevents rare reassignment                                              |
 
 ---
 
@@ -287,6 +291,31 @@ public abstract class Player { // ...
 
 ---
 
+# Traditional `ActionVisitor`
+
+```java
+public interface ActionVisitor<R> {
+    R visitSleep(Sleep sleep);
+    R visitWalk(Walk walk);
+    R visitJump(Jump jump);
+}
+```
+---
+
+# Revisited `ActionMatcher`
+
+```java
+@Value.Immutable
+@Value.Style(stagedBuilder = true)
+public abstract class ActionMatcher<R> {
+    public abstract Function<Sleep, R> onSleep();
+    public abstract Function<Walk, R> onWalk();
+    public abstract Function<Jump, R> onJump();
+}
+```
+
+---
+
 # `Action` Made Visitable
 
 ```java
@@ -307,20 +336,6 @@ public interface Action {
             return matcher.onJump().apply(this);
        }
     }
-}
-```
-
----
-
-# Visited by `ActionMatcher`
-
-```java
-@Value.Immutable
-@Value.Style(stagedBuilder = true)
-public abstract class ActionMatcher<R> {
-    public abstract Function<Sleep, R> onSleep();
-    public abstract Function<Walk, R> onWalk();
-    public abstract Function<Jump, R> onJump();
 }
 ```
 
@@ -363,5 +378,4 @@ final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
 ```
 
 * `finalPlayer` prints as: `Player{position=Position{x=6, y=7}}`
-* `players` prints as: `List(Player{position=Position{x=1, y=1}}, Player{position=Position{x=5, y=8}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=6, y=7}})
-`
+* `players` prints as: `List(Player{position=Position{x=1, y=1}}, Player{position=Position{x=5, y=8}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=6, y=7}})`

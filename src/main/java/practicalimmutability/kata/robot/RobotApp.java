@@ -22,31 +22,26 @@ import io.vavr.collection.Iterator;
  */
 public class RobotApp {
     public static void main(final String[] args) {
-        final Scene initialScene1 = Scene.fromCityMap(
-                CityMap.fromLines(
-                        "##########",
-                        "#@      B#",
-                        "#   XX T #",
-                        "#   N   X#",
-                        "# T   I $#",
-                        "##########"
-                )
+        final CityMap cityMap1 = CityMap.fromLines(
+                "##########",
+                "#@      B#",
+                "#   XX T #",
+                "#   N   X#",
+                "# T   I $#",
+                "##########"
         );
 
-        final Scene initialScene2 = Scene.fromCityMap(
-                CityMap.fromLines(
-                        "##########",
-                        "#@       #",
-                        "#     ####",
-                        "#     #  #",
-                        "#     # $#",
-                        "##########"
-                )
+        final CityMap cityMap2 = CityMap.fromLines(
+                "##########",
+                "#@       #",
+                "#     ####",
+                "#     #  #",
+                "#     # $#",
+                "##########"
         );
 
-        final Scene initialScene3 = Scene.fromCityMap(
-                CityMap.fromLines(
-                        // @formatter:off
+        final CityMap cityMap3 = CityMap.fromLines(
+                // @formatter:off
                       // 0123456789
                         "##########", // 0
                         "#@   E   #", // 1
@@ -59,13 +54,28 @@ public class RobotApp {
                         "#  T B X$#", // 8
                         "##########"  // 9
                         // @formatter:on
-                )
         );
 
-        runScene(initialScene3);
+        runScene(cityMap1);
+        runTrackedScene(cityMap3);
     }
 
-    private static void runScene(final Scene initialScene) {
+    private static void runScene(final CityMap cityMap) {
+        final Scene initialScene = Scene.fromCityMap(cityMap);
+        final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
+        final Iterator<Scene> scenes = initialScene.run();
+
+        System.out.println(Drawing.cityMapDrawing(initialScene.cityMap()));
+        System.out.println();
+
+        scenes.forEach(scene ->  {
+            System.out.println(Drawing.sceneDrawing(scene));
+            System.out.println();
+        });
+    }
+
+    private static void runTrackedScene(final CityMap cityMap) {
+        final Scene initialScene = Scene.fromCityMap(cityMap);
         final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
         final Iterator<TrackedScene> trackedScenes = initialTrackedScene.run();
 

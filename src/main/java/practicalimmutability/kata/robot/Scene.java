@@ -3,6 +3,7 @@ package practicalimmutability.kata.robot;
 import io.vavr.Tuple2;
 import io.vavr.collection.Iterator;
 import org.immutables.value.Value;
+import practicalimmutability.kata.common.TODO;
 import practicalimmutability.kata.robot.Tile.*;
 
 import java.util.function.Function;
@@ -17,7 +18,7 @@ public abstract class Scene {
      * Determine whether or not this scene is completed
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link Robot#dead()}
      */
     public boolean completed() {
@@ -29,8 +30,9 @@ public abstract class Scene {
      * Robot reacts to tile at current position and then moves.
      *
      * Difficulty: ***
-     * Hints
+     * Hints:
      * Implement tiles one by one and fail with an exception when not implemented yet
+     * For this use {@link TODO#IMPLEMENT()}
      * Be sure to handle the case for breakable obstacle and impact city map.
      * Current tile cannot be an obstacle.
      * Current tile can be a breakable obstacle when robot is in breaker mode.
@@ -93,7 +95,7 @@ public abstract class Scene {
      * Get an iterator over the successive scenes including the completed scene
      *
      * Difficulty: ****
-     * Hints
+     * Hints:
      * {@link Iterator#iterate(Object, Function)}
      * {@link Iterator#span(Predicate)}}
      * {@link Tuple2#_1}

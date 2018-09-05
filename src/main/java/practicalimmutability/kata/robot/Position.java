@@ -4,9 +4,15 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 public abstract class Position {
+    /**
+     * Column coordinate
+     */
     @Value.Parameter
     public abstract int x();
 
+    /**
+     * Row coordinate
+     */
     @Value.Parameter
     public abstract int y();
 

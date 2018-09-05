@@ -3,12 +3,18 @@ package practicalimmutability.kata.robot;
 import io.vavr.collection.Iterator;
 
 public class Drawing {
+    /**
+     * Get city map drawing as ASCII-Art
+     */
     public static String cityMapDrawing(final CityMap cityMap) {
         return cityMap.rows().map(row ->
                 row.map(Tile::toCode).mkString()
         ).mkString("\n");
     }
 
+    /**
+     * Get scene drawing as ASCII-Art
+     */
     public static String sceneDrawing(final Scene scene) {
         final String robotStatus = robotStatusDrawing(scene.robot());
         final String sceneGrid = sceneGridDrawing(scene);

@@ -69,6 +69,11 @@ public interface Tile {
         }
     }
 
+    /**
+     * Get the code for this tile
+     *
+     * Difficulty: *
+     */
     default char toCode() {
         if (this instanceof Empty) {
             return ' ';
@@ -94,6 +99,11 @@ public interface Tile {
         }
     }
 
+    /**
+     * Get tile from a code
+     *
+     * Difficulty: *
+     */
     static Tile fromCode(final char code) {
         switch (code) {
             case ' ': return Empty.of();

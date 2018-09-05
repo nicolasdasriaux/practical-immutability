@@ -14,9 +14,15 @@ public abstract class SceneTracking {
     }
 
     /**
+     * Track scene to detect infinite loop
+     *
      * Difficulty: ***
-     * Hints
+     * Hints:
      * {@link Set#contains(Object)}
+     * Use equals methods as provided by Immutables
+     * Be sure to look at unit tests for more details
+     * Occurrence of previously observed robot state is not enough to detect loop, city map should also be the same.
+     * Somehow, you should reset robot tracking when city map changes.
      */
     public SceneTracking track(final Scene scene) {
         final CityMap previousCityMap = previousCityMap();
@@ -43,6 +49,13 @@ public abstract class SceneTracking {
         }
     }
 
+    /**
+     * Create initial scene tracking
+     *
+     * Difficulty: *
+     * Hints:
+     * Be sure to look at unit tests
+     */
     public static SceneTracking fromInitialScene(final Scene scene) {
         return ImmutableSceneTracking.builder()
                 .previousCityMap(scene.cityMap())

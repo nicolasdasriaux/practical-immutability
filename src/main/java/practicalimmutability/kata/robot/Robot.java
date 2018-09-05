@@ -2,16 +2,27 @@ package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import io.vavr.control.Option;
 import org.immutables.value.Value;
 import practicalimmutability.kata.robot.Tile.BreakableObstacle;
 import practicalimmutability.kata.robot.Tile.Obstacle;
+
+import java.util.function.Predicate;
 
 import static practicalimmutability.kata.robot.Direction.*;
 
 @Value.Immutable
 public abstract class Robot {
+    /**
+     * Current position of robot
+     */
     public abstract Position position();
+
+    /**
+     * Current direction of robot
+     */
     public abstract Direction direction();
+
     public abstract boolean breaker();
     public abstract boolean inverted();
     public abstract boolean dead();
@@ -54,10 +65,14 @@ public abstract class Robot {
 
     /**
      * Move robot on a city map
-     * Robot keeps the same direction and move if no obstacle in that direction.
+     * Robot keeps the same direction and move if no obstacle in this direction.
      * Otherwise robot changes direction (following its current priorities) and move to where first there is no obstacle.
      *
      * Difficulty: **
+     * Hints:
+     * Use {@link Seq#find(Predicate)}
+     * Use {@link Option#get()}
+     * Use {@link #obstacleInDirection(Direction, CityMap)}
      */
     public Robot move(final CityMap cityMap) {
         final Direction currentDirection = direction();
@@ -80,7 +95,7 @@ public abstract class Robot {
      * Determine whether there is an obstacle or not for the robot in a direction on a city map
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link #obstacle(Tile)}
      */
     private boolean obstacleInDirection(final Direction direction, final CityMap cityMap) {
@@ -92,7 +107,7 @@ public abstract class Robot {
      * A breakable obstacle ceases to be an obstacle when robot is in breaker mode.
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link #breaker()}
      */
     private boolean obstacle(final Tile tile) {
@@ -109,7 +124,7 @@ public abstract class Robot {
      * Get current robot priorities
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link #PRIORITIES}
      * Use {@link #INVERTED_PRIORITIES}
      */
@@ -129,7 +144,7 @@ public abstract class Robot {
      * Non-inverted priorities
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link List#of(Object[])}
      */
     public static final Seq<Direction> PRIORITIES = List.of(South, East, North, West);
@@ -138,7 +153,7 @@ public abstract class Robot {
      * Inverted priorities
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link #PRIORITIES}
      * Use {@link Seq#reverse()}
      */

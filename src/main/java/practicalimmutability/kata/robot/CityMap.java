@@ -12,15 +12,28 @@ import java.util.function.Predicate;
 
 @Value.Immutable(prehash = true)
 public abstract class CityMap {
+    /**
+     * Seq of rows, each row is a seq of tiles
+     * Coordinate y is the row index.
+     * Coordinate x is the column index.
+     */
     public abstract IndexedSeq<IndexedSeq<Tile>> rows();
+
+    /**
+     * Start position of robot
+     */
     public abstract Position start();
+
+    /**
+     * Teleporter positions (exactly 2)
+     */
     public abstract Seq<Position> teleporters();
 
     /**
      * Get tile at position
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link IndexedSeq#get(int)}
      */
     public Tile tile(final Position position) {
@@ -31,7 +44,7 @@ public abstract class CityMap {
      * Get out-teleporter position from in-teleporter position
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link Seq#find(Predicate)}
      * Use {@link Option#get()}
      */
@@ -43,7 +56,7 @@ public abstract class CityMap {
      * Break obstacle at position
      *
      * Difficulty: **
-     * Hints
+     * Hints:
      * Use {@link IndexedSeq#update(int, Function)}
      */
     public CityMap breakObstacle(final Position position) {
@@ -59,7 +72,7 @@ public abstract class CityMap {
      * Create a city map from a seq of lines
      *
      * Difficulty: **
-     * Hints
+     * Hints:
      * Use {@link CharSeq#of(CharSequence)}
      * Use {@link CharSeq#map(Function)}
      * Use {@link IndexedSeq#map(Function)}
@@ -75,8 +88,9 @@ public abstract class CityMap {
      * Create a city map from lines
      *
      * Difficulty: *
-     * Hints
+     * Hints:
      * Use {@link Array#of(Object[])}
+     * Use {@link #fromLines(IndexedSeq)}
      */
     public static CityMap fromLines(final String... lines) {
         return CityMap.fromLines(Array.of(lines));
@@ -86,7 +100,7 @@ public abstract class CityMap {
      * Get all positions of a tile
      *
      * Difficulty: ****
-     * Hints
+     * Hints:
      * Use {@link Iterator#range(int, int)}
      * Use {@link Iterator#filter(Predicate)}
      * Use {@link Iterator#map(Function)}

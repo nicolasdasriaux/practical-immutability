@@ -16,6 +16,10 @@ public abstract class TrackedScene {
         return scene().completed() || tracking().loop();
     }
 
+    public boolean loop() {
+        return tracking().loop();
+    }
+
     public TrackedScene next() {
         final Scene currentScene = scene();
         final SceneTracking currentTracking = tracking();

@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
 class TileTest {
-    private static Stream<Arguments> tileCodeExamples() {
+    static Stream<Arguments> tileCodeExamples() {
         return Stream.of(
                 Arguments.of(Empty.of(), ' '),
                 Arguments.of(Start.of(), '@'),

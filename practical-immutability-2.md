@@ -114,9 +114,10 @@ switch (color) {
 # Another `Try` with _Vavr_
 
 ```java
-final int triedNumber = Try.of(() -> Integer.parseInt(input))
-        .filter(i -> i >= 0)
-        .map(i -> i * 10)
+final Try<Integer> triedNumber = Try.of(() -> Integer.parseInt(input))
+        .filter(i -> i > 0)
+        .map(i -> i * 10);
+
 ```
 
 | `input`   | `triedNumber` prints as                                                      |
@@ -278,10 +279,10 @@ public abstract class Player { // ...
             return this;
         } else if (action instanceof Walk) {
             final Walk walk = (Walk) action;
-            return ImmutablePlayer.of(position().move(walk.direction()));
+            return Player.of(position().move(walk.direction()));
         } else if (action instanceof Jump) {
             final Jump jump = (Jump) action;
-            return ImmutablePlayer.of(jump.position());
+            return Player.of(jump.position());
         } else {
             throw new IllegalArgumentException(String.format("Unknown Action (%s)", action));
         }
@@ -294,23 +295,10 @@ public abstract class Player { // ...
 # Traditional `ActionVisitor`
 
 ```java
-public interface ActionVisitor<R> {
-    R visitSleep(Sleep sleep);
-    R visitWalk(Walk walk);
-    R visitJump(Jump jump);
-}
-```
----
-
-# Revisited `ActionMatcher`
-
-```java
-@Value.Immutable
-@Value.Style(stagedBuilder = true)
-public abstract class ActionMatcher<R> {
-    public abstract Function<Sleep, R> onSleep();
-    public abstract Function<Walk, R> onWalk();
-    public abstract Function<Jump, R> onJump();
+public interface ActionVisitor<T, R> {
+    R visitSleep(Sleep sleep, T t);
+    R visitWalk(Walk walk, T t);
+    R visitJump(Jump jump, T t);
 }
 ```
 
@@ -320,21 +308,84 @@ public abstract class ActionMatcher<R> {
 
 ```java
 public interface Action {
-    <R> R match(ActionMatcher<R> matcher); // ...
+    <R, T> R accept(ActionVisitor<T, R> visitor, T t); // ...
     abstract class Sleep implements Action { // ...
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onSleep().apply(this);
-        }
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitSleep(this, t);
+        } // ...
     } // ...
     abstract class Walk implements Action { // ...
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onWalk().apply(this);
-        }
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitWalk(this, t);
+        } // ...
     } // ...
     abstract class Jump implements Action { // ...
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitJump(this, t);
+        } // ...
+    }
+}
+```
+
+---
+
+# Updating `Player` with `Action`... Visited
+
+```java
+@Value.Immutable
+public abstract class Player { // ...
+    private static final ActionVisitor<Player, Player> ACT_VISITOR = new ActionVisitor<Player, Player>() { // ...
+        public Player visitSleep(final Sleep sleep, final Player player) {
+            return player;
+        } // ...
+        public Player visitWalk(final Walk walk, final Player player) {
+            return Player.of(player.position().move(walk.direction()));
+        } // ...
+        public Player visitJump(final Jump jump, final Player player) {
+            return Player.of(jump.position());
+        }
+    };
+    public Player act(final Action action) {
+        return action.accept(ACT_VISITOR, this);
+    } // ...
+}
+```
+
+---
+
+# Revisited `ActionMatcher`
+
+```java
+@Value.Immutable
+@Value.Style(stagedBuilder = true)
+public interface ActionMatcher<R> {
+    Function<Sleep, R> onSleep();
+    Function<Walk, R> onWalk();
+    Function<Jump, R> onJump();
+}
+```
+
+---
+
+# `Action` Made Revisitable
+
+```java
+public interface Action {
+    <R> R match(ActionMatcher<R> matcher); // ...
+    abstract class Sleep implements Action {
+        public <R> R match(final ActionMatcher<R> matcher) {
+            return matcher.onSleep().apply(this);
+        } // ...
+    } // ...
+    abstract class Walk implements Action {
+        public <R> R match(final ActionMatcher<R> matcher) {
+            return matcher.onWalk().apply(this);
+        } // ...
+    } // ...
+    abstract class Jump implements Action {
        public <R> R match(final ActionMatcher<R> matcher) {
             return matcher.onJump().apply(this);
-       }
+       } // ...
     }
 }
 ```
@@ -350,10 +401,10 @@ public abstract class Player { // ...
             ImmutableActionMatcher.<Function<Player, Player>>builder()
                     .onSleep(sleep -> player -> player)
                     .onWalk(walk -> player ->
-                            ImmutablePlayer.of(player.position().move(walk.direction()))
+                            Player.of(player.position().move(walk.direction()))
                     )
                     .onJump(jump -> player ->
-                            ImmutablePlayer.of(jump.position())
+                            Player.of(jump.position())
                     )
                     .build();
 

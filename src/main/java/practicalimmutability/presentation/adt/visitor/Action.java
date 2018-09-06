@@ -1,17 +1,17 @@
-package practicalimmutability.presentation.adt.matcher;
+package practicalimmutability.presentation.adt.visitor;
 
 import org.immutables.value.Value;
 import practicalimmutability.presentation.adt.Direction;
 import practicalimmutability.presentation.adt.Position;
 
 public interface Action {
-    <R> R match(ActionMatcher<R> matcher);
+    <R, T> R accept(ActionVisitor<T, R> visitor, T t);
 
     @Value.Immutable(singleton = true)
     abstract class Sleep implements Action {
         @Override
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onSleep().apply(this);
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitSleep(this, t);
         }
 
         public static Sleep of() { return ImmutableSleep.of(); }
@@ -20,8 +20,8 @@ public interface Action {
     @Value.Immutable
     abstract class Walk implements Action {
         @Override
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onWalk().apply(this);
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitWalk(this, t);
         }
 
         @Value.Parameter public abstract Direction direction();
@@ -31,8 +31,8 @@ public interface Action {
     @Value.Immutable
     abstract class Jump implements Action {
         @Override
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onJump().apply(this);
+        public <R, T> R accept(final ActionVisitor<T, R> visitor, final T t) {
+            return visitor.visitJump(this, t);
         }
 
         @Value.Parameter public abstract Position position();

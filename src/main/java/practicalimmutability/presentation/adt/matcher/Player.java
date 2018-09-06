@@ -14,10 +14,10 @@ public abstract class Player {
             ImmutableActionMatcher.<Function<Player, Player>>builder()
                     .onSleep(sleep -> player -> player)
                     .onWalk(walk -> player ->
-                            ImmutablePlayer.of(player.position().move(walk.direction()))
+                            Player.of(player.position().move(walk.direction()))
                     )
                     .onJump(jump -> player ->
-                            ImmutablePlayer.of(jump.position())
+                            Player.of(jump.position())
                     )
                     .build();
 

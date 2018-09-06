@@ -1,11 +1,11 @@
 package practicalimmutability.presentation.adt.visitor;
 
-import practicalimmutability.presentation.adt.matcher.Action.Jump;
-import practicalimmutability.presentation.adt.matcher.Action.Sleep;
-import practicalimmutability.presentation.adt.matcher.Action.Walk;
+import practicalimmutability.presentation.adt.visitor.Action.Jump;
+import practicalimmutability.presentation.adt.visitor.Action.Sleep;
+import practicalimmutability.presentation.adt.visitor.Action.Walk;
 
-public interface ActionVisitor<R> {
-    R visitSleep(Sleep sleep);
-    R visitWalk(Walk walk);
-    R visitJump(Jump jump);
+public interface ActionVisitor<T, R> {
+    R visitSleep(Sleep sleep, T t);
+    R visitWalk(Walk walk, T t);
+    R visitJump(Jump jump, T t);
 }

@@ -292,6 +292,23 @@ public abstract class Player { // ...
 
 ---
 
+# Applying Successive `Action`s
+
+```java
+final Player initialPlayer = Player.of(Position.of(1, 1));
+
+final Seq<Action> actions = List.of(
+        Jump.of(Position.of(5, 8)), Walk.of(Up), Sleep.of(), Walk.of(Right));
+
+final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
+final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
+```
+
+* `finalPlayer` prints as: `Player{position=Position{x=6, y=7}}`
+* `players` prints as: `List(Player{position=Position{x=1, y=1}}, Player{position=Position{x=5, y=8}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=6, y=7}})`
+
+---
+
 # Traditional `ActionVisitor`
 
 ```java
@@ -353,7 +370,7 @@ public abstract class Player { // ...
 
 ---
 
-# Revisited `ActionMatcher`
+# Revisited :wink: `ActionMatcher`
 
 ```java
 @Value.Immutable
@@ -413,20 +430,3 @@ public abstract class Player { // ...
     } // ...
 }
 ```
-
----
-
-# Applying Successive `Action`s
-
-```java
-final Player initialPlayer = Player.of(Position.of(1, 1));
-
-final Seq<Action> actions = List.of(
-        Jump.of(Position.of(5, 8)), Walk.of(Up), Sleep.of(), Walk.of(Right));
-
-final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
-final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
-```
-
-* `finalPlayer` prints as: `Player{position=Position{x=6, y=7}}`
-* `players` prints as: `List(Player{position=Position{x=1, y=1}}, Player{position=Position{x=5, y=8}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=5, y=7}}, Player{position=Position{x=6, y=7}})`

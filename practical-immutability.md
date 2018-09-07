@@ -11,23 +11,23 @@ slidenumbers: true
 # What Object Oriented Programming is
 
 * **Object Identity**
-  * Uniquely identify an instance (pointer, reference, address ...)
+  - Uniquely identify an instance (pointer, reference, address ...)
 * **Inheritance** and **polymorphism**
-  * Classify and specialize behavior in classifications
+  - Classify and specialize behavior in classifications
 * **Encapsulation**
-  * Ensure integrity of object :thumbsup:
-  * Essence of OOP
+  - Ensure integrity of object :thumbsup:
+  - Essence of OOP
 
 ---
 
 # What Encapsulation is
 
 * A **constructor** should either
-  * :thumbsup: construct a **consistent** instance from its parameters
-  * :bomb: or just fail if it cannot
+  - :thumbsup: construct a **consistent** instance from its parameters
+  - :bomb: or just fail if it cannot
 * Applied on a consistent instance, a **method** should  either
-  * :thumbsup: modify the object to another **consistent** state
-  * :bomb: or just fail if it cannot
+  - :thumbsup: modify the object to another **consistent** state
+  - :bomb: or just fail if it cannot
 * Protection of consistency by constructors and methods ensures integrity of object
 * Consistency can be described by a set of integrity rules called **class invariant**
 
@@ -60,9 +60,9 @@ public class Customer {
 * **Encapsulation is not optional in OOP**
 * If you cannot describe (and protect) class invariant, there is no class encapsulation
 * Sure, there exists **classes with very weak invariant**:
-  * _Forms_ which are never guaranteed to be consistent except after validation
-  * JPA entity annotated with `@Entity` :broken_heart:
-  * Or anything similar coming from an external system
+  - _Forms_ which are never guaranteed to be consistent except after validation
+  - JPA entity annotated with `@Entity` :broken_heart:
+  - Or anything similar coming from an external system
 * OOP does not require mutability and it works very well with immutability
 
 ---
@@ -104,8 +104,8 @@ public class Customer {
 * **Constructor** returns a new object
 * **Methods** do not modify the object but return a **new object** with the modifications applied instead
 * For an immutable class, _Immutables_ generates
-  * a `Builder` to create and modify instances :thumbsup:
-  * a set of `.withXXX(xxx)` methods to modify instances :thumbsup:
+  - a `Builder` to create and modify instances :thumbsup:
+  - a set of `.withXXX(xxx)` methods to modify instances :thumbsup:
 
 ---
 
@@ -191,8 +191,8 @@ public abstract class Customer {
 
 * Immutable class implies **comparison by value**
 * _Immutables_ generates consistent
-  * `.equals(other)` :thumbsup:
-  * `.hashCode()` :thumbsup:
+  - `.equals(other)` :thumbsup:
+  - `.hashCode()` :thumbsup:
 * Can ultimately be customized by code
 * Greatly simplifies unit test assertions :thumbsup:
 
@@ -225,7 +225,7 @@ assert customer1.hashCode() != customer3.hashCode(); // Not a general property!
 * Can ultimately be overridden by code
 * Simplifies logging :thumbsup:
 * Simplifies unit test debugging :thumbsup:
-  * Compare with clipboard trick
+  - Compare with clipboard trick
 
 ---
 
@@ -246,11 +246,11 @@ Customer{id=1, firstName=John, lastName=Doe}
 # Preventing `null` attributes
 
 * Attributes should never be `null`
-  * `null` is evil! :smiling_imp:
+  - `null` is evil! :smiling_imp:
 * _Immutables_ will reject `null` by default :thumbsup:
 * Optional attribute should be explicit using an **option type**
-  * _Vavr_ `Option` is a good ... option :wink:
-  * More later
+  - _Vavr_ `Option` is a good ... option :wink:
+  - More later
 
 ---
 
@@ -293,8 +293,8 @@ Will all fail with an exception
 # Ensuring Consistency
 
 * Proper encapsulation requires explicit **class invariant**
-  * A set of rules that applies to attributes of class
-  * and with which all instances must comply
+  - A set of rules that applies to attributes of class
+  - and with which all instances must comply
 * _Immutables_ allows to write a class invariant and will enforce it automatically :thumbsup:
 * _Guava_ also provides `Preconditions` to help
 
@@ -379,12 +379,12 @@ Will fail with an exception
 # Immutable Collections
 
 * A method that transforms an immutable collection
-  * always return a **new collection** with the transformation applied
-  * and keep the **original collection unchanged**
+  - always return a **new collection** with the transformation applied
+  - and keep the **original collection unchanged**
 * Immutable collections **compare by value**
-  * _Vavr_ implements `.equals(other)` and `.hashCode()` consistently :thumbsup:
+  - _Vavr_ implements `.equals(other)` and `.hashCode()` consistently :thumbsup:
 * In principle, they **should not accept `null`** as element
-  * but _Vavr_ does :imp:
+  - but _Vavr_ does :imp:
 * Immutable collections are special efficient data structures called **persistent data structures**
 
 ---
@@ -399,8 +399,8 @@ Will fail with an exception
 | `Map`          | `Map`              |
 
 * Collections can be wrapped
-  * from Java to _Vavr_ using `.ofAll(...)` methods
-  * and from _Vavr_ to Java using `.toJavaXXX()` methods
+  - from Java to _Vavr_ using `.ofAll(...)` methods
+  - and from _Vavr_ to Java using `.toJavaXXX()` methods
 
 ---
 
@@ -493,7 +493,7 @@ HashMap((2, JOHN), (3, MARY), (4, KATE), (5, BART))
 * An option type is a generic type such as _Vavr_ `Option<T>` that models the **presence** or the **absence** of a value of type `T`.
 * Options **compare by value** :thumbsup:
 * In principle, options **should not accept `null`** as present value
-  * but _Vavr_ does :imp:
+  - but _Vavr_ does :imp:
 
 ___
 
@@ -838,7 +838,7 @@ final TodoList modifiedTodoList = todoList
 # [fit] Hibernate, or not Hibernate, that is the question
 
 * **Hibernate** requires absence of encapsulation :imp:
-  * Mutable classes
-  * Mutable collections
+  - Mutable classes
+  - Mutable collections
 * Facade Hibernate!
 * Or use **jOOQ**

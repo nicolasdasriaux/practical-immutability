@@ -8,7 +8,20 @@ slidenumbers: true
 
 ---
 
-# There is more to immutability than objects, collections and options
+# Previously on Practical Immutability...
+
+* **Immutable Classes** with _Immutables_
+  - Creating and modifying create a new instance
+  - Comparing by value
+  - Preventing `null` attributes
+  - Ensuring consistency with class invariant
+* **Immutable Collections and Options** with _Vavr_
+  - `Seq`, `IndexedSeq`, `Set`, `Map`, `Option`
+  - `map`, `filter`, `forAll`, `removeFirst`, `indexWhere`, `update`, `count`...
+
+---
+
+# But there is more to immutability than objects, collections and options
 
 ---
 
@@ -16,11 +29,11 @@ slidenumbers: true
 
 * Mutability of **variables** `!=` Mutability of **objects**
 * Immutability of **objects**
-  * Cannot mutate the object or collection
-  * As seen so far
+  - Cannot mutate the object or collection
+  - As seen so far
 * Immutability of **variables** (local variable, parameter)
-  * Cannot change the value (or reference) contained in the variable
-  * `final` vs. ~~`final`~~
+  - Cannot change the value (or reference) contained in the variable
+  - `final` vs. ~~`final`~~
 
 ---
 
@@ -41,10 +54,10 @@ slidenumbers: true
 # Expressions vs. Instructions
 
 * An **expression** evaluates to a value
-  * Value can be directly assigned to a `final` variable
-  * Expressions, when _pure_, do not cause any side-effect
+  - Value can be directly assigned to a `final` variable
+  - Expressions, when _pure_, do not cause any side-effect
 * An **instruction** does something and has no value
-  * Instructions always cause side-effects
+  - Instructions always cause side-effects
 
 ---
 
@@ -161,8 +174,8 @@ final Option<Integer> maybeNumber = triedNumber.toOption();
 * **ADT** in short
 * Also called **discriminated union** in some other world
 * **`enum` on steroids**
-  * Some alternatives might hold one or more **attributes**
-  * Attributes may vary in number and in type from one alternative to another
+  - Some alternatives might hold one or more **attributes**
+  - Attributes may vary in number and in type from one alternative to another
 
 ---
 
@@ -409,7 +422,7 @@ public interface Action {
 
 ---
 
-# Updating `Player` with `Action`... Revisited :wink:
+# Updating `Player` with `Action`... Revisited
 
 ```java
 @Value.Immutable

@@ -8,5 +8,6 @@
 
 * Add details on exhaustivity
 * Conclusion
+  - Precautions about premature adoption of immutability
 
 ## Future Presentations

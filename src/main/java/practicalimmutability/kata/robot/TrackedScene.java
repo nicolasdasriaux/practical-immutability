@@ -9,9 +9,15 @@ import java.util.function.Predicate;
 
 @Value.Immutable
 public abstract class TrackedScene {
+    /**
+     * Current scene
+     */
     @Value.Parameter
     public abstract Scene scene();
 
+    /**
+     * Current tracking of the scene
+     */
     @Value.Parameter
     public abstract SceneTracking tracking();
 
@@ -50,14 +56,11 @@ public abstract class TrackedScene {
     }
 
     /**
-     * Get an iterator over the successive scenes including the completed scene
+     * Get an iterator over the successive tracked scenes including the completed scene
      *
-     * Difficulty: ****
+     * Difficulty: *
      * Hints:
-     * {@link Iterator#iterate(Object, Function)}
-     * {@link Iterator#span(Predicate)}}
-     * {@link Tuple2#_1}
-     * {@link Tuple2#_2}
+     * Totally similar to {@link Scene#run()}
      */
     public Iterator<TrackedScene> run() {
         final Tuple2<Iterator<TrackedScene>, Iterator<TrackedScene>> prefixAndReminder =

@@ -1,13 +1,19 @@
 # Todo
 
-## Kata
+## Presentations
 
-* Improve unit tests with `@DisplayNames` annotations
-
-## More... Practical Immutability
+### More... Practical Immutability
 
 * Add details on exhaustivity
+* Remove revisited visitor slides
 * Conclusion
   - Precautions about premature adoption of immutability
 
-## Future Presentations
+## Kata
+
+* Improve unit tests with `@DisplayName` annotations
+* Improve hints formatting
+ 
+## Possible Future Presentations
+
+* ...

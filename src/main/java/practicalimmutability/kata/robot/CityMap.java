@@ -73,9 +73,11 @@ public abstract class CityMap {
      *
      * Difficulty: **
      * Hints:
-     * Use {@link CharSeq#of(CharSequence)}
+     * Use {@link CharSeq#of(CharSequence)} to wrap a <code>String</code> into a <code>CharSeq</code>
      * Use {@link CharSeq#map(Function)}
      * Use {@link IndexedSeq#map(Function)}
+     * Use {@link #findPosition(IndexedSeq, Tile)} and {@link IndexedSeq#head()} to find start position
+     * Use {@link #findPosition(IndexedSeq, Tile)} to find teleporter positions
      */
     public static CityMap fromLines(final IndexedSeq<String> lines) {
         final IndexedSeq<IndexedSeq<Tile>> rows = lines.map(line -> CharSeq.of(line).map(Tile::fromCode));
@@ -101,11 +103,12 @@ public abstract class CityMap {
      *
      * Difficulty: ****
      * Hints:
-     * Use {@link Iterator#range(int, int)}
-     * Use {@link Iterator#filter(Predicate)}
-     * Use {@link Iterator#map(Function)}
-     * Use {@link Iterator#flatMap(Function)}
-     * Use {@link IndexedSeq#get(int)}
+     * Use {@link Iterator#range(int, int)} to get an iterator over y coordinate (rows) and an iterator over x coordinate (columns)
+     * Use {@link Iterator#flatMap(Function)} to combine both iterators over y and x coordinates into a single iterator
+     * Use {@link Iterator#filter(Predicate)} to identify matching tiles
+     * Use {@link Iterator#map(Function)} to transform x an y coordinates to positions
+     * Use {@link IndexedSeq#get(int)} to access rows and tiles
+     * Use {@link Iterator#toList()} to run iterator and get a list of positions
      */
     private static Seq<Position> findPosition(final IndexedSeq<IndexedSeq<Tile>> rows, final Tile tile) {
         return Iterator.range(0, rows.size()).flatMap(y ->

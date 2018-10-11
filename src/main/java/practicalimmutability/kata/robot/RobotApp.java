@@ -16,7 +16,7 @@ import io.vavr.collection.Iterator;
  * B           Beer
  * T           Teleporter
  *
- * You can add your own {@link Drawing#trackedSceneDrawing(TrackedScene)} method inspiring from
+ * You may add your own {@link Drawing#trackedSceneDrawing(TrackedScene)} method inspiring from
  * {@link Drawing#cityMapDrawing(CityMap)} and {@link Drawing#sceneDrawing(Scene)}.
  *
  */
@@ -62,7 +62,6 @@ public class RobotApp {
 
     private static void runScene(final CityMap cityMap) {
         final Scene initialScene = Scene.fromCityMap(cityMap);
-        final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
         final Iterator<Scene> scenes = initialScene.run();
 
         System.out.println(Drawing.cityMapDrawing(initialScene.cityMap()));

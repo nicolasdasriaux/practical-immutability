@@ -23,8 +23,20 @@ public abstract class Robot {
      */
     public abstract Direction direction();
 
+    /**
+     * Breaker mode
+     */
     public abstract boolean breaker();
+
+    /**
+     * Priority inversion mode
+     */
     public abstract boolean inverted();
+
+    /**
+     * Dead (or alive)
+     * https://www.youtube.com/watch?v=PGNiXGX2nLU&feature=youtu.be&t=12
+     */
     public abstract boolean dead();
 
     /**
@@ -71,8 +83,8 @@ public abstract class Robot {
      * Difficulty: **
      * Hints:
      * Use {@link Seq#find(Predicate)}
-     * Use {@link Option#get()}
      * Use {@link #obstacleInDirection(Direction, CityMap)}
+     * Use {@link Option#get()}
      */
     public Robot move(final CityMap cityMap) {
         final Direction currentDirection = direction();
@@ -104,7 +116,7 @@ public abstract class Robot {
 
     /**
      * Determine whether or not a tile is currently an obstacle for the robot
-     * A breakable obstacle ceases to be an obstacle when robot is in breaker mode.
+     * Remind that a breakable obstacle ceases to be an obstacle when robot is in breaker mode.
      *
      * Difficulty: *
      * Hints:

@@ -5,13 +5,13 @@ import org.immutables.value.Value;
 @Value.Immutable
 public abstract class Position {
     /**
-     * Column coordinate
+     * Column coordinate (x)
      */
     @Value.Parameter
     public abstract int x();
 
     /**
-     * Row coordinate
+     * Row coordinate (y)
      */
     @Value.Parameter
     public abstract int y();

@@ -7,7 +7,15 @@ This kata is about implementing a CodinGame exercise called **Bender, Episode 1*
 The instructions can be found at the following location and are the sole property of CodinGame:
 https://www.codingame.com/ide/puzzle/bender-episode-1
 
-## Recommended Steps
+## Setup
+
+* **IntelliJ** (Community edition is enough) is recommended as it features much more reliable **Annotation Processor** support compared to **Eclipse**.
+* **JDK** should be at least JDK 8.
+
+Once project opened, you will have to enable annotation processor support: 
+https://immutables.github.io/apt.html#intellij-idea
+
+## Recommended Implementation Steps
 
 1) Complete `Direction` implementation
 2) Complete `Position` implementation

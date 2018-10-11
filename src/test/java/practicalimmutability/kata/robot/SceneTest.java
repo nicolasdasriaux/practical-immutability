@@ -4,13 +4,16 @@ import io.vavr.Tuple;
 import io.vavr.Tuple3;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
+@DisplayName("Scene")
 class SceneTest {
+    @DisplayName("Should be completed when robot is dead")
     @Test
     void completed() {
         final CityMap currentCityMap = CityMap.fromLines(
@@ -38,8 +41,10 @@ class SceneTest {
         assertThat(currentScene.completed()).isTrue();
     }
 
+    @DisplayName("Should determine next scene according to tile at current robot position")
     @Nested
     class Next {
+        @DisplayName("When on empty tile, robot should move")
         @Test
         void reactToEmptyAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -73,6 +78,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on booth, robot should die then stop moving")
         @Test
         void reactToBooth() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -106,6 +112,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on breakable obstacle, robot in breaker mode should break obstacle then move")
         @Test
         void reactToBreakableObstacleWhenBreakerAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -144,6 +151,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on direction modifier, robot should change direction then move")
         @Test
         void reactToDirectionModifierAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -181,6 +189,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on circuit inverter, robot should invert priorities then move")
         @Test
         void reactToCircuitInverterAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -218,6 +227,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on beer, robot should toggle breaker mode then move")
         @Test
         void reactToBeerAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -255,6 +265,7 @@ class SceneTest {
             assertThat(currentScene.next()).isEqualTo(updatedScene);
         }
 
+        @DisplayName("When on in-teleporter, robot should teleport to out-teleporter then move out")
         @Test
         void reactToTeleporterAndMove() {
             final CityMap currentCityMap = CityMap.fromLines(
@@ -289,8 +300,10 @@ class SceneTest {
         }
     }
 
+    @DisplayName("Should run robot in city map until dead")
     @Nested
     class Run {
+        @DisplayName("Just a start and a booth")
         @Test
         void simpleRun() {
             final CityMap initialCityMap = CityMap.fromLines(
@@ -325,6 +338,8 @@ class SceneTest {
             ));
         }
 
+
+        @DisplayName("Every kind of tiles")
         @Test
         void complexRun() {
             final CityMap initialCityMap = CityMap.fromLines(
@@ -392,6 +407,7 @@ class SceneTest {
             ));
         }
 
+        @DisplayName("Obstacles out of teleporter and direction modifier")
         @Test
         void complexObstaclesRun() {
             final CityMap initialCityMap = CityMap.fromLines(

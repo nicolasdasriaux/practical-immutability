@@ -2,6 +2,7 @@ package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Stream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -13,8 +14,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
+@DisplayName("Robot")
 class RobotTest {
-    @ParameterizedTest
+    @DisplayName("Should change direction to new given direction")
+    @ParameterizedTest(name = "{0}")
     @EnumSource(Direction.class)
     void changeDirection(final Direction direction) {
         final Robot southDirectedRobot = ImmutableRobot.builder()
@@ -30,6 +33,7 @@ class RobotTest {
         assertThat(southDirectedRobot.changeDirection(direction)).isEqualTo(redirectedRobot);
     }
 
+    @DisplayName("Should toggle breaker mode")
     @Test
     void toggleBreaker() {
         final Robot nonBreakerRobot = ImmutableRobot.builder()
@@ -46,6 +50,7 @@ class RobotTest {
         assertThat(nonBreakerRobot.toggleBreaker().toggleBreaker()).isEqualTo(nonBreakerRobot);
     }
 
+    @DisplayName("Should invert priorities")
     @Test
     void invert() {
         final Robot nonInvertedRobot = ImmutableRobot.builder()
@@ -62,6 +67,7 @@ class RobotTest {
         assertThat(nonInvertedRobot.invert().invert()).isEqualTo(nonInvertedRobot);
     }
 
+    @DisplayName("Should die")
     @Test
     void die() {
         final Robot livingRobot = ImmutableRobot.builder()
@@ -77,10 +83,12 @@ class RobotTest {
         assertThat(livingRobot.die()).isEqualTo(deadRobot);
     }
 
+    @DisplayName("When moving")
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
     class Move {
-        @ParameterizedTest
+        @DisplayName("Should move keeping same direction when no obstacle")
+        @ParameterizedTest(name="{0}")
         @EnumSource(Direction.class)
         void robotWithoutObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
@@ -111,7 +119,8 @@ class RobotTest {
             assertThat(nonBreakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
 
-        @ParameterizedTest
+        @DisplayName("Should move through breakable obstacle keeping same direction when in breaker mode")
+        @ParameterizedTest(name="{0}")
         @EnumSource(Direction.class)
         void breakerRobotWithBreakableObstacle(final Direction direction) {
             final CityMap cityMap = CityMap.fromLines(
@@ -327,7 +336,8 @@ class RobotTest {
             );
         }
 
-        @ParameterizedTest
+        @DisplayName("Should move and change direction taking obstacles into account when non-inverted priorities")
+        @ParameterizedTest(name = "Case #{index} directing to {1} but bumped to {2}")
         @MethodSource("nonInvertedRobotWithObstacleExamples")
         void nonInvertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
@@ -535,7 +545,8 @@ class RobotTest {
             );
         }
 
-        @ParameterizedTest
+        @DisplayName("Should move taking obstacles into account when inverted priorities")
+        @ParameterizedTest(name = "Case #{index} directing to {1} but bumped to {2}")
         @MethodSource("invertedRobotWithObstacleExamples")
         void invertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
@@ -559,6 +570,7 @@ class RobotTest {
         }
     }
 
+    @DisplayName("Should have priorities accordingly to inversion mode")
     @Test
     void priorities() {
         final Robot nonInvertedRobot = ImmutableRobot.builder()
@@ -573,6 +585,7 @@ class RobotTest {
         assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(West, North, East, South));
     }
 
+    @DisplayName("Should teleport to out-teleporter when triggering in-teleporter")
     @Test
     void triggerTeleporter() {
         final CityMap cityMap = CityMap.fromLines(
@@ -605,6 +618,7 @@ class RobotTest {
         assertThat(inTeleporterRobot.triggerTeleporter(cityMap)).isEqualTo(outTeleporterRobot);
     }
 
+    @DisplayName("Should create robot from start position (south directed, no alteration, alive)")
     @Test
     void fromStart() {
         final Robot robot = Robot.fromStart(Position.of(3, 4));

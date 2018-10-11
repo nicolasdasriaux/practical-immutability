@@ -1,15 +1,19 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.HashSet;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
+@DisplayName("Scene Tracking")
 class SceneTrackingTest {
+    @DisplayName("Tracking")
     @Nested
     class Track {
+        @DisplayName("should track city map and all robot states when city map unchanged")
         @Test
         void trackRobotWhenCityMapUnchanged() {
             final CityMap previousCityMap = CityMap.fromLines(
@@ -74,6 +78,7 @@ class SceneTrackingTest {
             assertThat(sceneTracking).isEqualTo(expectedSceneTracking);
         }
 
+        @DisplayName("should track new city map, forget past robot states and track new robot state when city map changed")
         @Test
         void restartRobotTrackingWhenCityMapChanged() {
             final CityMap previousCityMap = CityMap.fromLines(
@@ -136,6 +141,7 @@ class SceneTrackingTest {
             assertThat(sceneTracking).isEqualTo(expectedSceneTracking);
         }
 
+        @DisplayName("should identify a loop when robot reached same past state and city map did not change meanwhile")
         @Test
         void identifyLoopWhenCityMapUnchanged() {
             final CityMap initialCityMap = CityMap.fromLines(
@@ -208,6 +214,7 @@ class SceneTrackingTest {
             assertThat(sceneTracking.loop()).isTrue();
         }
 
+        @DisplayName("should not identify a loop when robot reached same past state and city map changed meanwhile")
         @Test
         void identifyNoLoopWhenCityMapChanged() {
             final CityMap initialCityMap = CityMap.fromLines(
@@ -283,6 +290,7 @@ class SceneTrackingTest {
         }
     }
 
+    @DisplayName("should create initial scene tracking from initial scene")
     @Test
     void fromInitialScene() {
         final CityMap cityMap = CityMap.fromLines(

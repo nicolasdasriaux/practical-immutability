@@ -1,6 +1,7 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("Tracked Scene")
 class TrackedSceneTest {
     static Stream<Arguments> loopExamples() {
         return Stream.of(
@@ -52,7 +54,8 @@ class TrackedSceneTest {
         );
     }
 
-    @ParameterizedTest
+    @DisplayName("Should run until loop")
+    @ParameterizedTest(name = "Example #{index}")
     @MethodSource("loopExamples")
     void loop(final CityMap initialCityMap) {
         final List<TrackedScene> trackedScenes = TrackedScene.fromInitialScene(Scene.fromCityMap(initialCityMap)).run().toList();
@@ -60,6 +63,7 @@ class TrackedSceneTest {
         assertThat(trackedScene.loop()).isTrue();
     }
 
+    @DisplayName("Should create a tracked scene from an initial scene")
     @Test
     void fromInitialScene() {
         final CityMap cityMap = CityMap.fromLines(

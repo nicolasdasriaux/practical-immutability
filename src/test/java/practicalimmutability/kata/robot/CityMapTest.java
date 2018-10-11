@@ -2,12 +2,14 @@ package practicalimmutability.kata.robot;
 
 import io.vavr.collection.IndexedSeq;
 import io.vavr.collection.Vector;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import practicalimmutability.kata.robot.Tile.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
+@DisplayName("City Map")
 class CityMapTest {
     final CityMap cityMap = CityMap.fromLines(
             // @formatter:off
@@ -25,6 +27,7 @@ class CityMapTest {
             // @formatter:on
     );
 
+    @DisplayName("Should create city map from rows as a list of strings")
     @Test
     void rows() {
         final Empty ___ = Empty.of();
@@ -56,27 +59,32 @@ class CityMapTest {
         assertThat(cityMap.rows()).isEqualTo(expectedRows);
     }
 
+    @DisplayName("Should identify start position")
     @Test
     void start() {
         assertThat(cityMap.start()).isEqualTo(Position.of(1, 1));
     }
 
+    @DisplayName("Should identify teleporters")
     @Test
     void teleporters() {
         assertThat(cityMap.teleporters()).containsExactlyInAnyOrder(Position.of(6, 2), Position.of(4, 8));
     }
 
+    @DisplayName("Should locate tile at a given position")
     @Test
     void tile() {
         assertThat(cityMap.tile(Position.of(4, 8))).isEqualTo(Teleporter.of());
     }
 
+    @DisplayName("Should locate out-teleporter from a given in-teleporter")
     @Test
     void teleporterOutPosition() {
         assertThat(cityMap.teleporterOutPosition(Position.of(6, 2))).isEqualTo(Position.of(4, 8));
         assertThat(cityMap.teleporterOutPosition(Position.of(4, 8))).isEqualTo(Position.of(6, 2));
     }
 
+    @DisplayName("Should break breakable obstacle")
     @Test
     void breakObstacle() {
         final CityMap expectedCityMap = CityMap.fromLines(

@@ -11,7 +11,6 @@
 
 ## Kata
 
-* Improve unit tests with `@DisplayName` annotations
 * Improve hints formatting
  
 ## Possible Future Presentations

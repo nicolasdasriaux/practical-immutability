@@ -1,5 +1,6 @@
 package practicalimmutability.kata.robot;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
+@DisplayName("Tile")
 class TileTest {
     static Stream<Arguments> tileCodeExamples() {
         return Stream.of(
@@ -28,13 +30,15 @@ class TileTest {
         );
     }
 
-    @ParameterizedTest
+    @DisplayName("Should get code from tile")
+    @ParameterizedTest(name = "{0} -> ''{1}''")
     @MethodSource("tileCodeExamples")
     void toCode(final Tile tile, final char code) {
         assertThat(tile.toCode()).isEqualTo(code);
     }
 
-    @ParameterizedTest
+    @DisplayName("Should get tile from code")
+    @ParameterizedTest(name = "''{1}'' -> {0}")
     @MethodSource("tileCodeExamples")
     void fromCode(final Tile tile, final char code) {
         assertThat(Tile.fromCode(code)).isEqualTo(tile);

@@ -1,11 +1,13 @@
-package practicalimmutability.presentation.adt;
+package practicalimmutability.presentation.adt.pattern;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
+import practicalimmutability.presentation.adt.Action;
 import practicalimmutability.presentation.adt.Action.Jump;
+import practicalimmutability.presentation.adt.Action.Sleep;
+import practicalimmutability.presentation.adt.Action.Walk;
+import practicalimmutability.presentation.adt.Position;
 
-import static practicalimmutability.presentation.adt.Action.Sleep;
-import static practicalimmutability.presentation.adt.Action.Walk;
 import static practicalimmutability.presentation.adt.Direction.Right;
 import static practicalimmutability.presentation.adt.Direction.Up;
 
@@ -20,7 +22,7 @@ public class GameApp {
                 Walk.of(Right)
         );
 
-        final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
-        System.out.println(finalPLayer);
+        final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
+        System.out.println(players);
     }
 }

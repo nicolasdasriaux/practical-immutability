@@ -101,7 +101,7 @@ public class MoreExamplesApp {
 
         part("ADT", () -> {
             example("Instantiating ADT", () -> {
-                final List<Action> actions = List.of(
+                final Seq<Action> actions = List.of(
                         Jump.of(Position.of(5, 8)),
                         Walk.of(Up),
                         Sleep.of(),

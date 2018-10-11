@@ -1,9 +1,9 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.API;
 import io.vavr.Tuple2;
 import io.vavr.collection.Iterator;
 import org.immutables.value.Value;
-import practicalimmutability.kata.common.TODO;
 import practicalimmutability.kata.robot.Tile.*;
 
 import java.util.function.Function;
@@ -44,7 +44,7 @@ public abstract class Scene {
      * It is recommended to implement first WITHOUT using a visitor pattern nor Vavr pattern matching.
      *
      * Implement tiles one by one and fail with an exception when not implemented yet.
-     * For this, use {@link TODO#IMPLEMENT()}
+     * For this, use {@link API#TODO()}}
      *
      * Current tile cannot be an obstacle.
      * Current tile might be a breakable obstacle only when robot is in breaker mode.

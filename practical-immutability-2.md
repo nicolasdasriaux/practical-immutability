@@ -258,7 +258,7 @@ public interface Action {
 # Instantiating `Action` ADT
 
 ```java
-final List<Action> actions = List.of(
+final Seq<Action> actions = List.of(
         Jump.of(Position.of(5, 8)),
         Walk.of(Up),
         Sleep.of(),
@@ -377,69 +377,6 @@ public abstract class Player { // ...
     };
     public Player act(final Action action) {
         return action.accept(ACT_VISITOR, this);
-    } // ...
-}
-```
-
----
-
-# Revisited :wink: `ActionMatcher`
-
-```java
-@Value.Immutable
-@Value.Style(stagedBuilder = true)
-public interface ActionMatcher<R> {
-    Function<Sleep, R> onSleep();
-    Function<Walk, R> onWalk();
-    Function<Jump, R> onJump();
-}
-```
-
----
-
-# `Action` Made Revisitable
-
-```java
-public interface Action {
-    <R> R match(ActionMatcher<R> matcher); // ...
-    abstract class Sleep implements Action {
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onSleep().apply(this);
-        } // ...
-    } // ...
-    abstract class Walk implements Action {
-        public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onWalk().apply(this);
-        } // ...
-    } // ...
-    abstract class Jump implements Action {
-       public <R> R match(final ActionMatcher<R> matcher) {
-            return matcher.onJump().apply(this);
-       } // ...
-    }
-}
-```
-
----
-
-# Updating `Player` with `Action`... Revisited
-
-```java
-@Value.Immutable
-public abstract class Player { // ...
-    private static final ActionMatcher<Function<Player, Player>> ACT_MATCHER =
-            ImmutableActionMatcher.<Function<Player, Player>>builder()
-                    .onSleep(sleep -> player -> player)
-                    .onWalk(walk -> player ->
-                            Player.of(player.position().move(walk.direction()))
-                    )
-                    .onJump(jump -> player ->
-                            Player.of(jump.position())
-                    )
-                    .build();
-
-    public Player act(final Action action) {
-        return action.match(ACT_MATCHER).apply(this);
     } // ...
 }
 ```

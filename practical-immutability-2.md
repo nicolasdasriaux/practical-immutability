@@ -380,3 +380,49 @@ public abstract class Player { // ...
     } // ...
 }
 ```
+---
+
+# Pattern Matching
+## with _Vavr_ 
+
+---
+
+# `Action` Patterns
+
+```java
+@Patterns
+public interface Action {
+    // ...
+    @Unapply
+    static Tuple0 Sleep(final Sleep sleep) {
+        return Tuple();
+    }
+    @Unapply
+    static Tuple1<Position> Jump(final Jump jump) {
+        return Tuple(jump.position());
+    }
+    @Unapply
+    static Tuple1<Direction> Walk(final Walk walk) {
+        return Tuple(walk.direction());
+    }
+}
+```
+
+---
+
+# Updating `Player` with `Action` using Pattern Matching
+
+```java
+@Value.Immutable
+public abstract class Player {
+    // ...
+    public Player act(final Action action) {
+        return Match(action).of(
+                Case($Sleep, () -> this),
+                Case($Walk($()), direction -> ImmutablePlayer.of(position().move(direction))),
+                Case($Jump($()), position -> ImmutablePlayer.of(position))
+        );
+    }
+    // ...
+}
+```

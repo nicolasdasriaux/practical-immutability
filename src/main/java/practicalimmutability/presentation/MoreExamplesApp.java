@@ -14,6 +14,9 @@ import practicalimmutability.presentation.adt.matcher.Player;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import static io.vavr.API.*;
+import static io.vavr.Predicates.*;
+import static io.vavr.Patterns.*;
 import static practicalimmutability.presentation.Examples.example;
 import static practicalimmutability.presentation.Examples.part;
 import static practicalimmutability.presentation.adt.Direction.Right;
@@ -120,6 +123,55 @@ public class MoreExamplesApp {
 
                 System.out.println(finalPLayer);
                 System.out.println(players);
+            });
+        });
+
+        part("Pattern Matching", () -> {
+            example("From switch to Match expression", () -> {
+                // import static io.vavr.API.*;
+
+                List.of(0, 1, 2, 3).forEach(number -> {
+                    final String label = Match(number).of(
+                            Case($(0), "Zero"),
+                            Case($(1), "One"),
+                            Case($(2), "Two"),
+                            Case($(), "More")
+                    );
+
+                    System.out.println(String.format("number=%d, label=%s", number, label));
+                });
+
+            });
+
+            example("Matching by Condition", () -> {
+                // import static io.vavr.Predicates.*;
+
+                List.of(0, -1, 23, 2, 3).forEach(number -> {
+                    final String label = Match(number).of(
+                            Case($(0), "Zero"),
+                            Case($(n -> n < 0), "Negative"),
+                            Case($(isIn(19, 23, 29)), "Chosen Prime"),
+                            Case($(i -> i % 2 == 0), i -> String.format("Even (%d)", i)),
+                            Case($(), i-> String.format("Odd (%d)", i))
+                    );
+
+                    System.out.println(String.format("number=%d, label=%s", number, label));
+                });
+            });
+
+            example("Matching by Pattern", () -> {
+                // import static io.vavr.Patterns.*;
+
+                List.of(Option.of(-1), Option.of(1), Option.of(0)).forEach(maybeNumber -> {
+                    final String label = Match(maybeNumber).of(
+                            Case($Some($(0)), "Zero"),
+                            Case($Some($(i -> i < 0)), i -> String.format("Negative (%d)", i)),
+                            Case($Some($(i -> i > 0)), i -> String.format("Positive (%d)", i)),
+                            Case($None(), "Absent")
+                    );
+
+                    System.out.println(String.format("maybeNumber=%s label=%s", maybeNumber, label));
+                });
             });
         });
     }

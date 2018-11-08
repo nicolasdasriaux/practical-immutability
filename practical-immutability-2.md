@@ -124,7 +124,7 @@ switch (color) {
 
 ---
 
-# Another `Try` with _Vavr_
+# Another `Try` Expression with _Vavr_
 
 ```java
 final Try<Integer> triedNumber = Try.of(() -> Integer.parseInt(input))
@@ -173,7 +173,7 @@ final Option<Integer> maybeNumber = triedNumber.toOption();
 
 * **ADT** in short
 * Also called **discriminated union** in some other world
-* **`enum` on steroids**
+* Somehow, **`enum` on steroids**
   - Some alternatives might hold one or more **attributes**
   - Attributes may vary in number and in type from one alternative to another
 
@@ -359,7 +359,7 @@ public interface Action {
 
 ---
 
-# Updating `Player` with `Action`... Visited
+# Updating `Player` with `Action` using Visitor
 
 ```java
 @Value.Immutable
@@ -387,7 +387,76 @@ public abstract class Player { // ...
 
 ---
 
-# `Action` Patterns
+# From `switch` to `Match` Expression
+
+```java
+import static io.vavr.API.*;
+// ...
+final String label = Match(number).of(
+        Case($(0), "Zero"),
+        Case($(1), "One"),
+        Case($(2), "Two"),
+        Case($(), "More")
+);
+```
+
+---
+
+# `Match`, a `switch` on steroids
+
+* `Match` is an **expression** compared to `switch`
+* Many ways to **match a value**
+* Might **extract one or more values** 
+* First match wins and gives the value of the expression
+* Extracted values can be passed to a lambda expression and used to produce the value
+
+---
+
+# `Case`, a `case` on steroids
+
+| Case Form       | What it matches and extracts                                       |
+|-----------------|--------------------------------------------------------------------|
+| `$()`           | Matches **anything**<br>May extract the matching value             |
+| `$(1)`          | Matches by **equality**                                            |
+| `$(i -> i > 0)` | Matches by **condition**<br>May extract the matching value         |
+| `$Some($())`    | Matches by **pattern**<br>May extract matching values from pattern |
+
+---
+
+# Matching by Condition
+
+```java
+import static io.vavr.Predicates.*;
+// ...
+final String label = Match(number).of(
+        Case($(0), "Zero"),
+        Case($(n -> n < 0), "Negative"),
+        Case($(isIn(19, 23, 29)), "Chosen Prime"),
+        Case($(i -> i % 2 == 0), i -> String.format("Even (%d)", i)),
+        Case($(), i-> String.format("Odd (%d)", i))
+);
+```
+
+---
+
+# Matching by Pattern
+
+```java
+import static io.vavr.Patterns.*;
+// ...
+final String label = Match(maybeNumber).of(
+        Case($Some($(0)), "Zero"),
+        Case($Some($(i -> i < 0)), i -> String.format("Negative (%d)", i)),
+        Case($Some($(i -> i > 0)), i -> String.format("Positive (%d)", i)),
+        Case($None(), "Absent")
+);
+```
+
+Could be on `Try` too, using `$Success` and `$Failure`
+
+---
+
+# `Action` Custom Patterns
 
 ```java
 @Patterns
@@ -395,34 +464,70 @@ public interface Action {
     // ...
     @Unapply
     static Tuple0 Sleep(final Sleep sleep) {
-        return Tuple();
+        return Tuple.empty();
     }
     @Unapply
     static Tuple1<Position> Jump(final Jump jump) {
-        return Tuple(jump.position());
+        return Tuple.of(jump.position());
     }
     @Unapply
     static Tuple1<Direction> Walk(final Walk walk) {
-        return Tuple(walk.direction());
+        return Tuple.of(walk.direction());
     }
 }
 ```
 
 ---
 
-# Updating `Player` with `Action` using Pattern Matching
+# Updating `Player` with `Action` <br/> using Pattern Matching
 
 ```java
+import static /*...*/ActionPatterns.*;
+// ...
 @Value.Immutable
-public abstract class Player {
-    // ...
+public abstract class Player { // ...
     public Player act(final Action action) {
         return Match(action).of(
                 Case($Sleep, () -> this),
                 Case($Walk($()), direction -> ImmutablePlayer.of(position().move(direction))),
                 Case($Jump($()), position -> ImmutablePlayer.of(position))
         );
-    }
-    // ...
+    } // ...
 }
 ```
+---
+
+# To immutability... and beyond!
+
+---
+
+# More Types...
+
+* `Either<E, R>` used traditionally to represent result and error alternative in a type
+  * Either the right **result** of type `R` (`Right`, `$Right`)
+  * or a left **error** of type `E` (`Left`, `$Left`)
+
+* `Tuple0`, `Tuple1<A>`, `Tuple2<A, B>`, `Tuple3<A, B, C>` ...
+  * Empty tuple (_unit_), singles, pairs, triples... 
+
+---
+
+# There is no Silver Bullet
+
+* **Immutability pays off**, even at small scale
+  * Many no-brainers. If it's never mutated, make it immutable!
+  * _Immutables_ objects and _Vavr_ collections are cool!
+  * Code will be really more concise (more but simpler classes). 
+  * Concurrency and immutability is a match made in heaven!
+* **Do not force feed your code** with immutability
+  * Immutability is very **intolerant of entangled design**, it will bite really hard
+  * Immutability makes **working with associations more difficult** (bidirectional one-to-many and many-to-many) and odd for many people
+ 
+---
+
+# Gateway to Functional Programming
+
+* Pure Functional
+  * Deterministic
+  * Total
+  * Pure

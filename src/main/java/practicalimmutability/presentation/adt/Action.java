@@ -1,12 +1,11 @@
 package practicalimmutability.presentation.adt;
 
+import io.vavr.Tuple;
 import io.vavr.Tuple0;
 import io.vavr.Tuple1;
 import io.vavr.match.annotation.Patterns;
 import io.vavr.match.annotation.Unapply;
 import org.immutables.value.Value;
-
-import static io.vavr.API.Tuple;
 
 @Patterns
 public interface Action {
@@ -29,16 +28,16 @@ public interface Action {
 
     @Unapply
     static Tuple0 Sleep(final Sleep sleep) {
-        return Tuple();
+        return Tuple.empty();
     }
 
     @Unapply
     static Tuple1<Position> Jump(final Jump jump) {
-        return Tuple(jump.position());
+        return Tuple.of(jump.position());
     }
 
     @Unapply
     static Tuple1<Direction> Walk(final Walk walk) {
-        return Tuple(walk.direction());
+        return Tuple.of(walk.direction());
     }
 }

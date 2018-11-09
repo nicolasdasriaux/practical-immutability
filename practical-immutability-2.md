@@ -16,7 +16,7 @@ slidenumbers: true
   - Preventing `null` attributes
   - Ensuring consistency with class invariant
 * **Immutable Collections and Options** with _Vavr_
-  - `Seq`, `IndexedSeq`, `Set`, `Map`, `Option`
+  - `Seq`, `IndexedSeq`, `Set`, `Map`, `Option`...
   - `map`, `filter`, `forAll`, `removeFirst`, `indexWhere`, `update`, `count`...
 
 ---
@@ -29,7 +29,7 @@ slidenumbers: true
 
 * Mutability of **variables** `!=` Mutability of **objects**
 * Immutability of **objects**
-  - Cannot mutate the object or collection
+  - Cannot mutate the fields of the object or collection
   - As seen so far
 * Immutability of **variables** (local variable, parameter)
   - Cannot change the value (or reference) contained in the variable
@@ -55,7 +55,7 @@ slidenumbers: true
 
 * An **expression** evaluates to a value
   - Value can be directly assigned to a `final` variable
-  - Expressions, when _pure_, do not cause any side-effect
+  - Expressions, when _pure_ :innocent:, do not cause any side-effect
 * An **instruction** does something and has no value
   - Instructions always cause side-effects
 
@@ -322,7 +322,7 @@ final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
 
 ---
 
-# Traditional `ActionVisitor`
+# Visitor Pattern `ActionVisitor`
 
 ```java
 public interface ActionVisitor<T, R> {
@@ -414,7 +414,7 @@ final String label = Match(number).of(
 
 # `Case`, a `case` on steroids
 
-| Case Form       | What it matches and extracts                                       |
+| Case form       | What it matches and extracts                                       |
 |-----------------|--------------------------------------------------------------------|
 | `$()`           | Matches **anything**<br>May extract the matching value             |
 | `$(1)`          | Matches by **equality**                                            |
@@ -495,9 +495,11 @@ public abstract class Player { // ...
     } // ...
 }
 ```
+
 ---
 
-# To immutability... and beyond!
+> To immutability... and beyond!
+-- Buzz Lightyear
 
 ---
 
@@ -514,12 +516,12 @@ public abstract class Player { // ...
 
 # There is no Silver Bullet
 
-* **Immutability pays off**, even at small scale
+* **Immutability pays off** even at small scale
   * Many no-brainers. If it's never mutated, make it immutable!
   * _Immutables_ objects and _Vavr_ collections are cool!
   * Code will be really more concise (more but simpler classes). 
   * Concurrency and immutability is a match made in heaven!
-* **Do not force feed your code** with immutability
+* **Do not force-feed your code** with immutability
   * Immutability is very **intolerant of entangled design**, it will bite really hard
   * Immutability makes **working with associations more difficult** (bidirectional one-to-many and many-to-many) and odd for many people
  
@@ -527,7 +529,12 @@ public abstract class Player { // ...
 
 # Gateway to Functional Programming
 
-* Pure Functional
-  * Deterministic
-  * Total
-  * Pure
+* With immutability, **extracting** or **inlining** an expression **does not change the meaning** of the program
+  * This is called **referential transparency** :open_mouth:
+  * Fundamental property of **functional programming**
+* FP is programming with **pure functions** :innocent:
+  * **Deterministic**: same arguments implies same result
+  * **Total**: result always available for  arguments
+  * **Pure**: no side-effects
+* But how do we do with **I/O**?
+  * Season finale cliffhanger... :anguished:

@@ -1,18 +1,6 @@
 # Todo
 
-## Presentations
-
-### More... Practical Immutability
-
-* Add details on exhaustivity
-* Remove revisited visitor slides
-* Conclusion
-  - Precautions about premature adoption of immutability
-
 ## Kata
 
+* Build `kata` branch by removing solution code from method bodies 
 * Improve hints formatting
- 
-## Possible Future Presentations
-
-* ...

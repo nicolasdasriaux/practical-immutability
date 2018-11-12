@@ -15,7 +15,16 @@ https://www.codingame.com/ide/puzzle/bender-episode-1
 Once project opened, you will have to enable annotation processor support: 
 https://immutables.github.io/apt.html#intellij-idea
 
+Also ensuring that code and Javadoc for dependencies are downloaded in IDE will help for quick reference.
+
 ## Recommended Implementation Steps
+
+### Guided Steps
+
+Here tests will be already be available and you'll mostly have to implement the body of the methods.
+There's a number of hints and links pointing to _Vavr_ code to help you.
+
+Satisfy existing tests to complete implementation
 
 1) Complete `Direction` implementation
 2) Complete `Position` implementation
@@ -23,8 +32,25 @@ https://immutables.github.io/apt.html#intellij-idea
 4) Complete `CityMap` implementation
 5) Complete `Robot` implementation
 6) Complete `Scene` implementation
+   * Use `instanceof` or **pattern matching**
+   * Keep **visitor pattern** implementation for later
 7) Optionally start playing with `RobotApp` application to help visualize what happens
 8) Complete `SceneTracking` implementation
 9) Complete `TrackedScene` implementation
 10) Play with `RobotApp` application to help visualize what happens
-11) Optionally finish up the implementation by following the last steps of CodingGame instructions 
+
+### Bonus Steps
+
+Now implement the following features with your own tests
+
+1) Display either the **directions** or a **loop diagnosis** following the last steps of CodingGame instructions
+2) Try adding class invariant on `CityMap` such as
+   * Presence of exactly one **start**
+   * Presence of exactly one **booth**
+   * Absence of **teleporters** or presence of exactly 2 teleporters
+3) Allow presence of 2 or more teleporters
+   * Each teleporter will chain to the next teleporter.
+   * Last teleporter will chain to the first one.
+   * Order of teleporter should be determined by `y` then `x` coordinate.
+   * This semantic will preserve the behavior of scenarios involving 2 teleporters.
+4) Modify `Tile` and `Scene` implementation to use **visitor pattern**

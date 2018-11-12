@@ -21,7 +21,7 @@ Also ensuring that code and Javadoc for dependencies are downloaded in IDE will 
 
 ### Guided Steps
 
-Here tests will be already be available and you'll mostly have to implement the body of the methods.
+Here tests will already be available and you'll mostly have to implement the body of the methods.
 There's a number of hints and links pointing to _Vavr_ code to help you.
 
 Satisfy existing tests to complete implementation

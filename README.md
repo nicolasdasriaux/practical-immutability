@@ -12,9 +12,9 @@ A set of 2 **presentations** and a **complete kata** for learning about **immuta
   * practical applicability with common technologies.
 * `practical-immutability-2.md` contains the 2nd presentation about:
   * immutable variables,
-  * expressions,
-  * Algebraic Data Types (ADT),
-  * pattern matching,
+  * expressions with _Java_ and _Vavr_,
+  * Algebraic Data Types (ADT) with _Immutables_,
+  * pattern matching with _Vavr_,
   * opening to functional programming.
 * `src/main/java/practicalimmutability/presentation` contains sample code and experiments related to both presentations.
 

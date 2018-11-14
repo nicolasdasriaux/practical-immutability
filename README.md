@@ -1,4 +1,4 @@
-# Practical Immutability in Java with Immutables and Vavr
+# Practical Immutability in Java with _Immutables_ and _Vavr_
 
 A set of 2 **presentations** and a **complete kata** for learning about **immutability in practice**.
 
@@ -12,7 +12,7 @@ A set of 2 **presentations** and a **complete kata** for learning about **immuta
   * practical applicability with common technologies.
 * `practical-immutability-2.md` contains the 2nd presentation about:
   * immutable variables,
-  * expressions with _Java_ and _Vavr_,
+  * expressions with Java and _Vavr_,
   * Algebraic Data Types (ADT) with _Immutables_,
   * pattern matching with _Vavr_,
   * opening to functional programming.

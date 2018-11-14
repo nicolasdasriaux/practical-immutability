@@ -529,7 +529,7 @@ public abstract class Player { // ...
 
 # Gateway to Functional Programming
 
-* With immutability, **extracting** or **inlining** an expression **will** (very often) **not change the meaning** of the program
+* With immutability, **extracting** or **inlining** an expression **will** (most often) **not change the meaning** of the program
   * This is a consequence of **referential transparency** :open_mouth:
   * Fundamental property of **functional programming**
 * FP is programming with **pure functions** :innocent:

@@ -498,6 +498,19 @@ public abstract class Player { // ...
 
 ---
 
+# Pattern Matching vs. Other Approaches
+
+| Approach         | Complexity          | Compile-time Exhausitivity | Legibility     | Flexibility |
+|------------------|---------------------|----------------------------|----------------|-------------|
+| `instanceof`     | :neutral_face: o(n) | :worried:                  | :neutral_face: | :smile:     |
+| Visitor Pattern  | :smile: o(1)        | :smile:                    | :worried:      | :worried:   |
+| Pattern Matching | :worried: o(n)      | :worried:                  | :smile:        | :smile:     |
+
+* **_Vavr_ pattern matching** has significant overhead (lambda, object creation...) 
+* Future **Java pattern matching** will feature compile-time exhaustivity and low overhead
+
+---
+
 > To immutability... and beyond!
 -- Buzz Lightyear
 

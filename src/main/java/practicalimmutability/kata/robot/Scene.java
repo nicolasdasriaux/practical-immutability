@@ -114,9 +114,9 @@ public abstract class Scene {
      * Difficulty: ****
      * Hints:
      * Prepare to face reasoning on infinite iterators
-     * Read Vavr Javadoc carefully especially for {@link Iterator#iterate(Object, Function)} and {@link Iterator#span(Predicate)}}
+     * Read Vavr Javadoc carefully especially for {@link Iterator#iterate(Object, Function)} and {@link Iterator#span(Predicate)}
      *
-     * Use {@link Iterator#iterate(Object, Function)} to generate successive scenes starting from initial scene</li>
+     * Use {@link Iterator#iterate(Object, Function)} to generate successive scenes starting from initial scene
      * Use {@link Iterator#span(Predicate)}} to get a pair of iterators (scenes before completion, scenes at and after completion)
      * Use {@link Tuple2#_1} and {@link Tuple2#_2} to access both iterators in the pair
      * Use {@link Iterator#take(int)} to get iterator for just the scene at completion

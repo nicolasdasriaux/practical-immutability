@@ -1,11 +1,11 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.Tuple2;
+import io.vavr.Tuple;
 import io.vavr.collection.Iterator;
+import io.vavr.control.Option;
 import org.immutables.value.Value;
 
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Value.Immutable
 public abstract class TrackedScene {
@@ -61,12 +61,30 @@ public abstract class TrackedScene {
      * Difficulty: *
      * Hints:
      * Totally similar to {@link Scene#run()}
+     *
+     * Or
+     *
+     * Difficulty: ***** (not for the faint of heart)
+     * Hints:
+     * Read Vavr Javadoc carefully especially for {@link Iterator#unfoldRight(Object, Function)}
+     *
+     * Use {@link Iterator#unfoldRight(Object, Function)} to generate successive scenes starting from initial scene
+     * with Option<TrackedScene> as T (type for generator state)
+     * and TrackedScene a U (type for generated value)
+     * Use {@link Option#map(Function)}
+     * Use {@link Tuple#of(Object, Object)
+     * Use {@link Option#of(Object)} and {@link Option#none()}
      */
     public Iterator<TrackedScene> run() {
-        final Tuple2<Iterator<TrackedScene>, Iterator<TrackedScene>> prefixAndReminder =
-                Iterator.iterate(this, TrackedScene::next).span(trackedScene -> !trackedScene.completed());
-
-        return Iterator.concat(prefixAndReminder._1, prefixAndReminder._2.take(1));
+        return Iterator.unfoldRight(Option.of(this), maybeCurrentScene -> {
+            return maybeCurrentScene.map(scene -> {
+                if (scene.completed()) {
+                    return Tuple.of(scene, Option.none());
+                } else {
+                    return Tuple.of(scene, Option.of(scene.next()));
+                }
+            });
+        });
     }
 
     /**

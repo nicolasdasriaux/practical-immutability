@@ -12,7 +12,7 @@
 
 ## Kata
 
-* Start implementation with '// IMPLEMENT  {{' and endit with '// }}' or something like that
-* Build `kata` branch by removing solution code from method bodies  (use // IMPLEMENT {{ and // }} to 
+* Start implementation with `// IMPLEMENT  {{{` and end it with `// }}}`
+* Rebuild `kata` branch by removing solution code from method bodies starting from latest versions
 * Improve unit tests for obstacle detection in `RobotTest`
 * Improve `run` method tests in `TrackedSceneTest`

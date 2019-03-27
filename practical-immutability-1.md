@@ -72,7 +72,7 @@ public class Customer {
 > Java annotation processors to generate simple, safe and consistent value objects.
 -- From [https://immutables.github.io](https://immutables.github.io)
 
-* Focused on immutable classes with minimum boilerplate
+* Focused on **immutable classes** with minimum boilerplate
 * Does not modify code but generates additional code
 * Fully customizable
 * Integrates with many **collection** and **option type** libraries
@@ -86,10 +86,10 @@ public class Customer {
 -- From [http://www.vavr.io](http://www.vavr.io)
 
 * Formerly known as _JavaSlang_
-* Provides immutable collections
+* Provides **immutable collections**
 * Also provides functions and control structures (such as `Option`)
 * Fully interoperable with Java collections and `Optional`
-* Requires Java 8
+* Requires Java 8 or higher
 * Integrates with _Immutables_
 
 ---
@@ -144,7 +144,7 @@ final Customer modifiedCustomer =
 
 * Returns a **new instance** that is modified
 * Previous instance remains unchanged
-* Only one field modified
+* Only **one attribute** modified
 
 ---
 
@@ -159,7 +159,7 @@ final Customer modifiedCustomer =
 ```
 
 * Several attributes modified with no intermediary instances
-* Also allows modifying multiple attributes that should remain consistent with each other
+* Also allows modifying **multiple attributes** that should remain **consistent** with each other
 
 ---
 
@@ -708,6 +708,8 @@ public abstract class Todo {
     @Value.Parameter public abstract String name();
     @Value.Default public boolean isDone() { return false; };
 
+    public Todo markAsDone() { return ImmutableTodo.copyOf(this).withIsDone(true); }
+
     public static Todo of(final int id, final String name) {
         return ImmutableTodo.of(id, name);
     }
@@ -770,9 +772,7 @@ public abstract class TodoList {
         final int todoIndex = todos().indexWhere(todo -> todo.id() == todoId);
 
         if (todoIndex >= 0) {
-            final Seq<Todo> modifiedTodos = todos().update(todoIndex,
-                todo -> ImmutableTodo.copyOf(todo).withIsDone(true));
-            
+            final Seq<Todo> modifiedTodos = todos().update(todoIndex, Todo::markAsDone);
             return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
         } else {
             return this;

@@ -40,9 +40,7 @@ public abstract class TodoList {
         final int todoIndex = todos().indexWhere(todo -> todo.id() == todoId);
 
         if (todoIndex >= 0) {
-            final Seq<Todo> modifiedTodos = todos().update(todoIndex,
-                    todo -> ImmutableTodo.copyOf(todo).withIsDone(true));
-
+            final Seq<Todo> modifiedTodos = todos().update(todoIndex, Todo::markAsDone);
             return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
         } else {
             return this;

@@ -8,7 +8,9 @@ import practicalimmutability.presentation.StringValidation;
 public abstract class Todo {
     @Value.Parameter public abstract int id();
     @Value.Parameter public abstract String name();
-    @Value.Default public boolean isDone() { return false; };
+    @Value.Default public boolean isDone() { return false; }
+
+    public Todo markAsDone() { return ImmutableTodo.copyOf(this).withIsDone(true); }
 
     public static Todo of(final int id, final String name) {
         return ImmutableTodo.of(id, name);

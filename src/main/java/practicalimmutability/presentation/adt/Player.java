@@ -14,10 +14,10 @@ public abstract class Player {
             return this;
         } else if (action instanceof Walk) {
             final Walk walk = (Walk) action;
-            return ImmutablePlayer.of(position().move(walk.direction()));
+            return Player.of(this.position().move(walk.direction()));
         } else if (action instanceof Jump) {
             final Jump jump = (Jump) action;
-            return ImmutablePlayer.of(jump.position());
+            return Player.of(jump.position());
         } else {
             throw new IllegalArgumentException(String.format("Unknown Action (%s)", action));
         }

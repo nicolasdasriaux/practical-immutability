@@ -15,8 +15,8 @@ public abstract class Player {
     public Player act(final Action action) {
         return Match(action).of(
                 Case($Sleep, () -> this),
-                Case($Walk($()), direction -> ImmutablePlayer.of(position().move(direction))),
-                Case($Jump($()), position -> ImmutablePlayer.of(position))
+                Case($Walk($()), direction -> Player.of(this.position().move(direction))),
+                Case($Jump($()), position -> Player.of(position))
         );
     }
 

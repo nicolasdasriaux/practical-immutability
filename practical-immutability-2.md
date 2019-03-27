@@ -292,7 +292,7 @@ public abstract class Player { // ...
             return this;
         } else if (action instanceof Walk) {
             final Walk walk = (Walk) action;
-            return Player.of(position().move(walk.direction()));
+            return Player.of(this.position().move(walk.direction()));
         } else if (action instanceof Jump) {
             final Jump jump = (Jump) action;
             return Player.of(jump.position());
@@ -489,8 +489,8 @@ public abstract class Player { // ...
     public Player act(final Action action) {
         return Match(action).of(
                 Case($Sleep, () -> this),
-                Case($Walk($()), direction -> ImmutablePlayer.of(position().move(direction))),
-                Case($Jump($()), position -> ImmutablePlayer.of(position))
+                Case($Walk($()), direction -> Player.of(this.position().move(direction))),
+                Case($Jump($()), position -> Player.of(position))
         );
     } // ...
 }

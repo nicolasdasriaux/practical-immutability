@@ -1,12 +1,12 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
@@ -21,8 +21,8 @@ class PositionTest {
         assertThat(position.y()).isEqualTo(1);
     }
 
-    static Stream<Arguments> moveExamples() {
-        return Stream.of(
+    static Seq<Arguments> moveExamples() {
+        return List.of(
                 Arguments.of(Position.of(4, 1), North, Position.of(4, 0)),
                 Arguments.of(Position.of(4, 1), South, Position.of(4, 2)),
                 Arguments.of(Position.of(4, 1), West, Position.of(3, 1)),

@@ -1,7 +1,7 @@
 package practicalimmutability.kata.robot;
 
 import io.vavr.collection.List;
-import io.vavr.collection.Stream;
+import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -151,8 +151,8 @@ class RobotTest {
             assertThat(breakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
 
-        Stream<Arguments> nonInvertedRobotWithObstacleExamples() {
-            return Stream.of(
+        Seq<Arguments> nonInvertedRobotWithObstacleExamples() {
+            return List.of(
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off
@@ -360,8 +360,8 @@ class RobotTest {
             assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
         }
 
-        Stream<Arguments> invertedRobotWithObstacleExamples() {
-            return Stream.of(
+        Seq<Arguments> invertedRobotWithObstacleExamples() {
+            return List.of(
                     Arguments.of(
                             CityMap.fromLines(
                                     // @formatter:off

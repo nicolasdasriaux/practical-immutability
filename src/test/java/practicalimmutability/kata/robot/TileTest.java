@@ -1,20 +1,20 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import practicalimmutability.kata.robot.Tile.*;
 
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Tile")
 class TileTest {
-    static Stream<Arguments> tileCodeExamples() {
-        return Stream.of(
+    static Seq<Arguments> tileCodeExamples() {
+        return List.of(
                 Arguments.of(Empty.of(), ' '),
                 Arguments.of(Start.of(), '@'),
                 Arguments.of(Booth.of(), '$'),

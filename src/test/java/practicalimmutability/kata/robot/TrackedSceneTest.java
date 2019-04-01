@@ -1,20 +1,20 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.Iterator;
 import io.vavr.collection.List;
+import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Tracked Scene")
 class TrackedSceneTest {
-    static Stream<Arguments> loopExamples() {
-        return Stream.of(
+    static Seq<Arguments> loopExamples() {
+        return List.of(
                 Arguments.of(
                         CityMap.fromLines(
                                 // @formatter:off
@@ -58,9 +58,22 @@ class TrackedSceneTest {
     @ParameterizedTest(name = "Example #{index}")
     @MethodSource("loopExamples")
     void loop(final CityMap initialCityMap) {
-        final List<TrackedScene> trackedScenes = TrackedScene.fromInitialScene(Scene.fromCityMap(initialCityMap)).run().toList();
-        final TrackedScene trackedScene = trackedScenes.last();
-        assertThat(trackedScene.loop()).isTrue();
+        final Scene scene = Scene.fromCityMap(initialCityMap);
+        final Seq<TrackedScene> trackedScenes = TrackedScene.fromInitialScene(scene).run().toList();
+
+        assertThat(trackedScenes.init().forAll(trackedScene -> ! trackedScene.loop())).isTrue();
+        assertThat(trackedScenes.last().loop()).isTrue();
+    }
+
+    @DisplayName("Should hold successive scenes")
+    @ParameterizedTest(name = "Example #{index}")
+    @MethodSource("loopExamples")
+    void scenes(final CityMap initialCityMap) {
+        final Scene scene = Scene.fromCityMap(initialCityMap);
+        final Seq<TrackedScene> trackedScenes = TrackedScene.fromInitialScene(scene).run().toList();
+
+        final Seq<Scene> expectedScenes = Iterator.iterate(scene, Scene::next).take(trackedScenes.length()).toList();
+        assertThat(trackedScenes.map(TrackedScene::scene)).isEqualTo(expectedScenes);
     }
 
     @DisplayName("Should create a tracked scene from an initial scene")

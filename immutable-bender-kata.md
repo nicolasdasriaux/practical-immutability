@@ -23,6 +23,12 @@ https://immutables.github.io/apt.html#intellij-idea
 
 ## Recommended Implementation Steps
 
+Switch to `kata` branch to see code without solution.
+You are free to look at solution in `master`branch. 
+
+* `src/main/java/practicalimmutability/kata/robot` contains the kata.
+* `src/test/java/practicalimmutability/kata/robot` contains the tests for the kata.
+
 ### Guided Steps
 
 Here tests will already be available and you'll mostly have to implement the body of the methods.

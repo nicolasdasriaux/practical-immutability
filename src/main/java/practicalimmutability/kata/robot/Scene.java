@@ -32,7 +32,9 @@ public abstract class Scene {
      * Use {@link Robot#dead()}
      */
     public boolean completed() {
+        // IMPLEMENT {{{
         return robot().dead();
+        // }}}
     }
 
     /**
@@ -56,6 +58,7 @@ public abstract class Scene {
      * @see <a href="https://www.baeldung.com/vavr-pattern-matching">Guide to Pattern Matching in Vavr</a>
      */
     public Scene next() {
+        // IMPLEMENT {{{
         final CityMap currentCityMap = cityMap();
         final Robot currentRobot = robot();
         final Position currentPosition = currentRobot.position();
@@ -106,6 +109,7 @@ public abstract class Scene {
         } else {
             throw new IllegalStateException(String.format("Unexpected Tile (%s)", currentTile));
         }
+        // }}}
     }
 
     /**
@@ -123,10 +127,12 @@ public abstract class Scene {
      * Use {@link Iterator#concat(Iterable[])} to concat both iterators (scenes before completion, scene at completion)
      */
     public Iterator<Scene> run() {
+        // IMPLEMENT {{{
         final Tuple2<Iterator<Scene>, Iterator<Scene>> prefixAndReminder =
                 Iterator.iterate(this, Scene::next).span(scene -> !scene.completed());
 
         return Iterator.concat(prefixAndReminder._1, prefixAndReminder._2.take(1));
+        // }}}
     }
 
     /**
@@ -135,11 +141,13 @@ public abstract class Scene {
      * Difficulty: *
      */
     public static Scene fromCityMap(final CityMap cityMap) {
+        // IMPLEMENT {{{
         final Robot robot = Robot.fromStart(cityMap.start());
 
         return ImmutableScene.builder()
                 .cityMap(cityMap)
                 .robot(robot)
                 .build();
+        // }}}
     }
 }

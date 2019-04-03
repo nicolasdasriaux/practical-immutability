@@ -27,7 +27,9 @@ public abstract class TrackedScene {
      * Difficulty: *
      */
     public boolean completed() {
+        // IMPLEMENT {{{
         return scene().completed() || tracking().loop();
+        // }}}
     }
 
     /**
@@ -36,7 +38,9 @@ public abstract class TrackedScene {
      * Difficulty: *
      */
     public boolean loop() {
+        // IMPLEMENT {{{
         return tracking().loop();
+        // }}}
     }
 
     /**
@@ -48,11 +52,13 @@ public abstract class TrackedScene {
      * Use {@link SceneTracking#track(Scene)}
      */
     public TrackedScene next() {
+        // IMPLEMENT {{{
         final Scene currentScene = scene();
         final SceneTracking currentTracking = tracking();
         final Scene updatedScene = currentScene.next();
         final SceneTracking updatedTracking = currentTracking.track(updatedScene);
         return ImmutableTrackedScene.of(updatedScene, updatedTracking);
+        // }}}
     }
 
     /**
@@ -76,6 +82,7 @@ public abstract class TrackedScene {
      * Use {@link Option#of(Object)} and {@link Option#none()}
      */
     public Iterator<TrackedScene> run() {
+        // IMPLEMENT {{{
         return Iterator.unfoldRight(Option.of(this), maybeCurrentScene -> {
             return maybeCurrentScene.map(scene -> {
                 if (scene.completed()) {
@@ -85,6 +92,7 @@ public abstract class TrackedScene {
                 }
             });
         });
+        // }}}
     }
 
     /**
@@ -95,6 +103,8 @@ public abstract class TrackedScene {
      * Be sure to initialize tracking
      */
     public static TrackedScene fromInitialScene(final Scene scene) {
+        // IMPLEMENT {{{
         return ImmutableTrackedScene.of(scene, SceneTracking.fromInitialScene(scene));
+        // }}}
     }
 }

@@ -12,6 +12,7 @@ public enum Direction {
      * Difficulty: *
      */
     public char toCode() {
+        // IMPLEMENT {{{
         switch (this) {
             case North: return 'N';
             case South: return 'S';
@@ -19,6 +20,7 @@ public enum Direction {
             case East: return 'E';
             default: throw new IllegalArgumentException(String.format("Unknown Direction (%s)", this));
         }
+        // }}}
     }
 
     /**
@@ -27,6 +29,7 @@ public enum Direction {
      * Difficulty: *
      */
     public static Direction fromCode(final char code) {
+        // IMPLEMENT {{{
         switch (code) {
             case 'N': return North;
             case 'S': return South;
@@ -34,5 +37,6 @@ public enum Direction {
             case 'E': return East;
             default: throw new IllegalArgumentException(String.format("Unknown Direction code (%s)", code));
         }
+        // }}}
     }
 }

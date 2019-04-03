@@ -45,7 +45,9 @@ public abstract class Robot {
      * Difficulty: *
      */
     public Robot changeDirection(final Direction direction) {
+        // IMPLEMENT {{{
         return ImmutableRobot.copyOf(this).withDirection(direction);
+        // }}}
     }
 
     /**
@@ -54,7 +56,9 @@ public abstract class Robot {
      * Difficulty: *
      */
     public Robot toggleBreaker() {
+        // IMPLEMENT {{{
         return ImmutableRobot.copyOf(this).withBreaker(!breaker());
+        // }}}
     }
 
     /**
@@ -63,7 +67,9 @@ public abstract class Robot {
      * Difficulty: *
      */
     public Robot invert() {
+        // IMPLEMENT {{{
         return ImmutableRobot.copyOf(this).withInverted(!inverted());
+        // }}}
     }
 
     /**
@@ -72,7 +78,9 @@ public abstract class Robot {
      * Difficulty: *
      */
     public Robot die() {
+        // IMPLEMENT {{{
         return ImmutableRobot.copyOf(this).withDead(true);
+        // }}}
     }
 
     /**
@@ -87,6 +95,7 @@ public abstract class Robot {
      * Use {@link Option#get()}
      */
     public Robot move(final CityMap cityMap) {
+        // IMPLEMENT {{{
         final Direction currentDirection = direction();
 
         final Direction updatedDirection;
@@ -101,6 +110,7 @@ public abstract class Robot {
                 .position(position().move(updatedDirection))
                 .direction(updatedDirection)
                 .build();
+        // }}}
     }
 
     /**
@@ -111,7 +121,9 @@ public abstract class Robot {
      * Use {@link #obstacle(Tile)}
      */
     private boolean obstacleInDirection(final Direction direction, final CityMap cityMap) {
+        // IMPLEMENT {{{
         return obstacle(cityMap.tile(position().move(direction)));
+        // }}}
     }
 
     /**
@@ -123,6 +135,7 @@ public abstract class Robot {
      * Use {@link #breaker()}
      */
     private boolean obstacle(final Tile tile) {
+        // IMPLEMENT {{{
         if (tile instanceof Obstacle) {
             return true;
         } else if (tile instanceof BreakableObstacle) {
@@ -130,6 +143,7 @@ public abstract class Robot {
         } else {
             return false;
         }
+        // }}}
     }
 
     /**
@@ -141,15 +155,19 @@ public abstract class Robot {
      * Use {@link #INVERTED_PRIORITIES}
      */
     public Seq<Direction> priorities() {
+        // IMPLEMENT {{{
         return inverted() ? INVERTED_PRIORITIES : PRIORITIES;
+        // }}}
     }
 
     /**
      * Trigger teleporter at current position and teleport robot to destination
      */
     public Robot triggerTeleporter(final CityMap cityMap) {
+        // IMPLEMENT {{{
         final Position outPosition = cityMap.teleporterOutPosition(position());
         return ImmutableRobot.copyOf(this).withPosition(outPosition);
+        // }}}
     }
 
     /**
@@ -159,7 +177,10 @@ public abstract class Robot {
      * Hints:
      * Use {@link List#of(Object[])}
      */
-    public static final Seq<Direction> PRIORITIES = List.of(South, East, North, West);
+    public static final Seq<Direction> PRIORITIES =
+            // IMPLEMENT {{{
+            List.of(South, East, North, West);
+            // }}}
 
     /**
      * Inverted priorities
@@ -169,7 +190,10 @@ public abstract class Robot {
      * Use {@link #PRIORITIES}
      * Use {@link Seq#reverse()}
      */
-    public static final Seq<Direction> INVERTED_PRIORITIES = PRIORITIES.reverse();
+    public static final Seq<Direction> INVERTED_PRIORITIES =
+            // IMPLEMENT {{{
+            PRIORITIES.reverse();
+            // }}}
 
     /**
      * Create a robot in initial state (at start position, south directed, no alteration, alive)
@@ -177,6 +201,7 @@ public abstract class Robot {
      * Difficulty: *
      */
     public static Robot fromStart(final Position position) {
+        // IMPLEMENT {{{
         return ImmutableRobot.builder()
                 .position(position)
                 .direction(South)
@@ -184,5 +209,6 @@ public abstract class Robot {
                 .inverted(false)
                 .dead(false)
                 .build();
+        // }}}
     }
 }

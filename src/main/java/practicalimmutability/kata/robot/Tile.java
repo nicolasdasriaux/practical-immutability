@@ -75,6 +75,7 @@ public interface Tile {
      * Difficulty: *
      */
     default char toCode() {
+        // IMPLEMENT {{{
         if (this instanceof Empty) {
             return ' ';
         } else if (this instanceof Start) {
@@ -97,6 +98,7 @@ public interface Tile {
         } else {
             throw new IllegalArgumentException(String.format("Unknown tile (%s)", this));
         }
+        // }}}
     }
 
     /**
@@ -105,6 +107,7 @@ public interface Tile {
      * Difficulty: *
      */
     static Tile fromCode(final char code) {
+        // IMPLEMENT {{{
         switch (code) {
             case ' ': return Empty.of();
             case '@': return Start.of();
@@ -117,5 +120,6 @@ public interface Tile {
             case 'T': return Teleporter.of();
             default: throw new IllegalArgumentException(String.format("Unknown tile code (%s)", code));
         }
+        // }}}
     }
 }

@@ -1,5 +1,8 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
+import io.vavr.collection.IndexedSeq;
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
@@ -151,15 +154,15 @@ class RobotTest {
             assertThat(breakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
 
-        Seq<Arguments> nonInvertedRobotWithObstacleExamples() {
+        Seq<Tuple3<Seq<String>, Direction, Direction>> nonInvertedRobotWithObstacleExampleTemplates() {
             return List.of(
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
+                                    "#  ?  #", // 2
                                     "#     #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
@@ -168,29 +171,29 @@ class RobotTest {
                             ),
                             North, South
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
                                     "#     #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# #   #", // 3
+                                    "# ?   #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -198,14 +201,14 @@ class RobotTest {
                             ),
                             West, South
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "#   # #", // 3
+                                    "#   ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -213,120 +216,120 @@ class RobotTest {
                             ),
                             East, South
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
+                                    "#  ?  #", // 2
                                     "#     #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             North, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "#   # #", // 3
-                                    "#  #  #", // 4
+                                    "#   ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# #   #", // 3
-                                    "#  #  #", // 4
+                                    "# ?   #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             West, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "#   # #", // 3
-                                    "#  #  #", // 4
+                                    "#   ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             East, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "#   # #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 2
+                                    "#   ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             North, West
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "#   # #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 2
+                                    "#   ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, West
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# # # #", // 3
-                                    "#  #  #", // 4
+                                    "# ? ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             West, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "#   # #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 2
+                                    "#   ? #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
@@ -334,6 +337,10 @@ class RobotTest {
                             East, West
                     )
             );
+        }
+
+        Seq<Arguments> nonInvertedRobotWithObstacleExamples() {
+            return substituteObstacles(nonInvertedRobotWithObstacleExampleTemplates(), '#');
         }
 
         @DisplayName("Should move and change direction taking obstacles into account when non-inverted priorities")
@@ -360,15 +367,43 @@ class RobotTest {
             assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
         }
 
-        Seq<Arguments> invertedRobotWithObstacleExamples() {
+        Seq<Arguments> nonInvertedRobotWithBreakableObstacleExamples() {
+            return substituteObstacles(nonInvertedRobotWithObstacleExampleTemplates(), 'X');
+        }
+
+        @DisplayName("Should move and change direction taking breakable obstacles into account when non-inverted priorities")
+        @ParameterizedTest(name = "Case #{index} directing to {1} but bumped to {2}")
+        @MethodSource("nonInvertedRobotWithBreakableObstacleExamples")
+        void nonInvertedRobotWithBreakableObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
+            final Position initialPosition = Position.of(3, 3);
+
+            final Robot robot = ImmutableRobot.builder()
+                    .position(initialPosition)
+                    .direction(initialDirection)
+                    .breaker(false)
+                    .inverted(false)
+                    .dead(false)
+                    .build();
+
+            final Position finalPosition = initialPosition.move(finalDirection);
+
+            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+                    .position(finalPosition)
+                    .direction(finalDirection)
+                    .build();
+
+            assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
+        }
+
+        Seq<Tuple3<Seq<String>, Direction, Direction>> invertedRobotWithObstacleExampleTemplates() {
             return List.of(
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
+                                    "#  ?  #", // 2
                                     "#     #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
@@ -377,29 +412,29 @@ class RobotTest {
                             ),
                             North, West
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
                                     "#     #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, West
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# #   #", // 3
+                                    "# ?   #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -407,14 +442,14 @@ class RobotTest {
                             ),
                             West, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "#   # #", // 3
+                                    "#   ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -422,14 +457,14 @@ class RobotTest {
                             ),
                             East, West
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# #   #", // 3
+                                    "#  ?  #", // 2
+                                    "# ?   #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -437,29 +472,29 @@ class RobotTest {
                             ),
                             North, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# #   #", // 3
-                                    "#  #  #", // 4
+                                    "# ?   #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# #   #", // 3
+                                    "#  ?  #", // 2
+                                    "# ?   #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -467,14 +502,14 @@ class RobotTest {
                             ),
                             West, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
                                     "#     #", // 2
-                                    "# # # #", // 3
+                                    "# ? ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -482,14 +517,14 @@ class RobotTest {
                             ),
                             East, North
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# # # #", // 3
+                                    "#  ?  #", // 2
+                                    "# ? ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -497,29 +532,29 @@ class RobotTest {
                             ),
                             North, South
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# #   #", // 3
-                                    "#  #  #", // 4
+                                    "#  ?  #", // 2
+                                    "# ?   #", // 3
+                                    "#  ?  #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
                                     // @formatter:on
                             ),
                             South, East
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# # # #", // 3
+                                    "#  ?  #", // 2
+                                    "# ? ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -527,14 +562,14 @@ class RobotTest {
                             ),
                             West, South
                     ),
-                    Arguments.of(
-                            CityMap.fromLines(
+                    Tuple.of(
+                            List.of(
                                     // @formatter:off
-                                  // 0123456
+                                    // 0123456
                                     "#######", // 0
                                     "#@    #", // 1
-                                    "#  #  #", // 2
-                                    "# # # #", // 3
+                                    "#  ?  #", // 2
+                                    "# ? ? #", // 3
                                     "#     #", // 4
                                     "#    $#", // 5
                                     "#######"  // 6
@@ -543,6 +578,10 @@ class RobotTest {
                             East, South
                     )
             );
+        }
+
+        Seq<Arguments> invertedRobotWithObstacleExamples() {
+            return substituteObstacles(invertedRobotWithObstacleExampleTemplates(), '#');
         }
 
         @DisplayName("Should move taking obstacles into account when inverted priorities")
@@ -567,6 +606,48 @@ class RobotTest {
                     .build();
 
             assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
+        }
+
+        Seq<Arguments> invertedRobotWithBreakableObstacleExamples() {
+            return substituteObstacles(invertedRobotWithObstacleExampleTemplates(), 'X');
+        }
+
+        @DisplayName("Should move taking breakable obstacles into account when inverted priorities")
+        @ParameterizedTest(name = "Case #{index} directing to {1} but bumped to {2}")
+        @MethodSource("invertedRobotWithBreakableObstacleExamples")
+        void invertedRobotWithBreakableObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
+            final Position initialPosition = Position.of(3, 3);
+
+            final Robot robot = ImmutableRobot.builder()
+                    .position(initialPosition)
+                    .direction(initialDirection)
+                    .breaker(false)
+                    .inverted(true)
+                    .dead(false)
+                    .build();
+
+            final Position finalPosition = initialPosition.move(finalDirection);
+
+            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+                    .position(finalPosition)
+                    .direction(finalDirection)
+                    .build();
+
+            assertThat(robot.move(cityMap)).isEqualTo(movedRobot);
+        }
+
+        private Seq<Arguments> substituteObstacles(final Seq<Tuple3<Seq<String>, Direction, Direction>> exampleTemplates, final char obstacle) {
+            return exampleTemplates.map(t -> {
+                final IndexedSeq<String> lines = t._1.map(line -> line.replace('?', obstacle)).toVector();
+                final Direction initialDirection = t._2;
+                final Direction finalDirection = t._3;
+
+                return Arguments.of(
+                        CityMap.fromLines(lines),
+                        initialDirection,
+                        finalDirection
+                );
+            });
         }
     }
 

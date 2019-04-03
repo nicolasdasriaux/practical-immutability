@@ -15,16 +15,20 @@ https://www.codingame.com/ide/puzzle/bender-episode-1
 Once project opened, you will have to enable annotation processor support: 
 https://immutables.github.io/apt.html#intellij-idea
 
-Also ensuring that code and Javadoc for dependencies are downloaded in IDE will help for quick reference.
+## IntelliJ Pro Tips
+
+* Ensuring that code and Javadoc for dependencies are downloaded will help for quick reference in hints.
+* Check **Build project automatically** box in **Preferences**
+* Enable **Toggle auto-test** icon in any test tab of **Run** Tool Window
 
 ## Recommended Implementation Steps
 
 ### Guided Steps
 
 Here tests will already be available and you'll mostly have to implement the body of the methods.
-There's a number of hints and links pointing to _Vavr_ code to help you.
+There's a number of hints and links pointing to _Vavr_ code to help you (Ctrl + Click or Cmd + Click).
 
-Satisfy existing tests to complete implementation
+Satisfy existing tests to complete implementation.
 
 1) Complete `Direction` implementation
 2) Complete `Position` implementation
@@ -41,7 +45,7 @@ Satisfy existing tests to complete implementation
 
 ### Bonus Steps
 
-Now implement the following features with your own tests
+Now implement the following features with your own tests.
 
 1) Display either the **directions** or a **loop diagnosis** following the last steps of CodingGame instructions
 2) Try adding class invariant on `CityMap` such as

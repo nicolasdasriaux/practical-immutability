@@ -4,24 +4,29 @@
 
 * Rebuild `kata` branch by removing solution code from method bodies starting from latest versions
 * Update kata instructions to get to switch to `kata` branch
-* Update IntelliJ instructions to **Build automatically**
-* Update IntelliJ instructions to **Toggle auto-test**
 
 # Notes
 
-```
+# Substitution to publish new kata branch
+
+Replace section
+
+```regexp
 // IMPLEMENT FUNC \{\{\{\n(.*\n)*?.*// \}\}\}
 ```
 
-```
-return API.TODO()
+By code
+
+```java
+return API.TODO();
 ```
 
+Replace section 
+```regexp
+// IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// }}}
+```
 
-```
-// IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// \}\}\}
-```
-
-```
-API.TODO()
+By code 
+```java
+API.TODO();
 ```

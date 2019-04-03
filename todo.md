@@ -7,7 +7,7 @@
 
 # Notes
 
-# Substitution to publish new kata branch
+# Substitution to publish new `kata` branch
 
 Replace section
 

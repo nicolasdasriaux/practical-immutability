@@ -37,7 +37,7 @@ public abstract class CityMap {
      * Use {@link IndexedSeq#get(int)}
      */
     public Tile tile(final Position position) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return rows().get(position.y()).get(position.x());
         // }}}
     }
@@ -51,7 +51,7 @@ public abstract class CityMap {
      * Use {@link Option#get()}
      */
     public Position teleporterOutPosition(final Position inPosition) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return teleporters().find(position -> !position.equals(inPosition)).get();
         // }}}
     }
@@ -64,7 +64,7 @@ public abstract class CityMap {
      * Use {@link IndexedSeq#update(int, Function)}
      */
     public CityMap breakObstacle(final Position position) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final IndexedSeq<IndexedSeq<Tile>> updatedRows = rows().update(
                 position.y(),
                 row -> row.update(position.x(), Empty.of())
@@ -86,7 +86,7 @@ public abstract class CityMap {
      * Use {@link #findPosition(IndexedSeq, Tile)} to find teleporter positions
      */
     public static CityMap fromLines(final IndexedSeq<String> lines) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final IndexedSeq<IndexedSeq<Tile>> rows = lines.map(line -> CharSeq.of(line).map(Tile::fromCode));
         final Position start = findPosition(rows, Start.of()).head();
         final Seq<Position> teleporters = findPosition(rows, Teleporter.of());
@@ -103,7 +103,7 @@ public abstract class CityMap {
      * Use {@link #fromLines(IndexedSeq)}
      */
     public static CityMap fromLines(final String... lines) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return CityMap.fromLines(Array.of(lines));
         // }}}
     }
@@ -121,7 +121,7 @@ public abstract class CityMap {
      * Use {@link Iterator#toList()} to run iterator and get a list of positions
      */
     private static Seq<Position> findPosition(final IndexedSeq<IndexedSeq<Tile>> rows, final Tile tile) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return Iterator.range(0, rows.size()).flatMap(y ->
                 Iterator.range(0, rows.get(y).size())
                         .filter(x -> rows.get(y).get(x).equals(tile))

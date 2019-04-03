@@ -12,7 +12,7 @@ public enum Direction {
      * Difficulty: *
      */
     public char toCode() {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         switch (this) {
             case North: return 'N';
             case South: return 'S';
@@ -29,7 +29,7 @@ public enum Direction {
      * Difficulty: *
      */
     public static Direction fromCode(final char code) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         switch (code) {
             case 'N': return North;
             case 'S': return South;

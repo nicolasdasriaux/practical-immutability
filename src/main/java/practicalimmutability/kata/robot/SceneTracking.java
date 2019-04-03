@@ -40,7 +40,7 @@ public abstract class SceneTracking {
      * @return new tracking state
      */
     public SceneTracking track(final Scene scene) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final CityMap previousCityMap = previousCityMap();
         final CityMap cityMap = scene.cityMap();
         final Robot robot = scene.robot();
@@ -74,7 +74,7 @@ public abstract class SceneTracking {
      * Be sure to look at unit tests
      */
     public static SceneTracking fromInitialScene(final Scene scene) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return ImmutableSceneTracking.builder()
                 .previousCityMap(scene.cityMap())
                 .addPreviousRobot(scene.robot())

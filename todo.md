@@ -10,5 +10,18 @@
 # Notes
 
 ```
-// IMPLEMENT \{\{\{\n.*\n.*// \}\}\}
+// IMPLEMENT FUNC \{\{\{\n(.*\n)*?.*// \}\}\}
+```
+
+```
+return API.TODO()
+```
+
+
+```
+// IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// \}\}\}
+```
+
+```
+API.TODO()
 ```

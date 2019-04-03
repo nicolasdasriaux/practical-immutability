@@ -75,7 +75,7 @@ public interface Tile {
      * Difficulty: *
      */
     default char toCode() {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         if (this instanceof Empty) {
             return ' ';
         } else if (this instanceof Start) {
@@ -107,7 +107,7 @@ public interface Tile {
      * Difficulty: *
      */
     static Tile fromCode(final char code) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         switch (code) {
             case ' ': return Empty.of();
             case '@': return Start.of();

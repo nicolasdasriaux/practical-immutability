@@ -32,7 +32,7 @@ public abstract class Scene {
      * Use {@link Robot#dead()}
      */
     public boolean completed() {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return robot().dead();
         // }}}
     }
@@ -58,7 +58,7 @@ public abstract class Scene {
      * @see <a href="https://www.baeldung.com/vavr-pattern-matching">Guide to Pattern Matching in Vavr</a>
      */
     public Scene next() {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final CityMap currentCityMap = cityMap();
         final Robot currentRobot = robot();
         final Position currentPosition = currentRobot.position();
@@ -127,7 +127,7 @@ public abstract class Scene {
      * Use {@link Iterator#concat(Iterable[])} to concat both iterators (scenes before completion, scene at completion)
      */
     public Iterator<Scene> run() {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final Tuple2<Iterator<Scene>, Iterator<Scene>> prefixAndReminder =
                 Iterator.iterate(this, Scene::next).span(scene -> !scene.completed());
 
@@ -141,7 +141,7 @@ public abstract class Scene {
      * Difficulty: *
      */
     public static Scene fromCityMap(final CityMap cityMap) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         final Robot robot = Robot.fromStart(cityMap.start());
 
         return ImmutableScene.builder()

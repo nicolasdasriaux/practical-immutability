@@ -22,7 +22,7 @@ public abstract class Position {
      * Difficulty: *
      */
     public Position move(final Direction direction) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         switch(direction) {
             case North: return ImmutablePosition.copyOf(this).withY(y() - 1);
             case South: return ImmutablePosition.copyOf(this).withY(y() + 1);
@@ -39,7 +39,7 @@ public abstract class Position {
      * Difficulty: *
      */
     public static Position of(final int x, final  int y) {
-        // IMPLEMENT {{{
+        // IMPLEMENT FUNC {{{
         return ImmutablePosition.of(x, y);
         // }}}
     }

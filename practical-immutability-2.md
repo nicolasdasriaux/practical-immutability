@@ -274,7 +274,7 @@ final Seq<Action> actions = List.of(
 public abstract class Player {
     @Value.Parameter
     public abstract Position position();    
-        
+
     public static Player of(final Position position) {
         return ImmutablePlayer.of(position);
     }
@@ -383,7 +383,7 @@ public abstract class Player { // ...
 ---
 
 # Pattern Matching
-## with _Vavr_ 
+## with _Vavr_
 
 ---
 
@@ -402,17 +402,17 @@ final String label = Match(number).of(
 
 ---
 
-# `Match`, a `switch` on steroids
+# `Match`, a `switch` on Steroids
 
 * `Match` is an **expression** compared to `switch`
 * Many ways to **match a value**
-* Might **extract one or more values** 
+* Might **extract one or more values**
 * First match wins and gives the value of the expression
 * Extracted values can be passed to a lambda expression and used to produce the value
 
 ---
 
-# `Case`, a `case` on steroids
+# `Case`, a `case` on Steroids
 
 | Case form       | What it matches and extracts                                       |
 |-----------------|--------------------------------------------------------------------|
@@ -506,7 +506,7 @@ public abstract class Player { // ...
 | Visitor Pattern  | :smile: o(1)        | :smile:                    | :worried:      | :worried:   |
 | Pattern Matching | :worried: α.o(n)    | :worried:                  | :smile:        | :smile:     |
 
-* **_Vavr_ pattern matching** has significant overhead (lambda, object creation...) 
+* **_Vavr_ pattern matching** has significant overhead (lambda, object creation...)
 * Future **Java pattern matching** will feature compile-time exhaustivity and low overhead
 
 ---
@@ -523,7 +523,7 @@ public abstract class Player { // ...
   * or a left **error** of type `E` (`Left`, `$Left`)
 
 * `Tuple0`, `Tuple1<A>`, `Tuple2<A, B>`, `Tuple3<A, B, C>` ...
-  * Empty tuple (_unit_), singles, pairs, triples... 
+  * Empty tuple (_unit_), singles, pairs, triples...
 
 ---
 
@@ -532,12 +532,12 @@ public abstract class Player { // ...
 * **Immutability pays off** even at small scale
   * Many no-brainers. If it's never mutated, make it immutable!
   * _Immutables_ objects and _Vavr_ collections are cool!
-  * Code will be really more concise (more but simpler classes). 
+  * Code will be really more concise (more but simpler classes).
   * Concurrency and immutability is a match made in heaven!
 * **Do not force-feed your code** with immutability
   * Immutability is very **intolerant of entangled design**, it will bite really hard
   * Immutability makes **working with associations more difficult** (bidirectional one-to-many and many-to-many) and odd for many people
- 
+
 ---
 
 # Gateway to Functional Programming

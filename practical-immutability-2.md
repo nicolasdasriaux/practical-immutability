@@ -433,7 +433,7 @@ final String label = Match(number).of(
         Case($(n -> n < 0), "Negative"),
         Case($(isIn(19, 23, 29)), "Chosen Prime"),
         Case($(i -> i % 2 == 0), i -> String.format("Even (%d)", i)),
-        Case($(), i-> String.format("Odd (%d)", i))
+        Case($(), i -> String.format("Odd (%d)", i))
 );
 ```
 

@@ -86,6 +86,21 @@ class RobotTest {
         assertThat(livingRobot.die()).isEqualTo(deadRobot);
     }
 
+    @DisplayName("Should have priorities accordingly to inversion mode")
+    @Test
+    void priorities() {
+        final Robot nonInvertedRobot = ImmutableRobot.builder()
+                .position(Position.of(2, 4))
+                .direction(South)
+                .breaker(false)
+                .inverted(false)
+                .dead(false)
+                .build();
+
+        assertThat(nonInvertedRobot.priorities()).isEqualTo(List.of(South, East, North, West));
+        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(West, North, East, South));
+    }
+
     @DisplayName("When moving")
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -649,21 +664,6 @@ class RobotTest {
                 );
             });
         }
-    }
-
-    @DisplayName("Should have priorities accordingly to inversion mode")
-    @Test
-    void priorities() {
-        final Robot nonInvertedRobot = ImmutableRobot.builder()
-                .position(Position.of(2, 4))
-                .direction(South)
-                .breaker(false)
-                .inverted(false)
-                .dead(false)
-                .build();
-
-        assertThat(nonInvertedRobot.priorities()).isEqualTo(List.of(South, East, North, West));
-        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(West, North, East, South));
     }
 
     @DisplayName("Should teleport to out-teleporter when triggering in-teleporter")

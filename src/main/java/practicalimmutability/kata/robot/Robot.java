@@ -84,6 +84,45 @@ public abstract class Robot {
     }
 
     /**
+     * Non-inverted priorities
+     *
+     * Difficulty: *
+     * Hints:
+     * Use {@link List#of(Object[])}
+     */
+    public static final Seq<Direction> PRIORITIES =
+            // IMPLEMENT CONST {{{
+            List.of(South, East, North, West);
+            // }}}
+
+    /**
+     * Inverted priorities
+     *
+     * Difficulty: *
+     * Hints:
+     * Use {@link #PRIORITIES}
+     * Use {@link Seq#reverse()}
+     */
+    public static final Seq<Direction> INVERTED_PRIORITIES =
+            // IMPLEMENT CONST {{{
+            PRIORITIES.reverse();
+            // }}}
+
+    /**
+     * Get current robot priorities
+     *
+     * Difficulty: *
+     * Hints:
+     * Use {@link #PRIORITIES}
+     * Use {@link #INVERTED_PRIORITIES}
+     */
+    public Seq<Direction> priorities() {
+        // IMPLEMENT FUNC {{{
+        return inverted() ? INVERTED_PRIORITIES : PRIORITIES;
+        // }}}
+    }
+
+    /**
      * Move robot on a city map
      * Robot keeps the same direction and move if no obstacle in this direction.
      * Otherwise robot changes direction (following its current priorities) and move to where first there is no obstacle.
@@ -147,20 +186,6 @@ public abstract class Robot {
     }
 
     /**
-     * Get current robot priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #PRIORITIES}
-     * Use {@link #INVERTED_PRIORITIES}
-     */
-    public Seq<Direction> priorities() {
-        // IMPLEMENT FUNC {{{
-        return inverted() ? INVERTED_PRIORITIES : PRIORITIES;
-        // }}}
-    }
-
-    /**
      * Trigger teleporter at current position and teleport robot to destination
      */
     public Robot triggerTeleporter(final CityMap cityMap) {
@@ -169,31 +194,6 @@ public abstract class Robot {
         return ImmutableRobot.copyOf(this).withPosition(outPosition);
         // }}}
     }
-
-    /**
-     * Non-inverted priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link List#of(Object[])}
-     */
-    public static final Seq<Direction> PRIORITIES =
-            // IMPLEMENT CONST {{{
-            List.of(South, East, North, West);
-            // }}}
-
-    /**
-     * Inverted priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #PRIORITIES}
-     * Use {@link Seq#reverse()}
-     */
-    public static final Seq<Direction> INVERTED_PRIORITIES =
-            // IMPLEMENT CONST {{{
-            PRIORITIES.reverse();
-            // }}}
 
     /**
      * Create a robot in initial state (at start position, south directed, no alteration, alive)

@@ -21,7 +21,7 @@ public abstract class SceneTracking {
      */
     @Value.Default
     public boolean loop() {
-        return  false;
+        return false;
     }
 
     /**

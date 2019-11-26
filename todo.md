@@ -3,11 +3,8 @@
 ## Kata
 
 * Rebuild `kata` branch by removing solution code from method bodies starting from latest versions
-* Update kata instructions to get to switch to `kata` branch
 
-# Notes
-
-# Substitution to publish new `kata` branch
+### Substitution to create new `kata` branch
 
 Replace section
 
@@ -18,7 +15,7 @@ Replace section
 By code
 
 ```java
-return API.TODO();
+return io.vavr.API.TODO();
 ```
 
 Replace section 
@@ -28,5 +25,5 @@ Replace section
 
 By code 
 ```java
-API.TODO();
+io.vavr.API.TODO(;
 ```

@@ -1,29 +1,29 @@
 # Todo
 
-## Kata
+##  Updating `kata` branch
 
-* Rebuild `kata` branch by removing solution code from method bodies starting from latest versions
+Rebuild `kata` branch by removing solution code from method bodies starting from latest versions
 
-### Substitution to create new `kata` branch
+* Replace section
 
-Replace section
+  ```regexp
+  // IMPLEMENT FUNC \{\{\{\n(.*\n)*?.*// \}\}\}
+  ```
 
-```regexp
-// IMPLEMENT FUNC \{\{\{\n(.*\n)*?.*// \}\}\}
-```
+  By code
 
-By code
+  ```java
+  return io.vavr.API.TODO();
+  ```
 
-```java
-return io.vavr.API.TODO();
-```
+* Replace section
 
-Replace section 
-```regexp
-// IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// }}}
-```
+  ```regexp
+  // IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// }}}
+  ```
 
-By code 
-```java
-io.vavr.API.TODO(;
-```
+  By code
+
+  ```java
+  io.vavr.API.TODO();
+  ```

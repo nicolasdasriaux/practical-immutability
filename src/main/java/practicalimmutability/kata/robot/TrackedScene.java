@@ -3,28 +3,23 @@ package practicalimmutability.kata.robot;
 import io.vavr.Tuple;
 import io.vavr.collection.Iterator;
 import io.vavr.control.Option;
-import org.immutables.value.Value;
+import lombok.Builder;
 
 import java.util.function.Function;
 
-@Value.Immutable
-public abstract class TrackedScene {
-    /**
-     * Current scene
-     */
-    @Value.Parameter
-    public abstract Scene scene();
-
-    /**
-     * Current tracking of the scene
-     */
-    @Value.Parameter
-    public abstract SceneTracking tracking();
+/**
+ * <b>Tracked scene</b> holding the scene itself and its tracking
+ * @param scene Current scene
+ * @param tracking Current tracking of the scene
+ */
+@Builder
+public record TrackedScene(
+        Scene scene,
+        SceneTracking tracking) {
 
     /**
      * Determine whether tracked scene is completed or not (dead robot, loop detected)
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public boolean completed() {
         // IMPLEMENT FUNC {{{
@@ -34,8 +29,7 @@ public abstract class TrackedScene {
 
     /**
      * Determine whether a loop was detected or not using tracking of this scene
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public boolean loop() {
         // IMPLEMENT FUNC {{{
@@ -45,11 +39,12 @@ public abstract class TrackedScene {
 
     /**
      * Determine next scene after the robot has acted and loop detection was performed
-     *
-     * Difficulty: **
-     * Hints:
-     * Use {@link Scene#next()}
-     * Use {@link SceneTracking#track(Scene)}
+     * <p>Difficulty: **</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link Scene#next()}</li>
+     *     <li>Use {@link SceneTracking#track(Scene)}</li>
+     * </ul>
      */
     public TrackedScene next() {
         // IMPLEMENT FUNC {{{
@@ -57,29 +52,35 @@ public abstract class TrackedScene {
         final SceneTracking currentTracking = tracking();
         final Scene updatedScene = currentScene.next();
         final SceneTracking updatedTracking = currentTracking.track(updatedScene);
-        return ImmutableTrackedScene.of(updatedScene, updatedTracking);
+        return TrackedScene.of(updatedScene, updatedTracking);
         // }}}
     }
 
     /**
      * Get an iterator over the successive tracked scenes including the completed scene
      *
-     * Difficulty: *
-     * Hints:
-     * Totally similar to {@link Scene#run()}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Totally similar to {@link Scene#run()}</li>
+     * </ul>
      *
-     * Or
+     * <p>OR</p>
      *
-     * Difficulty: ***** (not for the faint of heart)
-     * Hints:
-     * Read Vavr Javadoc carefully especially for {@link Iterator#unfoldRight(Object, Function)}
+     * <p>Difficulty: ***** (not for the faint of heart)</p>
+     * <p>Hints:</p>
      *
-     * Use {@link Iterator#unfoldRight(Object, Function)} to generate successive scenes starting from initial scene
-     * with Option<TrackedScene> as T (type for generator state)
-     * and TrackedScene a U (type for generated value)
-     * Use {@link Option#map(Function)}
-     * Use {@link Tuple#of(Object, Object)
-     * Use {@link Option#of(Object)} and {@link Option#none()}
+     * <ul>
+     *     <li>Read Vavr Javadoc carefully especially for {@link Iterator#unfoldRight(Object, Function)}</li>
+     *     <li>
+     *         Use {@link Iterator#unfoldRight(Object, Function)} to generate successive scenes starting from initial scene
+     *         with {@code Option<TrackedScene>} as {@code T} (type for generator state)
+     *         and {@code TrackedScene} as {@code U} (type for generated value)
+     *     </li>
+     *     <li>Use {@link Option#map(Function)}</li>
+     *     <li>Use {@link Tuple#of(Object, Object)}</li>
+     *     <li>Use {@link Option#of(Object)} and {@link Option#none()}</li>
+     * </ul>
      */
     public Iterator<TrackedScene> run() {
         // IMPLEMENT FUNC {{{
@@ -98,13 +99,19 @@ public abstract class TrackedScene {
     /**
      * Create tracked scene from a scene
      *
-     * Difficulty: *
-     * Hints:
-     * Be sure to initialize tracking
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Be sure to initialize tracking</li>
+     * </ul>
      */
     public static TrackedScene fromInitialScene(final Scene scene) {
         // IMPLEMENT FUNC {{{
-        return ImmutableTrackedScene.of(scene, SceneTracking.fromInitialScene(scene));
+        return TrackedScene.of(scene, SceneTracking.fromInitialScene(scene));
         // }}}
+    }
+
+    private static TrackedScene of(Scene scene, SceneTracking tracking) {
+        return new TrackedScene(scene, tracking);
     }
 }

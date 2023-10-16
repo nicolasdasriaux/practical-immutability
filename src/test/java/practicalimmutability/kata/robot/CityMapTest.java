@@ -1,12 +1,21 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.IndexedSeq;
-import io.vavr.collection.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import practicalimmutability.kata.robot.Tile.*;
+import practicalimmutability.kata.robot.Tile.Beer;
+import practicalimmutability.kata.robot.Tile.Booth;
+import practicalimmutability.kata.robot.Tile.BreakableObstacle;
+import practicalimmutability.kata.robot.Tile.CircuitInverter;
+import practicalimmutability.kata.robot.Tile.DirectionModifier;
+import practicalimmutability.kata.robot.Tile.Empty;
+import practicalimmutability.kata.robot.Tile.Obstacle;
+import practicalimmutability.kata.robot.Tile.Start;
+import practicalimmutability.kata.robot.Tile.Teleporter;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.IndexedSeq;
+import io.vavr.collection.Vector;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("City Map")
@@ -35,10 +44,10 @@ class CityMapTest {
         final Booth _Z_ = Booth.of(); // The Omega
         final Obstacle _X_ = Obstacle.of();
         final BreakableObstacle _x_ = BreakableObstacle.of();
-        final DirectionModifier _N_ = DirectionModifier.of(North);
-        final DirectionModifier _S_ = DirectionModifier.of(South);
-        final DirectionModifier _W_ = DirectionModifier.of(West);
-        final DirectionModifier _E_ = DirectionModifier.of(East);
+        final DirectionModifier _N_ = DirectionModifier.of(NORTH);
+        final DirectionModifier _S_ = DirectionModifier.of(SOUTH);
+        final DirectionModifier _W_ = DirectionModifier.of(WEST);
+        final DirectionModifier _E_ = DirectionModifier.of(EAST);
         final CircuitInverter _I_ = CircuitInverter.of();
         final Beer _B_ = Beer.of();
         final Teleporter _T_ = Teleporter.of();

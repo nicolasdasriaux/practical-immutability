@@ -1,35 +1,47 @@
 package practicalimmutability.kata.robot;
 
+import practicalimmutability.kata.robot.Tile.Beer;
+import practicalimmutability.kata.robot.Tile.Booth;
+import practicalimmutability.kata.robot.Tile.BreakableObstacle;
+import practicalimmutability.kata.robot.Tile.CircuitInverter;
+import practicalimmutability.kata.robot.Tile.DirectionModifier;
+import practicalimmutability.kata.robot.Tile.Empty;
+import practicalimmutability.kata.robot.Tile.Obstacle;
+import practicalimmutability.kata.robot.Tile.Start;
+import practicalimmutability.kata.robot.Tile.Teleporter;
+
 import io.vavr.API;
 import io.vavr.Tuple2;
 import io.vavr.collection.Iterator;
-import org.immutables.value.Value;
-import practicalimmutability.kata.robot.Tile.*;
+import lombok.Builder;
+import lombok.With;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-@Value.Immutable
-public abstract class Scene {
-    /**
-     * Current city map state (BEFORE robot acts)
-     */
-    public abstract CityMap cityMap();
-
-    /**
-     * Current robot state (BEFORE robot acts)
-     * Robot has just arrived on position and has not reacted to the tile at current position yet.
-     * Robot direction is the one when it just arrived at position, not the one it will take after having reacted to the tile at current position.
-     * Robot might be in breaker mode on a breakable obstacle, obstacle will break as the consequence of robot reaction to tile.
-     */
-    public abstract Robot robot();
+/**
+ * State for <b>scene</b> comprising both the city map and the robot
+ *
+ * @param cityMap Current city map state (<u>before</u> robot acts)
+ * @param robot   Current robot state (<u>before</u> robot acts)
+ *                Robot has just arrived at position and has not reacted to the tile at current position yet.
+ *                Robot direction is the one when it just arrived at position,
+ *                not the one it will take after having reacted to the tile at current position.
+ *                Robot might be in breaker mode on a breakable obstacle,
+ *                obstacle will break as the consequence of robot reaction to tile.
+ */
+@Builder(toBuilder = true)
+public record Scene(
+        CityMap cityMap,
+        @With Robot robot) {
 
     /**
      * Determine whether or not this scene is completed
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link Robot#dead()}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link Robot#dead()}</li>
+     * </ul>
      */
     public boolean completed() {
         // IMPLEMENT FUNC {{{
@@ -41,21 +53,18 @@ public abstract class Scene {
      * Determine next scene after the robot has acted
      * Robot reacts to tile at current position and then moves.
      *
-     * Difficulty: ***
-     * Hints:
-     * It is recommended to implement first WITHOUT using a visitor pattern nor Vavr pattern matching.
-     *
-     * Implement tiles one by one and fail with an exception when not implemented yet.
-     * For this, use {@link API#TODO()}}
-     *
-     * Current tile cannot be an obstacle.
-     * Current tile might be a breakable obstacle only when robot is in breaker mode.
-     * Be sure to handle the case for breakable obstacle and impact city map.
-     * A dead robot cannot move.
-     *
-     * Use {@link IllegalStateException} for unexpected cases
-     *
-     * @see <a href="https://www.baeldung.com/vavr-pattern-matching">Guide to Pattern Matching in Vavr</a>
+     * <p>Difficulty: ***</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>It is recommended to implement first WITHOUT using a visitor pattern nor Vavr pattern matching.</li>
+     *     <li>Implement tiles one by one and fail with an exception when not implemented yet.
+     *     For this, use {@link API#TODO()}</li>
+     *     <li>Current tile cannot be an obstacle.</li>
+     *     <li>Current tile might be a breakable obstacle only when robot is in breaker mode.</li>
+     *     <li>Be sure to handle the case for breakable obstacle and impact city map.</li>
+     *     <li>A dead robot cannot move.</li>
+     *     <li>Use {@link IllegalStateException} for unexpected cases</li>
+     * </ul>
      */
     public Scene next() {
         // IMPLEMENT FUNC {{{
@@ -64,51 +73,58 @@ public abstract class Scene {
         final Position currentPosition = currentRobot.position();
         final Tile currentTile = currentCityMap.tile(currentPosition);
 
-        if (currentTile instanceof Empty || currentTile instanceof Start) {
-            final Robot updatedRobot = currentRobot.move(currentCityMap);
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else if (currentTile instanceof Booth) {
-            final Robot updatedRobot = currentRobot.die();
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else if (currentTile instanceof Obstacle) {
-            throw new IllegalStateException("Position should never be on Obstacle tile");
-        } else if (currentTile instanceof BreakableObstacle) {
-            final CityMap updatedCityMap = currentCityMap.breakObstacle(currentPosition);
-            final Robot updatedRobot = currentRobot.move(updatedCityMap);
+        return switch (currentTile) {
+            case Empty() -> {
+                final Robot updatedRobot = currentRobot.move(currentCityMap);
+                yield this.withRobot(updatedRobot);
+            }
+            case Start() -> {
+                final Robot updatedRobot = currentRobot.move(currentCityMap);
+                yield this.withRobot(updatedRobot);
+            }
+            case Booth() -> {
+                final Robot updatedRobot = currentRobot.die();
+                yield  this.withRobot(updatedRobot);
+            }
+            case Obstacle() -> throw new IllegalStateException("Position should never be on Obstacle tile");
+            case BreakableObstacle() -> {
+                final CityMap updatedCityMap = currentCityMap.breakObstacle(currentPosition);
+                final Robot updatedRobot = currentRobot.move(updatedCityMap);
 
-            return ImmutableScene.builder().from(this)
-                    .cityMap(updatedCityMap)
-                    .robot(updatedRobot)
-                    .build();
-        } else if (currentTile instanceof DirectionModifier) {
-            final DirectionModifier directionModifier = (DirectionModifier) currentTile;
+                yield this.toBuilder()
+                        .cityMap(updatedCityMap)
+                        .robot(updatedRobot)
+                        .build();
+            }
+            case DirectionModifier(Direction direction) -> {
+                final Robot updatedRobot = currentRobot
+                        .changeDirection(direction)
+                        .move(currentCityMap);
 
-            final Robot updatedRobot = currentRobot
-                    .changeDirection(directionModifier.direction())
-                    .move(currentCityMap);
+                yield this.withRobot(updatedRobot);
+            }
+            case CircuitInverter() -> {
+                final Robot updatedRobot = currentRobot
+                        .invert()
+                        .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else if (currentTile instanceof CircuitInverter) {
-            final Robot updatedRobot = currentRobot
-                    .invert()
-                    .move(currentCityMap);
+                yield  this.withRobot(updatedRobot);
+            }
+            case Beer() -> {
+                final Robot updatedRobot = currentRobot
+                        .toggleBreaker()
+                        .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else if (currentTile instanceof Beer) {
-            final Robot updatedRobot = currentRobot
-                    .toggleBreaker()
-                    .move(currentCityMap);
+                yield  this.withRobot(updatedRobot);
+            }
+            case Teleporter() -> {
+                final Robot updatedRobot = currentRobot
+                        .triggerTeleporter(currentCityMap)
+                        .move(currentCityMap);
 
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else if (currentTile instanceof Teleporter) {
-            final Robot updatedRobot = currentRobot
-                    .triggerTeleporter(currentCityMap)
-                    .move(currentCityMap);
-
-            return ImmutableScene.copyOf(this).withRobot(updatedRobot);
-        } else {
-            throw new IllegalStateException(String.format("Unexpected Tile (%s)", currentTile));
-        }
+                yield  this.withRobot(updatedRobot);
+            }
+        };
         // }}}
     }
 
@@ -144,7 +160,7 @@ public abstract class Scene {
         // IMPLEMENT FUNC {{{
         final Robot robot = Robot.fromStart(cityMap.start());
 
-        return ImmutableScene.builder()
+        return Scene.builder()
                 .cityMap(cityMap)
                 .robot(robot)
                 .build();

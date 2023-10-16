@@ -1,125 +1,101 @@
 package practicalimmutability.kata.robot;
 
-import org.immutables.value.Value;
-
-public interface Tile {
-    @Value.Immutable(singleton = true)
-    abstract class Empty implements Tile {
+/**
+ * <b>Tile</b> of a city map
+ */
+public sealed interface Tile {
+    record Empty() implements Tile {
         public static Empty of() {
-            return ImmutableEmpty.of();
+            return new Empty();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class Start implements Tile {
+    record Start() implements Tile {
         public static Start of() {
-            return ImmutableStart.of();
+            return new Start();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class Booth implements Tile {
+    record Booth() implements Tile {
         public static Booth of() {
-            return ImmutableBooth.of();
+            return new Booth();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class Obstacle implements Tile {
+    record Obstacle() implements Tile {
         public static Obstacle of() {
-            return ImmutableObstacle.of();
+            return new Obstacle();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class BreakableObstacle implements Tile {
+    record BreakableObstacle() implements Tile {
         public static BreakableObstacle of() {
-            return ImmutableBreakableObstacle.of();
+            return new BreakableObstacle();
         }
     }
 
-    @Value.Immutable
-    abstract class DirectionModifier implements Tile {
-        @Value.Parameter
-        public abstract Direction direction();
-
+    record DirectionModifier(Direction direction) implements Tile {
         public static DirectionModifier of(final Direction direction) {
-            return ImmutableDirectionModifier.of(direction);
+            return new DirectionModifier(direction);
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class CircuitInverter implements Tile {
+    record CircuitInverter() implements Tile {
         public static CircuitInverter of() {
-            return ImmutableCircuitInverter.of();
+            return new CircuitInverter();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class Beer implements Tile {
+    record Beer() implements Tile {
         public static Beer of() {
-            return ImmutableBeer.of();
+            return new Beer();
         }
     }
 
-    @Value.Immutable(singleton = true)
-    abstract class Teleporter implements Tile {
+    record Teleporter() implements Tile {
         public static Teleporter of() {
-            return ImmutableTeleporter.of();
+            return new Teleporter();
         }
     }
 
     /**
      * Get the code for this tile
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     default char toCode() {
         // IMPLEMENT FUNC {{{
-        if (this instanceof Empty) {
-            return ' ';
-        } else if (this instanceof Start) {
-            return '@';
-        } else if (this instanceof Booth) {
-            return '$';
-        } else if (this instanceof Obstacle) {
-            return '#';
-        } else if (this instanceof BreakableObstacle) {
-            return 'X';
-        } else if (this instanceof DirectionModifier) {
-            final DirectionModifier directionModifier = (DirectionModifier) this;
-            return directionModifier.direction().toCode();
-        } else if (this instanceof CircuitInverter) {
-            return 'I';
-        } else if (this instanceof Beer) {
-            return 'B';
-        } else if (this instanceof Teleporter) {
-            return 'T';
-        } else {
-            throw new IllegalArgumentException(String.format("Unknown tile (%s)", this));
-        }
+        return switch (this) {
+            case Empty() -> ' ';
+            case Start() -> '@';
+            case Booth() -> '$';
+            case Obstacle() -> '#';
+            case BreakableObstacle() -> 'X';
+            case DirectionModifier(Direction direction) -> direction.toCode();
+            case CircuitInverter() -> 'I';
+            case Beer() -> 'B';
+            case Teleporter() -> 'T';
+        };
         // }}}
     }
 
     /**
      * Get tile from a code
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     static Tile fromCode(final char code) {
         // IMPLEMENT FUNC {{{
-        switch (code) {
-            case ' ': return Empty.of();
-            case '@': return Start.of();
-            case '$': return Booth.of();
-            case '#': return Obstacle.of();
-            case 'X': return BreakableObstacle.of();
-            case 'N': case 'S': case 'E': case 'W': return DirectionModifier.of(Direction.fromCode(code));
-            case 'I': return CircuitInverter.of();
-            case 'B': return Beer.of();
-            case 'T': return Teleporter.of();
-            default: throw new IllegalArgumentException(String.format("Unknown tile code (%s)", code));
-        }
+        return switch (code) {
+            case ' ' -> Empty.of();
+            case '@' -> Start.of();
+            case '$' -> Booth.of();
+            case '#' -> Obstacle.of();
+            case 'X' -> BreakableObstacle.of();
+            case 'N', 'S', 'E', 'W' -> DirectionModifier.of(Direction.fromCode(code));
+            case 'I' -> CircuitInverter.of();
+            case 'B' -> Beer.of();
+            case 'T' -> Teleporter.of();
+            default -> throw new IllegalArgumentException(String.format("Unknown tile code (%s)", code));
+        };
         // }}}
     }
 }

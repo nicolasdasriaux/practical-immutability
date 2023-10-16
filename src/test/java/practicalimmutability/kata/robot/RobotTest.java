@@ -1,10 +1,5 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.Tuple;
-import io.vavr.Tuple3;
-import io.vavr.collection.IndexedSeq;
-import io.vavr.collection.List;
-import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,7 +9,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
+import io.vavr.collection.IndexedSeq;
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Robot")
@@ -23,15 +24,15 @@ class RobotTest {
     @ParameterizedTest(name = "{0}")
     @EnumSource(Direction.class)
     void changeDirection(final Direction direction) {
-        final Robot southDirectedRobot = ImmutableRobot.builder()
+        final Robot southDirectedRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        final Robot redirectedRobot = ImmutableRobot.copyOf(southDirectedRobot).withDirection(direction);
+        final Robot redirectedRobot = southDirectedRobot.withDirection(direction);
 
         assertThat(southDirectedRobot.changeDirection(direction)).isEqualTo(redirectedRobot);
     }
@@ -39,15 +40,15 @@ class RobotTest {
     @DisplayName("Should toggle breaker mode")
     @Test
     void toggleBreaker() {
-        final Robot nonBreakerRobot = ImmutableRobot.builder()
+        final Robot nonBreakerRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        final Robot breakerRobot = ImmutableRobot.copyOf(nonBreakerRobot).withBreaker(true);
+        final Robot breakerRobot = nonBreakerRobot.withBreaker(true);
 
         assertThat(nonBreakerRobot.toggleBreaker()).isEqualTo(breakerRobot);
         assertThat(nonBreakerRobot.toggleBreaker().toggleBreaker()).isEqualTo(nonBreakerRobot);
@@ -56,15 +57,15 @@ class RobotTest {
     @DisplayName("Should invert priorities")
     @Test
     void invert() {
-        final Robot nonInvertedRobot = ImmutableRobot.builder()
+        final Robot nonInvertedRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        final Robot invertedRobot = ImmutableRobot.copyOf(nonInvertedRobot).withInverted(true);
+        final Robot invertedRobot = nonInvertedRobot.withInverted(true);
 
         assertThat(nonInvertedRobot.invert()).isEqualTo(invertedRobot);
         assertThat(nonInvertedRobot.invert().invert()).isEqualTo(nonInvertedRobot);
@@ -73,15 +74,15 @@ class RobotTest {
     @DisplayName("Should die")
     @Test
     void die() {
-        final Robot livingRobot = ImmutableRobot.builder()
+        final Robot livingRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        final Robot deadRobot = ImmutableRobot.copyOf(livingRobot).withDead(true);
+        final Robot deadRobot = livingRobot.withDead(true);
 
         assertThat(livingRobot.die()).isEqualTo(deadRobot);
     }
@@ -89,16 +90,16 @@ class RobotTest {
     @DisplayName("Should have priorities accordingly to inversion mode")
     @Test
     void priorities() {
-        final Robot nonInvertedRobot = ImmutableRobot.builder()
+        final Robot nonInvertedRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        assertThat(nonInvertedRobot.priorities()).isEqualTo(List.of(South, East, North, West));
-        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(West, North, East, South));
+        assertThat(nonInvertedRobot.priorities()).isEqualTo(List.of(SOUTH, EAST, NORTH, WEST));
+        assertThat(nonInvertedRobot.invert().priorities()).isEqualTo(List.of(WEST, NORTH, EAST, SOUTH));
     }
 
     @DisplayName("When moving")
@@ -124,7 +125,7 @@ class RobotTest {
 
             final Position position = Position.of(3, 3);
 
-            final Robot nonBreakerRobot = ImmutableRobot.builder()
+            final Robot nonBreakerRobot = Robot.builder()
                     .position(position)
                     .direction(direction)
                     .breaker(false)
@@ -132,7 +133,7 @@ class RobotTest {
                     .dead(false)
                     .build();
 
-            final Robot movedRobot = ImmutableRobot.copyOf(nonBreakerRobot).withPosition(position.move(direction));
+            final Robot movedRobot = nonBreakerRobot.withPosition(position.move(direction));
 
             assertThat(nonBreakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
@@ -156,7 +157,7 @@ class RobotTest {
 
             final Position position = Position.of(3, 3);
 
-            final Robot breakerRobot = ImmutableRobot.builder()
+            final Robot breakerRobot = Robot.builder()
                     .position(position)
                     .direction(direction)
                     .breaker(true)
@@ -164,7 +165,7 @@ class RobotTest {
                     .dead(false)
                     .build();
 
-            final Robot movedRobot = ImmutableRobot.copyOf(breakerRobot).withPosition(position.move(direction));
+            final Robot movedRobot = breakerRobot.withPosition(position.move(direction));
 
             assertThat(breakerRobot.move(cityMap)).isEqualTo(movedRobot);
         }
@@ -184,7 +185,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, South
+                            NORTH, SOUTH
                     ),
                     Tuple.of(
                             List.of(
@@ -199,7 +200,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, East
+                            SOUTH, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -214,7 +215,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, South
+                            WEST, SOUTH
                     ),
                     Tuple.of(
                             List.of(
@@ -229,7 +230,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, South
+                            EAST, SOUTH
                     ),
                     Tuple.of(
                             List.of(
@@ -244,7 +245,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, East
+                            NORTH, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -259,7 +260,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, North
+                            SOUTH, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -274,7 +275,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, East
+                            WEST, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -289,7 +290,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, North
+                            EAST, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -304,7 +305,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, West
+                            NORTH, WEST
                     ),
                     Tuple.of(
                             List.of(
@@ -319,7 +320,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, West
+                            SOUTH, WEST
                     ),
                     Tuple.of(
                             List.of(
@@ -334,7 +335,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, North
+                            WEST, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -349,7 +350,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, West
+                            EAST, WEST
                     )
             );
         }
@@ -364,7 +365,7 @@ class RobotTest {
         void nonInvertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
 
-            final Robot robot = ImmutableRobot.builder()
+            final Robot robot = Robot.builder()
                     .position(initialPosition)
                     .direction(initialDirection)
                     .breaker(false)
@@ -374,7 +375,7 @@ class RobotTest {
 
             final Position finalPosition = initialPosition.move(finalDirection);
 
-            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+            final Robot movedRobot = robot.toBuilder()
                     .position(finalPosition)
                     .direction(finalDirection)
                     .build();
@@ -392,7 +393,7 @@ class RobotTest {
         void nonInvertedRobotWithBreakableObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
 
-            final Robot robot = ImmutableRobot.builder()
+            final Robot robot = Robot.builder()
                     .position(initialPosition)
                     .direction(initialDirection)
                     .breaker(false)
@@ -402,7 +403,7 @@ class RobotTest {
 
             final Position finalPosition = initialPosition.move(finalDirection);
 
-            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+            final Robot movedRobot = robot.toBuilder()
                     .position(finalPosition)
                     .direction(finalDirection)
                     .build();
@@ -425,7 +426,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, West
+                            NORTH, WEST
                     ),
                     Tuple.of(
                             List.of(
@@ -440,7 +441,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, West
+                            SOUTH, WEST
                     ),
                     Tuple.of(
                             List.of(
@@ -455,7 +456,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, North
+                            WEST, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -470,7 +471,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, West
+                            EAST, WEST
                     ),
                     Tuple.of(
                             List.of(
@@ -485,7 +486,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, East
+                            NORTH, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -500,7 +501,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, North
+                            SOUTH, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -515,7 +516,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, East
+                            WEST, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -530,7 +531,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, North
+                            EAST, NORTH
                     ),
                     Tuple.of(
                             List.of(
@@ -545,7 +546,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            North, South
+                            NORTH, SOUTH
                     ),
                     Tuple.of(
                             List.of(
@@ -560,7 +561,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            South, East
+                            SOUTH, EAST
                     ),
                     Tuple.of(
                             List.of(
@@ -575,7 +576,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            West, South
+                            WEST, SOUTH
                     ),
                     Tuple.of(
                             List.of(
@@ -590,7 +591,7 @@ class RobotTest {
                                     "#######"  // 6
                                     // @formatter:on
                             ),
-                            East, South
+                            EAST, SOUTH
                     )
             );
         }
@@ -605,7 +606,7 @@ class RobotTest {
         void invertedRobotWithObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
 
-            final Robot robot = ImmutableRobot.builder()
+            final Robot robot = Robot.builder()
                     .position(initialPosition)
                     .direction(initialDirection)
                     .breaker(false)
@@ -615,7 +616,7 @@ class RobotTest {
 
             final Position finalPosition = initialPosition.move(finalDirection);
 
-            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+            final Robot movedRobot = robot.toBuilder()
                     .position(finalPosition)
                     .direction(finalDirection)
                     .build();
@@ -633,7 +634,7 @@ class RobotTest {
         void invertedRobotWithBreakableObstacle(final CityMap cityMap, final Direction initialDirection, final Direction finalDirection) {
             final Position initialPosition = Position.of(3, 3);
 
-            final Robot robot = ImmutableRobot.builder()
+            final Robot robot = Robot.builder()
                     .position(initialPosition)
                     .direction(initialDirection)
                     .breaker(false)
@@ -643,7 +644,7 @@ class RobotTest {
 
             final Position finalPosition = initialPosition.move(finalDirection);
 
-            final Robot movedRobot = ImmutableRobot.builder().from(robot)
+            final Robot movedRobot = robot.toBuilder()
                     .position(finalPosition)
                     .direction(finalDirection)
                     .build();
@@ -686,15 +687,15 @@ class RobotTest {
                 // @formatter:on
         );
 
-        final Robot inTeleporterRobot = ImmutableRobot.builder()
+        final Robot inTeleporterRobot = Robot.builder()
                 .position(Position.of(2, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)
                 .build();
 
-        final Robot outTeleporterRobot = ImmutableRobot.copyOf(inTeleporterRobot).withPosition(Position.of(5, 6));
+        final Robot outTeleporterRobot = inTeleporterRobot.withPosition(Position.of(5, 6));
 
         assertThat(inTeleporterRobot.triggerTeleporter(cityMap)).isEqualTo(outTeleporterRobot);
     }
@@ -704,9 +705,9 @@ class RobotTest {
     void fromStart() {
         final Robot robot = Robot.fromStart(Position.of(3, 4));
 
-        final ImmutableRobot expectedRobot = ImmutableRobot.builder()
+        final Robot expectedRobot = Robot.builder()
                 .position(Position.of(3, 4))
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)

@@ -1,14 +1,15 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.List;
-import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Position")
@@ -23,10 +24,10 @@ class PositionTest {
 
     static Seq<Arguments> moveExamples() {
         return List.of(
-                Arguments.of(Position.of(4, 1), North, Position.of(4, 0)),
-                Arguments.of(Position.of(4, 1), South, Position.of(4, 2)),
-                Arguments.of(Position.of(4, 1), West, Position.of(3, 1)),
-                Arguments.of(Position.of(4, 1), East, Position.of(5, 1))
+                Arguments.of(Position.of(4, 1), NORTH, Position.of(4, 0)),
+                Arguments.of(Position.of(4, 1), SOUTH, Position.of(4, 2)),
+                Arguments.of(Position.of(4, 1), WEST, Position.of(3, 1)),
+                Arguments.of(Position.of(4, 1), EAST, Position.of(5, 1))
         );
     }
 

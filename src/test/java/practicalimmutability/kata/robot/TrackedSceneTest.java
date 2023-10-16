@@ -1,15 +1,16 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.Iterator;
-import io.vavr.collection.List;
-import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.Iterator;
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Tracked Scene")
 class TrackedSceneTest {
@@ -94,7 +95,7 @@ class TrackedSceneTest {
         final TrackedScene initialTrackedScene = TrackedScene.fromInitialScene(initialScene);
         final SceneTracking initialSceneTracking = SceneTracking.fromInitialScene(initialScene);
 
-        final TrackedScene trackedScene = ImmutableTrackedScene.builder()
+        final TrackedScene trackedScene = TrackedScene.builder()
                 .scene(initialScene)
                 .tracking(initialSceneTracking)
                 .build();

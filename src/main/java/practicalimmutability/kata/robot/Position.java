@@ -1,46 +1,38 @@
 package practicalimmutability.kata.robot;
 
-import org.immutables.value.Value;
+import lombok.AccessLevel;
+import lombok.With;
 
-@Value.Immutable
-public abstract class Position {
-    /**
-     * Column coordinate (x)
-     */
-    @Value.Parameter
-    public abstract int x();
-
-    /**
-     * Row coordinate (y)
-     */
-    @Value.Parameter
-    public abstract int y();
-
+/**
+ * <b>Position</b> on the map
+ *
+ * @param x Column coordinate (x)
+ * @param y Row coordinate (y)
+ */
+@With(AccessLevel.PRIVATE)
+public record Position(int x, int y) {
     /**
      * Get position when moving to a direction
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public Position move(final Direction direction) {
         // IMPLEMENT FUNC {{{
-        switch(direction) {
-            case North: return ImmutablePosition.copyOf(this).withY(y() - 1);
-            case South: return ImmutablePosition.copyOf(this).withY(y() + 1);
-            case West: return ImmutablePosition.copyOf(this).withX(x() - 1);
-            case East: return ImmutablePosition.copyOf(this).withX(x() + 1);
-            default: throw new IllegalArgumentException(String.format("Unknown Direction (%s)", direction));
-        }
+        return switch (direction) {
+            case NORTH -> this.withY(y() - 1);
+            case SOUTH -> this.withY(y() + 1);
+            case WEST -> this.withX(x() - 1);
+            case EAST -> this.withX(x() + 1);
+        };
         // }}}
     }
 
     /**
      * Create a position
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
-    public static Position of(final int x, final  int y) {
+    public static Position of(final int x, final int y) {
         // IMPLEMENT FUNC {{{
-        return ImmutablePosition.of(x, y);
+        return new Position(x, y);
         // }}}
     }
 }

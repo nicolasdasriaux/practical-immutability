@@ -2,25 +2,25 @@ package practicalimmutability.presentation.adt;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
-import practicalimmutability.presentation.adt.Action.Jump;
 
-import static practicalimmutability.presentation.adt.Action.Sleep;
-import static practicalimmutability.presentation.adt.Action.Walk;
-import static practicalimmutability.presentation.adt.Direction.Right;
-import static practicalimmutability.presentation.adt.Direction.Up;
+import static practicalimmutability.presentation.adt.Action.*;
+import static practicalimmutability.presentation.adt.Direction.*;
 
 public class GameApp {
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         final Player initialPlayer = Player.of(Position.of(1, 1));
 
         final Seq<Action> actions = List.of(
                 Jump.of(Position.of(5, 8)),
-                Walk.of(Up),
+                Walk.of(NORTH),
                 Sleep.of(),
-                Walk.of(Right)
+                Walk.of(EAST)
         );
 
         final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
         System.out.println(finalPLayer);
+
+        final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
+        System.out.println(players);
     }
 }

@@ -1,23 +1,24 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.List;
-import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Direction")
 class DirectionTest {
     static Seq<Arguments> directionCodeExamples() {
         return List.of(
-                Arguments.of(North, 'N'),
-                Arguments.of(South, 'S'),
-                Arguments.of(East, 'E'),
-                Arguments.of(West, 'W')
+                Arguments.of(NORTH, 'N'),
+                Arguments.of(SOUTH, 'S'),
+                Arguments.of(EAST, 'E'),
+                Arguments.of(WEST, 'W')
         );
     }
 

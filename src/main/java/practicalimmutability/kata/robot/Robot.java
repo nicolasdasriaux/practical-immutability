@@ -1,107 +1,97 @@
 package practicalimmutability.kata.robot;
 
+import practicalimmutability.kata.robot.Tile.BreakableObstacle;
+import practicalimmutability.kata.robot.Tile.Obstacle;
+
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.control.Option;
-import org.immutables.value.Value;
-import practicalimmutability.kata.robot.Tile.BreakableObstacle;
-import practicalimmutability.kata.robot.Tile.Obstacle;
+import lombok.Builder;
+import lombok.With;
 
 import java.util.function.Predicate;
 
 import static practicalimmutability.kata.robot.Direction.*;
 
-@Value.Immutable
-public abstract class Robot {
-    /**
-     * Current position of robot
-     */
-    public abstract Position position();
-
-    /**
-     * Current direction of robot
-     */
-    public abstract Direction direction();
-
-    /**
-     * Breaker mode
-     */
-    public abstract boolean breaker();
-
-    /**
-     * Priority inversion mode
-     */
-    public abstract boolean inverted();
-
-    /**
-     * Dead (or alive)
-     * https://www.youtube.com/watch?v=PGNiXGX2nLU&feature=youtu.be&t=12
-     */
-    public abstract boolean dead();
+/**
+ * State for <b>robot</b>
+ *
+ * @param position  Current position of robot
+ * @param direction Current direction of robot
+ * @param breaker   Breaker mode
+ * @param inverted  Priority inversion mode
+ * @param dead      Dead (or alive)
+ */
+@Builder(toBuilder = true)
+@With
+public record Robot(
+        Position position,
+        Direction direction,
+        boolean breaker,
+        boolean inverted,
+        boolean dead) {
 
     /**
      * Change direction of robot
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public Robot changeDirection(final Direction direction) {
         // IMPLEMENT FUNC {{{
-        return ImmutableRobot.copyOf(this).withDirection(direction);
+        return this.withDirection(direction);
         // }}}
     }
 
     /**
      * Toggle breaker mode of robot
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public Robot toggleBreaker() {
         // IMPLEMENT FUNC {{{
-        return ImmutableRobot.copyOf(this).withBreaker(!breaker());
+        return this.withBreaker(!breaker());
         // }}}
     }
 
     /**
      * Toggle priority inversion of robot
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public Robot invert() {
         // IMPLEMENT FUNC {{{
-        return ImmutableRobot.copyOf(this).withInverted(!inverted());
+        return this.withInverted(!inverted());
         // }}}
     }
 
     /**
      * Turn robot to dead
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public Robot die() {
         // IMPLEMENT FUNC {{{
-        return ImmutableRobot.copyOf(this).withDead(true);
+        return this.withDead(true);
         // }}}
     }
 
     /**
      * Non-inverted priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link List#of(Object[])}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link List#of(Object[])}</li>
+     * </ul>
      */
     public static final Seq<Direction> PRIORITIES =
             // IMPLEMENT CONST {{{
-            List.of(South, East, North, West);
-            // }}}
+            List.of(SOUTH, EAST, NORTH, WEST);
+    // }}}
 
     /**
      * Inverted priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #PRIORITIES}
-     * Use {@link Seq#reverse()}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link #PRIORITIES}</li>
+     *     <li>Use {@link Seq#reverse()}</li>
+     * </ul>
      */
     public static final Seq<Direction> INVERTED_PRIORITIES =
             // IMPLEMENT CONST {{{
@@ -110,11 +100,12 @@ public abstract class Robot {
 
     /**
      * Get current robot priorities
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #PRIORITIES}
-     * Use {@link #INVERTED_PRIORITIES}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link #PRIORITIES}</li>
+     *     <li>Use {@link #INVERTED_PRIORITIES}</li>
+     * </ul>
      */
     public Seq<Direction> priorities() {
         // IMPLEMENT FUNC {{{
@@ -126,12 +117,13 @@ public abstract class Robot {
      * Move robot on a city map
      * Robot keeps the same direction and move if no obstacle in this direction.
      * Otherwise robot changes direction (following its current priorities) and move to where first there is no obstacle.
-     *
-     * Difficulty: **
-     * Hints:
-     * Use {@link Seq#find(Predicate)}
-     * Use {@link #obstacleInDirection(Direction, CityMap)}
-     * Use {@link Option#get()}
+     * <p>Difficulty: **</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link Seq#find(Predicate)}</li>
+     *     <li>Use {@link #obstacleInDirection(Direction, CityMap)}</li>
+     *     <li>Use {@link Option#get()}</li>
+     * </ul>
      */
     public Robot move(final CityMap cityMap) {
         // IMPLEMENT FUNC {{{
@@ -145,7 +137,7 @@ public abstract class Robot {
             updatedDirection = currentDirection;
         }
 
-        return ImmutableRobot.builder().from(this)
+        return this.toBuilder()
                 .position(position().move(updatedDirection))
                 .direction(updatedDirection)
                 .build();
@@ -154,10 +146,12 @@ public abstract class Robot {
 
     /**
      * Determine whether there is an obstacle or not for the robot in a direction on a city map
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #obstacle(Tile)}
+     * <p>
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link #obstacle(Tile)}</li>
+     * </ul>
      */
     private boolean obstacleInDirection(final Direction direction, final CityMap cityMap) {
         // IMPLEMENT FUNC {{{
@@ -168,20 +162,19 @@ public abstract class Robot {
     /**
      * Determine whether or not a tile is currently an obstacle for the robot
      * Remind that a breakable obstacle ceases to be an obstacle when robot is in breaker mode.
-     *
-     * Difficulty: *
-     * Hints:
-     * Use {@link #breaker()}
+     * <p>Difficulty: *</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>Use {@link #breaker()}</li>
+     * </ul>
      */
     private boolean obstacle(final Tile tile) {
         // IMPLEMENT FUNC {{{
-        if (tile instanceof Obstacle) {
-            return true;
-        } else if (tile instanceof BreakableObstacle) {
-            return !breaker();
-        } else {
-            return false;
-        }
+        return switch (tile) {
+            case Obstacle() -> true;
+            case BreakableObstacle() -> !breaker();
+            default -> false;
+        };
         // }}}
     }
 
@@ -191,20 +184,19 @@ public abstract class Robot {
     public Robot triggerTeleporter(final CityMap cityMap) {
         // IMPLEMENT FUNC {{{
         final Position outPosition = cityMap.teleporterOutPosition(position());
-        return ImmutableRobot.copyOf(this).withPosition(outPosition);
+        return this.withPosition(outPosition);
         // }}}
     }
 
     /**
      * Create a robot in initial state (at start position, south directed, no alteration, alive)
-     *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public static Robot fromStart(final Position position) {
         // IMPLEMENT FUNC {{{
-        return ImmutableRobot.builder()
+        return Robot.builder()
                 .position(position)
-                .direction(South)
+                .direction(SOUTH)
                 .breaker(false)
                 .inverted(false)
                 .dead(false)

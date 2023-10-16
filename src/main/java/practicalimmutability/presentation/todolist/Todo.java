@@ -1,29 +1,25 @@
 package practicalimmutability.presentation.todolist;
 
-import com.google.common.base.Preconditions;
-import org.immutables.value.Value;
+import practicalimmutability.presentation.Preconditions;
 import practicalimmutability.presentation.StringValidation;
 
-@Value.Immutable
-public abstract class Todo {
-    @Value.Parameter public abstract int id();
-    @Value.Parameter public abstract String name();
-    @Value.Default public boolean isDone() { return false; }
+import lombok.AccessLevel;
+import lombok.With;
 
-    public Todo markAsDone() { return ImmutableTodo.copyOf(this).withIsDone(true); }
+public record Todo(int id, String name, @With(AccessLevel.PRIVATE) boolean done) {
+    public Todo {
+        Preconditions.requireNonNull(name, "name");
 
-    public static Todo of(final int id, final String name) {
-        return ImmutableTodo.of(id, name);
+        Preconditions.require(id, "id", i -> i > 0,
+                "'%s' should be greater than 0 (%d)"::formatted);
+
+        Preconditions.require(name, "name", StringValidation::isTrimmedAndNonEmpty,
+                "'%s' should be trimmed and non-empty (\"%s\")"::formatted);
     }
 
-    @Value.Check
-    public void check() {
-        Preconditions.checkState(
-                id() >= 1,
-                "ID should be a least 1 (" + id() + ")");
+    public Todo markAsDone() { return this.withDone(true); }
 
-        Preconditions.checkState(
-                StringValidation.isTrimmedAndNonEmpty(name()),
-                "Name should be trimmed and non empty (" + name() + ")");
+    public static Todo of(int id, String name) {
+        return new Todo(id, name, false);
     }
 }

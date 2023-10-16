@@ -1,43 +1,42 @@
 package practicalimmutability.kata.robot;
 
+import io.vavr.collection.HashSet;
 import io.vavr.collection.Set;
-import org.immutables.value.Value;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.With;
 
-@Value.Immutable
-public abstract class SceneTracking {
-    /**
-     * Previous city map state
-     */
-    public abstract CityMap previousCityMap();
-
-
-    /**
-     * Previous robot states
-     */
-    public abstract Set<Robot> previousRobots();
-
-    /**
-     * Looped scene
-     */
-    @Value.Default
-    public boolean loop() {
-        return false;
-    }
+@Builder(toBuilder = true)
+@With(AccessLevel.PRIVATE)
+/**
+ * State for <b>tracking of scene</b>
+ *
+ * @param previousCityMap Previous city map state
+ * @param previousRobots Previous robot states
+ * @param loop Looped scene
+ */
+public record SceneTracking(
+        CityMap previousCityMap,
+        Set<Robot> previousRobots,
+        boolean loop) {
 
     /**
      * Consider a new scene and previous tracking state to detect a potential infinite loop
      *
-     * Difficulty: ***
-     * Hints:
-     * {@link Set#contains(Object)}
-     * Use equals methods as provided by Immutables
-     * Be sure to look at unit tests for more details
-     * Occurrence of previously observed robot state is not enough to detect loop, city map should also not have change meanwhile.
-     * Somehow, you should reset robot tracking when city map changes.
-     * A looped tracked scene should be kept unchanged.
+     * <p>Difficulty: ***</p>
+     * <p>Hints:</p>
+     * <ul>
+     *     <li>{@link Set#contains(Object)}</li>
+     *     <li>Use equals methods as provided by Immutables</li>
+     *     <li>Be sure to look at unit tests for more details</li>
+     *     <li>Occurrence of previously observed robot state is not enough to detect loop,
+     *     city map should also not have change meanwhile.</li>
+     *     <li>Somehow, you should reset robot tracking when city map changes.</li>
+     *     <li>A looped tracked scene should be kept unchanged.</li>
+     * </ul>
      *
-     * @param scene new scene to be considered
-     * @return new tracking state
+     * @param scene New scene to be considered
+     * @return New tracking state
      */
     public SceneTracking track(final Scene scene) {
         // IMPLEMENT FUNC {{{
@@ -50,16 +49,14 @@ public abstract class SceneTracking {
         } else {
             if (previousCityMap.equals(cityMap)) {
                 if (previousRobots().contains(robot)) {
-                    return ImmutableSceneTracking.copyOf(this).withLoop(true);
+                    return this.withLoop(true);
                 } else {
-                    return ImmutableSceneTracking.builder().from(this)
-                            .addPreviousRobot(robot)
-                            .build();
+                    return this.withPreviousRobots(previousRobots().add(robot));
                 }
             } else {
-                return ImmutableSceneTracking.builder()
+                return this.toBuilder()
                         .previousCityMap(cityMap)
-                        .addPreviousRobot(robot)
+                        .previousRobots(HashSet.of(robot))
                         .build();
             }
         }
@@ -75,9 +72,10 @@ public abstract class SceneTracking {
      */
     public static SceneTracking fromInitialScene(final Scene scene) {
         // IMPLEMENT FUNC {{{
-        return ImmutableSceneTracking.builder()
+        return SceneTracking.builder()
                 .previousCityMap(scene.cityMap())
-                .addPreviousRobot(scene.robot())
+                .previousRobots(HashSet.of(scene.robot()))
+                .loop(false)
                 .build();
         // }}}
     }

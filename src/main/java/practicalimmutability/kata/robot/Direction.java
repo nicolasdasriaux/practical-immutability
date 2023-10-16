@@ -1,42 +1,44 @@
 package practicalimmutability.kata.robot;
 
+/**
+ * <b>Direction</b> for robot move
+ */
 public enum Direction {
-    North,
-    South,
-    West,
-    East;
+    NORTH,
+    SOUTH,
+    WEST,
+    EAST;
 
     /**
      * Get the code for this direction
      *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public char toCode() {
         // IMPLEMENT FUNC {{{
-        switch (this) {
-            case North: return 'N';
-            case South: return 'S';
-            case West: return 'W';
-            case East: return 'E';
-            default: throw new IllegalArgumentException(String.format("Unknown Direction (%s)", this));
-        }
+        return switch (this) {
+            case NORTH -> 'N';
+            case SOUTH -> 'S';
+            case WEST -> 'W';
+            case EAST -> 'E';
+        };
         // }}}
     }
 
     /**
      * Get a direction from a code
      *
-     * Difficulty: *
+     * <p>Difficulty: *</p>
      */
     public static Direction fromCode(final char code) {
         // IMPLEMENT FUNC {{{
-        switch (code) {
-            case 'N': return North;
-            case 'S': return South;
-            case 'W': return West;
-            case 'E': return East;
-            default: throw new IllegalArgumentException(String.format("Unknown Direction code (%s)", code));
-        }
+        return switch (code) {
+            case 'N' -> NORTH;
+            case 'S' -> SOUTH;
+            case 'W' -> WEST;
+            case 'E' -> EAST;
+            default -> throw new IllegalArgumentException(String.format("Unknown Direction code (%s)", code));
+        };
         // }}}
     }
 }

@@ -1,29 +1,25 @@
 package practicalimmutability.presentation;
 
+import practicalimmutability.presentation.adt.Action;
+import practicalimmutability.presentation.adt.Action.Jump;
+import practicalimmutability.presentation.adt.Action.Sleep;
+import practicalimmutability.presentation.adt.Action.Walk;
+import practicalimmutability.presentation.adt.Player;
+import practicalimmutability.presentation.adt.Position;
+
 import io.vavr.collection.List;
 import io.vavr.collection.Seq;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
-import practicalimmutability.presentation.adt.Position;
-import practicalimmutability.presentation.adt.matcher.Action;
-import practicalimmutability.presentation.adt.matcher.Action.Jump;
-import practicalimmutability.presentation.adt.matcher.Action.Sleep;
-import practicalimmutability.presentation.adt.matcher.Action.Walk;
-import practicalimmutability.presentation.adt.matcher.Player;
 
 import java.util.Random;
 import java.util.function.Consumer;
 
-import static io.vavr.API.*;
-import static io.vavr.Predicates.*;
-import static io.vavr.Patterns.*;
-import static practicalimmutability.presentation.Examples.example;
-import static practicalimmutability.presentation.Examples.part;
-import static practicalimmutability.presentation.adt.Direction.Right;
-import static practicalimmutability.presentation.adt.Direction.Up;
+import static practicalimmutability.presentation.Examples.*;
+import static practicalimmutability.presentation.adt.Direction.*;
 
 public class MoreExamplesApp {
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         part("Expressions", () -> {
             example("?:", () -> {
                 final boolean enabled = false;
@@ -32,7 +28,7 @@ public class MoreExamplesApp {
             });
 
             example("if", () -> {
-                final int mark = new Random().nextInt(5) + 1;
+                final int mark = new Random().nextInt(7) + 1;
 
                 final String mood; // No default value
 
@@ -54,16 +50,11 @@ public class MoreExamplesApp {
             example("switch", () -> {
                 final Color color = Color.values()[new Random().nextInt(Color.values().length)];
 
-                final int mark;
-
-                switch (color) {
-                    case RED: mark = 1; break;
-                    case YELLOW: mark = 4; break;
-                    case GREEN: mark = 7; break;
-
-                    default:
-                        throw new AssertionError("Unexpected color (" + color + ")");
-                }
+                final int mark = switch (color) {
+                    case RED -> 1;
+                    case YELLOW -> 4;
+                    case GREEN -> 7;
+                };
 
                 System.out.println(mark);
             });
@@ -106,9 +97,9 @@ public class MoreExamplesApp {
             example("Instantiating ADT", () -> {
                 final Seq<Action> actions = List.of(
                         Jump.of(Position.of(5, 8)),
-                        Walk.of(Up),
+                        Walk.of(NORTH),
                         Sleep.of(),
-                        Walk.of(Right)
+                        Walk.of(EAST)
                 );
             });
 
@@ -116,62 +107,13 @@ public class MoreExamplesApp {
                 final Player initialPlayer = Player.of(Position.of(1, 1));
 
                 final Seq<Action> actions = List.of(
-                        Jump.of(Position.of(5, 8)), Walk.of(Up), Sleep.of(), Walk.of(Right));
+                        Jump.of(Position.of(5, 8)), Action.Walk.of(NORTH), Action.Sleep.of(), Action.Walk.of(EAST));
 
                 final Player finalPLayer = actions.foldLeft(initialPlayer, Player::act);
                 final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
 
                 System.out.println(finalPLayer);
                 System.out.println(players);
-            });
-        });
-
-        part("Pattern Matching", () -> {
-            example("From switch to Match expression", () -> {
-                // import static io.vavr.API.*;
-
-                List.of(0, 1, 2, 3).forEach(number -> {
-                    final String label = Match(number).of(
-                            Case($(0), "Zero"),
-                            Case($(1), "One"),
-                            Case($(2), "Two"),
-                            Case($(), "More")
-                    );
-
-                    System.out.println(String.format("number=%d, label=%s", number, label));
-                });
-
-            });
-
-            example("Matching by Condition", () -> {
-                // import static io.vavr.Predicates.*;
-
-                List.of(0, -1, 23, 2, 3).forEach(number -> {
-                    final String label = Match(number).of(
-                            Case($(0), "Zero"),
-                            Case($(n -> n < 0), "Negative"),
-                            Case($(isIn(19, 23, 29)), "Chosen Prime"),
-                            Case($(i -> i % 2 == 0), i -> String.format("Even (%d)", i)),
-                            Case($(), i-> String.format("Odd (%d)", i))
-                    );
-
-                    System.out.println(String.format("number=%d, label=%s", number, label));
-                });
-            });
-
-            example("Matching by Pattern", () -> {
-                // import static io.vavr.Patterns.*;
-
-                List.of(Option.of(-1), Option.of(1), Option.of(0)).forEach(maybeNumber -> {
-                    final String label = Match(maybeNumber).of(
-                            Case($Some($(0)), "Zero"),
-                            Case($Some($(i -> i < 0)), i -> String.format("Negative (%d)", i)),
-                            Case($Some($(i -> i > 0)), i -> String.format("Positive (%d)", i)),
-                            Case($None(), "Absent")
-                    );
-
-                    System.out.println(String.format("maybeNumber=%s label=%s", maybeNumber, label));
-                });
             });
         });
     }

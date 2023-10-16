@@ -1,14 +1,23 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.List;
-import io.vavr.collection.Seq;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import practicalimmutability.kata.robot.Tile.*;
+import practicalimmutability.kata.robot.Tile.Beer;
+import practicalimmutability.kata.robot.Tile.Booth;
+import practicalimmutability.kata.robot.Tile.BreakableObstacle;
+import practicalimmutability.kata.robot.Tile.CircuitInverter;
+import practicalimmutability.kata.robot.Tile.DirectionModifier;
+import practicalimmutability.kata.robot.Tile.Empty;
+import practicalimmutability.kata.robot.Tile.Obstacle;
+import practicalimmutability.kata.robot.Tile.Start;
+import practicalimmutability.kata.robot.Tile.Teleporter;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Tile")
@@ -20,10 +29,10 @@ class TileTest {
                 Arguments.of(Booth.of(), '$'),
                 Arguments.of(Obstacle.of(), '#'),
                 Arguments.of(BreakableObstacle.of(), 'X'),
-                Arguments.of(DirectionModifier.of(North), 'N'),
-                Arguments.of(DirectionModifier.of(South), 'S'),
-                Arguments.of(DirectionModifier.of(West), 'W'),
-                Arguments.of(DirectionModifier.of(East), 'E'),
+                Arguments.of(DirectionModifier.of(NORTH), 'N'),
+                Arguments.of(DirectionModifier.of(SOUTH), 'S'),
+                Arguments.of(DirectionModifier.of(WEST), 'W'),
+                Arguments.of(DirectionModifier.of(EAST), 'E'),
                 Arguments.of(CircuitInverter.of(), 'I'),
                 Arguments.of(Beer.of(), 'B'),
                 Arguments.of(Teleporter.of(), 'T')

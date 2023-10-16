@@ -1,57 +1,58 @@
 package practicalimmutability.presentation.todolist;
 
-import com.google.common.base.Preconditions;
-import io.vavr.collection.Seq;
+import practicalimmutability.presentation.Preconditions;
 import practicalimmutability.presentation.StringValidation;
-import org.immutables.value.Value;
+
+import io.vavr.collection.List;
+import io.vavr.collection.Seq;
+import lombok.AccessLevel;
+import lombok.With;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
-@Value.Immutable
-public abstract class TodoList {
-    @Value.Parameter public abstract String name();
-    public abstract Seq<Todo> todos();
+public record TodoList(String name, @With(AccessLevel.PRIVATE) Seq<Todo> todos) {
+    public TodoList {
+        Preconditions.requireNonNull(name, "name");
+        Preconditions.requireNonNull(todos, "todos");
 
-    public static TodoList of(final String name) {
-        return ImmutableTodoList.of(name);
+        Preconditions.require(name, "name", StringValidation::isTrimmedAndNonEmpty,
+                "'%s' should be trimmed and non-empty (\"%s\")"::formatted);
+
+        Preconditions.require(todos, "todos", l -> l.forAll(Objects::nonNull),
+                "'%s' elements should all be non null (%s)"::formatted);
     }
 
-    @Value.Check
-    protected void check() {
-        Preconditions.checkState(
-                StringValidation.isTrimmedAndNonEmpty(name()),
-                "Name should be trimmed and non empty (" + name() + ")");
-
-        Preconditions.checkState(
-                todos().forAll(Objects::nonNull),
-                "Todos should all be non-null");
+    public static TodoList of(String name) {
+        return new TodoList(name, List.empty());
     }
 
-    public TodoList addTodo(final Todo todo) {
-        return ImmutableTodoList.builder().from(this).addTodo(todo).build();
+    public TodoList addTodo(Todo todo) {
+        Seq<Todo> modifiedTodos = this.todos().append(todo);
+        return this.withTodos(modifiedTodos);
     }
 
-    public TodoList removeTodo(final int todoId) {
+    public TodoList removeTodo(int todoId) {
         final Seq<Todo> modifiedTodos = this.todos().removeFirst(todo -> todo.id() == todoId);
-        return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
+        return this.withTodos(modifiedTodos);
     }
 
-    public TodoList markTodoAsDone(final int todoId) {
+    public TodoList markTodoAsDone(int todoId) {
         final int todoIndex = this.todos().indexWhere(todo -> todo.id() == todoId);
 
         if (todoIndex >= 0) {
             final Seq<Todo> modifiedTodos = this.todos().update(todoIndex, Todo::markAsDone);
-            return ImmutableTodoList.copyOf(this).withTodos(modifiedTodos);
+            return this.withTodos(modifiedTodos);
         } else {
             return this;
         }
     }
 
     public int pendingCount() {
-        return todos().count(todo -> !todo.isDone());
+        return todos().count(Predicate.not(Todo::done));
     }
 
     public int doneCount() {
-        return todos().count(todo -> todo.isDone());
+        return todos().count(Todo::done);
     }
 }

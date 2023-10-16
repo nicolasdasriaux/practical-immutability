@@ -1,27 +1,19 @@
 package practicalimmutability.presentation.adt;
 
-import org.immutables.value.Value;
+import lombok.With;
 
-@Value.Immutable
-public abstract class Position {
-    @Value.Parameter
-    public abstract int x();
-
-    @Value.Parameter
-    public abstract int y();
-
-    public Position move(final Direction direction) {
-        switch (direction) {
-            case Up: return ImmutablePosition.copyOf(this).withY(y() - 1);
-            case Down: return ImmutablePosition.copyOf(this).withY(y() + 1);
-            case Left: return ImmutablePosition.copyOf(this).withX(x() - 1);
-            case Right: return ImmutablePosition.copyOf(this).withX(x() + 1);
-            default: throw new IllegalArgumentException(
-                    String.format("Unknown Direction (%s)", direction));
-        }
+@With
+public record Position(int x, int y) {
+    public Position move(Direction direction) {
+        return switch (direction) {
+            case NORTH -> this.withY(y() - 1);
+            case SOUTH -> this.withY(y() + 1);
+            case WEST -> this.withX(x() - 1);
+            case EAST -> this.withX(x() + 1);
+        };
     }
 
-    public static Position of(final int x, final int y) {
-        return ImmutablePosition.of(x, y);
+    public static Position of(int x, int y) {
+        return new Position(x, y);
     }
 }

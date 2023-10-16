@@ -1,11 +1,12 @@
 package practicalimmutability.kata.robot;
 
-import io.vavr.collection.HashSet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.vavr.collection.HashSet;
+
+import static org.assertj.core.api.Assertions.*;
 import static practicalimmutability.kata.robot.Direction.*;
 
 @DisplayName("Scene Tracking")
@@ -27,27 +28,27 @@ class SceneTrackingTest {
                     // @formatter:on
             );
 
-            final SceneTracking previousSceneTracking = ImmutableSceneTracking.builder()
+            final SceneTracking previousSceneTracking = SceneTracking.builder()
                     .previousCityMap(previousCityMap)
                     .previousRobots(
                             HashSet.of(
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 1)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 1)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build(),
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 2)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 2)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build()
                             )
                     )
                     .build();
 
-            final Scene scene = ImmutableScene.builder()
+            final Scene scene = Scene.builder()
                     .cityMap(previousCityMap)
                     .robot(
-                            ImmutableRobot.builder()
-                                    .position(Position.of(1, 3)).direction(South)
+                            Robot.builder()
+                                    .position(Position.of(1, 3)).direction(SOUTH)
                                     .breaker(false).inverted(false).dead(false)
                                     .build()
                     )
@@ -55,20 +56,20 @@ class SceneTrackingTest {
 
             final SceneTracking sceneTracking = previousSceneTracking.track(scene);
 
-            final SceneTracking expectedSceneTracking = ImmutableSceneTracking.builder()
+            final SceneTracking expectedSceneTracking = SceneTracking.builder()
                     .previousCityMap(previousCityMap)
                     .previousRobots(
                             HashSet.of(
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 1)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 1)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build(),
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 2)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 2)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build(),
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 3)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 3)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build()
                             )
@@ -92,20 +93,20 @@ class SceneTrackingTest {
                     // @formatter:on
             );
 
-            final SceneTracking previousSceneTracking = ImmutableSceneTracking.builder()
+            final SceneTracking previousSceneTracking = SceneTracking.builder()
                     .previousCityMap(previousCityMap)
                     .previousRobots(
                             HashSet.of(
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 1)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 1)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build(),
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 2)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 2)).direction(SOUTH)
                                             .breaker(false).inverted(false).dead(false)
                                             .build(),
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(1, 3)).direction(South)
+                                    Robot.builder()
+                                            .position(Position.of(1, 3)).direction(SOUTH)
                                             .breaker(true).inverted(false).dead(false)
                                             .build()
                             )
@@ -114,11 +115,11 @@ class SceneTrackingTest {
 
             final CityMap cityMap = previousCityMap.breakObstacle(Position.of(1, 3));
 
-            final Scene scene = ImmutableScene.builder()
+            final Scene scene = Scene.builder()
                     .cityMap(cityMap)
                     .robot(
-                            ImmutableRobot.builder()
-                                    .position(Position.of(2, 3)).direction(East)
+                            Robot.builder()
+                                    .position(Position.of(2, 3)).direction(EAST)
                                     .breaker(true).inverted(false).dead(false)
                                     .build()
                     )
@@ -126,12 +127,12 @@ class SceneTrackingTest {
 
             final SceneTracking sceneTracking = previousSceneTracking.track(scene);
 
-            final SceneTracking expectedSceneTracking = ImmutableSceneTracking.builder()
+            final SceneTracking expectedSceneTracking = SceneTracking.builder()
                     .previousCityMap(cityMap)
                     .previousRobots(
                             HashSet.of(
-                                    ImmutableRobot.builder()
-                                            .position(Position.of(2, 3)).direction(East)
+                                    Robot.builder()
+                                            .position(Position.of(2, 3)).direction(EAST)
                                             .breaker(true).inverted(false).dead(false)
                                             .build()
                             )
@@ -156,55 +157,55 @@ class SceneTrackingTest {
 
             final SceneTracking sceneTracking = SceneTracking.fromInitialScene(Scene.fromCityMap(initialCityMap))
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(1, 2)).direction(South)
+                                            Robot.builder()
+                                                    .position(Position.of(1, 2)).direction(SOUTH)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 2)).direction(East)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 2)).direction(EAST)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                             )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 1)).direction(North)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 1)).direction(NORTH)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 2)).direction(South)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 2)).direction(SOUTH)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 1)).direction(North)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 1)).direction(NORTH)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                     )
@@ -231,55 +232,55 @@ class SceneTrackingTest {
 
             final SceneTracking sceneTracking = SceneTracking.fromInitialScene(Scene.fromCityMap(initialCityMap))
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(1, 2)).direction(South)
+                                            Robot.builder()
+                                                    .position(Position.of(1, 2)).direction(SOUTH)
                                                     .breaker(false).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 2)).direction(East)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 2)).direction(EAST)
                                                     .breaker(true).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(initialCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 1)).direction(North)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 1)).direction(NORTH)
                                                     .breaker(true).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(brokenObstacleCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 2)).direction(South)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 2)).direction(SOUTH)
                                                     .breaker(true).inverted(false).dead(false)
                                                     .build()
                                     )
                                     .build()
                     )
                     .track(
-                            ImmutableScene.builder()
+                            Scene.builder()
                                     .cityMap(brokenObstacleCityMap)
                                     .robot(
-                                            ImmutableRobot.builder()
-                                                    .position(Position.of(2, 1)).direction(North)
+                                            Robot.builder()
+                                                    .position(Position.of(2, 1)).direction(NORTH)
                                                     .breaker(true).inverted(false).dead(false)
                                                     .build()
                                     )
@@ -307,7 +308,7 @@ class SceneTrackingTest {
         final Scene initialScene = Scene.fromCityMap(cityMap);
         final SceneTracking initialSceneTracking = SceneTracking.fromInitialScene(initialScene);
 
-        final SceneTracking expectedInitialSceneTracking = ImmutableSceneTracking.builder()
+        final SceneTracking expectedInitialSceneTracking = SceneTracking.builder()
                 .loop(false)
                 .previousCityMap(initialScene.cityMap())
                 .previousRobots(HashSet.of(initialScene.robot()))

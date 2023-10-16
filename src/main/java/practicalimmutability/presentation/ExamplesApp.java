@@ -7,11 +7,11 @@ import static practicalimmutability.presentation.Examples.example;
 import static practicalimmutability.presentation.Examples.part;
 
 public class ExamplesApp {
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         part("Building an Modifying", () -> {
             example("Build", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -22,7 +22,7 @@ public class ExamplesApp {
 
             example("With", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -31,14 +31,14 @@ public class ExamplesApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.copyOf(customer).withLastName("Martin");
+                        customer.withLastName("Martin");
 
                 System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
 
             example("Build from", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -47,7 +47,7 @@ public class ExamplesApp {
                 System.out.println("customer=" + customer);
 
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.builder().from(customer)
+                        customer.toBuilder()
                                 .firstName("Paul")
                                 .lastName("Martin")
                                 .build();
@@ -59,7 +59,7 @@ public class ExamplesApp {
         part("Calculating attributes from other attributes", () -> {
             example("Calculated attribute and uniform access principle", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -72,10 +72,10 @@ public class ExamplesApp {
 
         part("Comparing", () -> {
             example("Equal", () -> {
-                final Customer customer1 = ImmutableCustomer.builder()
+                final Customer customer1 = Customer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer2 = ImmutableCustomer.builder()
+                final Customer customer2 = Customer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
                 assert customer1.equals(customer2); // Same attributes
@@ -83,10 +83,10 @@ public class ExamplesApp {
             });
 
             example("Non Equal", () -> {
-                final Customer customer1 = ImmutableCustomer.builder()
+                final Customer customer1 = Customer.builder()
                         .id(1).firstName("John").lastName("Doe").build();
 
-                final Customer customer3 = ImmutableCustomer.builder()
+                final Customer customer3 = Customer.builder()
                         .id(1).firstName("Paul").lastName("Martin").build();
 
                 assert !customer1.equals(customer3); // Different attributes
@@ -97,7 +97,7 @@ public class ExamplesApp {
         part("Displaying", () -> {
             example("To String", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("John")
                                 .lastName("Doe")
@@ -109,105 +109,81 @@ public class ExamplesApp {
 
         part("Preventing null and incompleteness", () -> {
             example("Build incomplete", () -> {
-                final Customer customer = ImmutableCustomer.builder()
+                final Customer customer = Customer.builder()
                         .id(1)
                         .build();
-
-                System.out.println("customer=" + customer);
             });
 
             example("Build null", () -> {
-                final Customer customer = ImmutableCustomer.builder()
+                final Customer customer = Customer.builder()
                         .id(1)
                         .firstName(null)
                         .lastName("Martin")
                         .build();
-
-                System.out.println("customer=" + customer);
             });
 
             example("With null", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
 
-                System.out.println("customer=" + customer);
-
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.copyOf(customer).withFirstName(null);
-
-                System.out.println("modifiedCustomer=" + modifiedCustomer);
+                        customer.withFirstName(null);
             });
 
             example("Build from null", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
 
-                System.out.println("customer=" + customer);
-
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.builder()
-                                .from(customer)
+                        customer.toBuilder()
                                 .firstName(null)
                                 .lastName("Martin")
                                 .build();
-
-                System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
         });
 
         part("Ensuring invariants", () -> {
             example("Build inconsistent", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(-1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
-
-                System.out.println("customer=" + customer);
             });
 
             example("With inconsistent", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
 
-                System.out.println("customer=" + customer);
-
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.copyOf(customer).withFirstName(" Paul ");
-
-                System.out.println("modifiedCustomer=" + modifiedCustomer);
+                        customer.withFirstName(" Paul ");
             });
 
             example("Build from inconsistent", () -> {
                 final Customer customer =
-                        ImmutableCustomer.builder()
+                        Customer.builder()
                                 .id(1)
                                 .firstName("Paul")
                                 .lastName("Simpson")
                                 .build();
 
-                System.out.println("customer=" + customer);
-
                 final Customer modifiedCustomer =
-                        ImmutableCustomer.builder()
-                                .from(customer)
+                        customer.toBuilder()
                                 .lastName("")
                                 .build();
-
-                System.out.println("modifiedCustomer=" + modifiedCustomer);
             });
         });
 
@@ -300,6 +276,7 @@ public class ExamplesApp {
             });
         });
 
+        /*
         part("Class with Option Attribute", () -> {
             example("Create Without", () -> {
                 final ImmutableCustomer customer = ImmutableCustomer.builder()
@@ -385,5 +362,6 @@ public class ExamplesApp {
                 System.out.println(modifiedCustomer);
             });
         });
+        */
     }
 }

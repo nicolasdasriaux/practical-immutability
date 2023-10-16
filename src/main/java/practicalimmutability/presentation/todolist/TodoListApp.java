@@ -1,7 +1,7 @@
 package practicalimmutability.presentation.todolist;
 
 public class TodoListApp {
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         final TodoList todoList = TodoList.of("Food")
                 .addTodo(Todo.of(1, "Leek"))
                 .addTodo(Todo.of(2, "Turnip"))

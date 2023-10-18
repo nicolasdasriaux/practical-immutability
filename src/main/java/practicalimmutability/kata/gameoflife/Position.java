@@ -7,19 +7,31 @@ import io.vavr.collection.Seq;
 import io.vavr.collection.Set;
 import io.vavr.control.Option;
 
+import java.util.function.Function;
+
 public record Position(int x, int y) {
-    public static final Seq<Tuple2<Integer, Integer>> DELTAS = Iterator.rangeClosed(-1, 1)
-            .flatMap(dx -> {
+    public static final Seq<Tuple2<Integer, Integer>> DELTAS =
+            Iterator.rangeClosed(-1, 1).flatMap(dx -> {
                 return Iterator.rangeClosed(-1, 1).flatMap(dy -> {
                     return dx == 0 && dy == 0 ? Option.none() : Option.of(Tuple.of(dx, dy));
                 });
             })
             .toList();
 
+    /**
+     * Hints:
+     * <ul>
+     *     <li>Use {@link Seq#map(Function)}</li>
+     *     <li>Use {@link Tuple2#_1()} and {@link Tuple2#_2()}</li>
+     *     <li>Use {@link Seq#toSet()}</li>
+     * </ul>
+     */
     public Set<Position> neighbours() {
+        // IMPLEMENT FUNC {{{
         return DELTAS
                 .map(delta -> Position.of(x + delta._1(), y + delta._2()))
                 .toSet();
+        // }}}
     }
 
     public static Position of(int x, int y) {

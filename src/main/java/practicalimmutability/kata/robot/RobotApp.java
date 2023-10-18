@@ -40,8 +40,8 @@ public class RobotApp {
                 "##########"
         );
 
+        // @formatter:off
         final CityMap cityMap3 = CityMap.fromLines(
-                // @formatter:off
                       // 0123456789
                         "##########", // 0
                         "#@   E   #", // 1
@@ -53,8 +53,8 @@ public class RobotApp {
                         "#       ##", // 7
                         "#  T B X$#", // 8
                         "##########"  // 9
-                        // @formatter:on
         );
+        // @formatter:on
 
         runScene(cityMap1);
         runTrackedScene(cityMap3);

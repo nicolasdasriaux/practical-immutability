@@ -69,7 +69,9 @@ public class Customer {
 
 # _Lombok_
 
-...
+* Avoids coding boilerplate
+* Generates the boilerplate at the compiler level instead
+* Now works with Java `record` ... to some extent
 
 ---
 
@@ -82,7 +84,6 @@ public class Customer {
 * Provides **immutable collections**
 * Also provides functions and control structures (such as `Option`)
 * Fully interoperable with Java collections and `Optional`
-* Requires Java 8 or higher
 
 ---
 
@@ -238,7 +239,7 @@ Customer[id=1, firstName=John, lastName=Doe]
 
 * Attributes should never be `null`
   - `null` is evil! :smiling_imp:
-* Check against `null` in `record` compact constructor
+* Check against `null` in `record` **compact constructor**
 * Optional attribute should be explicit using an **option type**
   - _Vavr_ `Option` is a good ... option :wink:
   - More later
@@ -753,7 +754,7 @@ final int mark = switch (color) {
 
 ---
 
-# [fit] WTF is that? :open_mouth:
+# [fit] What is that? :open_mouth:
 
 ---
 
@@ -804,6 +805,8 @@ public record Position(int x, int y) {
             case SOUTH -> this.withY(y() + 1);
             case WEST -> this.withX(x() - 1);
             case EAST -> this.withX(x() + 1);
+            // No default, all cases are handled exhaustively
+            // Won't compile if that's not the case
         };
     }
     // ...
@@ -837,9 +840,9 @@ public sealed interface Action {
 ```java
 final Seq<Action> actions = List.of(
         Jump.of(Position.of(5, 8)),
-        Walk.of(Up),
+        Walk.of(NORTH),
         Sleep.of(),
-        Walk.of(Right)
+        Walk.of(EAST)
 );
 ```
 ---
@@ -866,6 +869,8 @@ public record Player(Position position) {
             case Sleep() -> this;
             case Walk(Direction direction) -> Player.of(position.move(direction));
             case Jump(Position position) -> Player.of(position);
+            // No default, all cases are handled exhaustively
+            // Won't compile if that's not the case
         };
     }
     // ...
@@ -900,27 +905,38 @@ final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
 
 ---
 
-# There is no Silver Bullet
+# We used 2 **programming paradigms**
 
-* **Immutability pays off** even at small scale
-  * Many no-brainers. If it's never mutated, make it immutable!
-  * `record` and _Vavr_ collections are cool!
-  * Code will be really more concise (more but simpler classes).
-  * Concurrency and immutability is a match made in heaven!
-* **Do not force-feed your code** with immutability
-  * Immutability is very **intolerant of entangled design**, it will bite really hard
-  * Immutability makes **working with associations more difficult** (bidirectional one-to-many and many-to-many) and odd for many people
+[.column]
+
+## **Object Oriented**
+
+* **Inheritance**
+  not really
+* **Polymorphism**
+  no
+* **Encapsulation** :white_check_mark:
+  yes 
+
+[.column]
+
+## **Functional**
+
+* **Values** :white_check_mark:
+  `record`, lambdas
+* **ADT** :white_check_mark:
+  `enum`, `sealed` 
+* **Expressions** :white_check_mark:
+  `switch`, `yield`
+* **Pattern matching** :white_check_mark:
+  `case`
 
 ---
 
-# Gateway to Functional Programming
+# Coexistence of Functional and Object Oriented
 
-* With immutability, **extracting** or **inlining** an expression **will** (most often) **not change the meaning** of the program
-  * This is a consequence of **referential transparency** :open_mouth:
-  * Fundamental property of **functional programming**
-* FP is programming with **pure functions** :innocent:
-  * **Deterministic**: same arguments implies same result
-  * **Total**: result always available for  arguments
-  * **Pure**: no side-effects
-* But how do we do with **I/O**?
-  * Season finale cliffhanger... :anguished:
+* **Values** (e.g. `Set`) are _closed_ and focus on **exhaustivity** checked by compiler.
+* **Combinators** (e.g. `map`, `filter`), **Higher Order Functions** (lambdas) and **Parameterized Types** (generics) allow _opening_.
+* **Functional** is better at **domain modeling**.
+* **Object oriented** allows **modularity** and **dynamic extensibility**.
+* **Inheritance**, **Polymorphism**, and **Mutability** should be used much less extensively.

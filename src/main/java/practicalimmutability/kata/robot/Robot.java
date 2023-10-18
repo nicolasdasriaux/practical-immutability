@@ -82,7 +82,7 @@ public record Robot(
     public static final Seq<Direction> PRIORITIES =
             // IMPLEMENT CONST {{{
             List.of(SOUTH, EAST, NORTH, WEST);
-    // }}}
+            // }}}
 
     /**
      * Inverted priorities

@@ -1,7 +1,15 @@
 package practicalimmutability.kata.gameoflife;
 
 public class Rules {
+    /**
+     * Hints:
+     * <ul>
+     *     <li>Carefully look at unit tests</li>
+     *     <li>Comment examples in unit tests if you wish to implement some rules in isolation</li>
+     * </ul>
+     */
     public static CellState nextCellState(CellState cellState, int neighbourCount) {
+        // IMPLEMENT FUNC {{{
         if (neighbourCount < 2) {
             return CellState.DEAD;
         } else if (neighbourCount > 3) {
@@ -13,5 +21,6 @@ public class Rules {
         } else {
             throw new IllegalArgumentException("Invalid neighbour count (%d)".formatted(neighbourCount));
         }
+        // }}}
     }
 }

@@ -16,11 +16,6 @@ public class GameOfLifeApp {
         final Iterator<Grid> grids = Iterator.iterate(grid, Grid::nextGridState);
 
         grids.take(51).forEach(currentGrid -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             System.out.println("\u001b[H\u001b[2J");
             System.out.println(Grid.toDisplayString(currentGrid, area));
         });

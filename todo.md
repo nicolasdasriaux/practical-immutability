@@ -19,7 +19,7 @@ Rebuild `kata` branch by removing solution code from method bodies starting from
 * Replace section
 
   ```regexp
-  // IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// }}}
+  // IMPLEMENT CONST \{\{\{\n(.*\n)*?.*// \}\}\}
   ```
 
   By code

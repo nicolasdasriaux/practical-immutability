@@ -129,12 +129,14 @@ public record CityMap(
      *
      * <p>Difficulty: ****</p>
      * <p>Hints:</p>
-     * <li>Use {@link Iterator#range(int, int)} to get an iterator over y coordinate (rows) and an iterator over x coordinate (columns)</li>
-     * <li>Use {@link Iterator#flatMap(Function)} to combine both iterators over y and x coordinates into a single iterator</li>
-     * <li>Use {@link Iterator#filter(Predicate)} to identify matching tiles</li>
-     * <li>Use {@link Iterator#map(Function)} to transform x an y coordinates to positions</li>
-     * <li>Use {@link IndexedSeq#get(int)} to access rows and tiles</li>
-     * <li>Use {@link Iterator#toList()} to run iterator and get a list of positions</li>
+     * <ul>
+     *     <li>Use {@link Iterator#range(int, int)} to get an iterator over y coordinate (rows) and an iterator over x coordinate (columns)</li>
+     *     <li>Use {@link Iterator#flatMap(Function)} to combine both iterators over y and x coordinates into a single iterator</li>
+     *     <li>Use {@link Iterator#filter(Predicate)} to identify matching tiles</li>
+     *     <li>Use {@link Iterator#map(Function)} to transform x an y coordinates to positions</li>
+     *     <li>Use {@link IndexedSeq#get(int)} to access rows and tiles</li>
+     *     <li>Use {@link Iterator#toList()} to run iterator and get a list of positions</li>
+     * </ul>
      */
     private static Seq<Position> findPosition(final IndexedSeq<IndexedSeq<Tile>> rows, final Tile tile) {
         // IMPLEMENT FUNC {{{

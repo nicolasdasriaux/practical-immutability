@@ -71,7 +71,7 @@ public class Customer {
 
 * Avoids coding boilerplate
 * Generates the boilerplate at the compiler level instead
-* Now works with Java `record` ... to some extent
+* Now works very well with Java `record` ... to some extent
 
 ---
 
@@ -123,6 +123,8 @@ final Customer customer =
                 .firstName("John")
                 .lastName("Doe")
                 .build();
+
+final String firstName = customer.firstName();
 ```
 
 ---
@@ -922,8 +924,8 @@ final Seq<Player> players = actions.scanLeft(initialPlayer, Player::act);
 
 ## **Functional**
 
-* **Values** :white_check_mark:
-  `record`, lambdas
+* **Values** (immutable) :white_check_mark:
+  `record`, lambdas, immutable collections
 * **ADT** :white_check_mark:
   `enum`, `sealed` 
 * **Expressions** :white_check_mark:

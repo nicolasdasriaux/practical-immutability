@@ -17,6 +17,8 @@ public class ExamplesApp {
                                 .lastName("Doe")
                                 .build();
 
+                final String firstName = customer.firstName();
+
                 System.out.println("customer=" + customer);
             });
 

@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.*;
 class AreaTest {
     @Test
     void width_height() {
-
         final Area area = Area.of(Position.of(-10, -20), Position.of(100, 200));
         assertThat(area.width()).isEqualTo(111);
         assertThat(area.height()).isEqualTo(221);

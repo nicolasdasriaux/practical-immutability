@@ -11,12 +11,22 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ * Infinite grid containing cells living at given positions
+ *
+ * @param aliveCellPositions Set of positions of alive cells
+ */
 public record Grid(Set<Position> aliveCellPositions) {
     /**
-     * Hints:
+     * State of the cell at given position
+     *
+     * <p>Hints:</p>
      * <ul>
      *     <li>Use {@link Set#contains(Object)}</li>
      * </ul>
+     *
+     * @param position Position
+     * @return Cell state at position
      */
     public CellState cellState(Position position) {
         // IMPLEMENT FUNC {{{
@@ -25,13 +35,16 @@ public record Grid(Set<Position> aliveCellPositions) {
     }
 
     /**
-     * Hints:
+     * Positions to examine in this grid to determine liveness in next grid state
+     *
+     * <p>Hints:</p>
      * <ul>
      *     <li>Positions to reconsider are alive positions and all neighbours of alive positions</li>
      *     <li>Use {@link Set#union(Set)}</li>
      *     <li>Use {@link Set#flatMap(Function)}</li>
      * </ul>
-     * @return
+     *
+     * @return Set of positions to reconsider
      */
     public Set<Position> positionsToReconsider() {
         // IMPLEMENT FUNC {{{
@@ -40,10 +53,15 @@ public record Grid(Set<Position> aliveCellPositions) {
     }
 
     /**
-     * Hints:
+     * Number of alive neighbour cells considering a given position
+     *
+     * <p>Hints:</p>
      * <ul>
      *     <li>Use {@link Set#count(Predicate)}</li>
      * </ul>
+     *
+     * @param position Position
+     * @return Number of alive neighbour cells
      */
     public int aliveNeighbourCount(Position position) {
         // IMPLEMENT FUNC {{{
@@ -52,7 +70,9 @@ public record Grid(Set<Position> aliveCellPositions) {
     }
 
     /**
-     * Hints:
+     * Next grid state after applying rules for each reconsidered cell
+     *
+     * <p>Hints:</p>
      * <ul>
      *     <li>Starting from {@link Grid#positionsToReconsider()},
      *     compute new alive positions using {@link Set#flatMap(Function)}</li>
@@ -61,6 +81,8 @@ public record Grid(Set<Position> aliveCellPositions) {
      *     or no position for a dead position (using {@link Option#none()})</li>
      *     <li>Use {@link Grid#of(Set)}</li>
      * </ul>
+     *
+     * @return Next grid state
      */
     public Grid nextGridState() {
         // IMPLEMENT FUNC {{{

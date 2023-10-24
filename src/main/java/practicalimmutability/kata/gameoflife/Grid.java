@@ -29,9 +29,7 @@ public record Grid(Set<Position> aliveCellPositions) {
      * @return Cell state at position
      */
     public CellState cellState(Position position) {
-        // IMPLEMENT FUNC {{{
-        return aliveCellPositions.contains(position) ? CellState.ALIVE : CellState.DEAD;
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -47,9 +45,7 @@ public record Grid(Set<Position> aliveCellPositions) {
      * @return Set of positions to reconsider
      */
     public Set<Position> positionsToReconsider() {
-        // IMPLEMENT FUNC {{{
-        return aliveCellPositions.union(aliveCellPositions.flatMap(Position::neighbours));
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -64,9 +60,7 @@ public record Grid(Set<Position> aliveCellPositions) {
      * @return Number of alive neighbour cells
      */
     public int aliveNeighbourCount(Position position) {
-        // IMPLEMENT FUNC {{{
-        return position.neighbours().count(p -> cellState(p) == CellState.ALIVE);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -85,15 +79,7 @@ public record Grid(Set<Position> aliveCellPositions) {
      * @return Next grid state
      */
     public Grid nextGridState() {
-        // IMPLEMENT FUNC {{{
-        final Set<Position> newAlivePositions = positionsToReconsider()
-                .flatMap(position -> {
-                    final CellState nextCellState = Rules.nextCellState(cellState(position), aliveNeighbourCount(position));
-                    return nextCellState == CellState.ALIVE ? Option.of(position) : Option.none();
-                });
-
-        return Grid.of(newAlivePositions);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     public static Grid of(Set<Position> newAlivePositions) {

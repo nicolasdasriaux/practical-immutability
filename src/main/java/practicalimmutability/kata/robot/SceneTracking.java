@@ -39,28 +39,7 @@ public record SceneTracking(
      * @return New tracking state
      */
     public SceneTracking track(final Scene scene) {
-        // IMPLEMENT FUNC {{{
-        final CityMap previousCityMap = previousCityMap();
-        final CityMap cityMap = scene.cityMap();
-        final Robot robot = scene.robot();
-
-        if (loop()) {
-            return this;
-        } else {
-            if (previousCityMap.equals(cityMap)) {
-                if (previousRobots().contains(robot)) {
-                    return this.withLoop(true);
-                } else {
-                    return this.withPreviousRobots(previousRobots().add(robot));
-                }
-            } else {
-                return this.toBuilder()
-                        .previousCityMap(cityMap)
-                        .previousRobots(HashSet.of(robot))
-                        .build();
-            }
-        }
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -71,12 +50,6 @@ public record SceneTracking(
      * Be sure to look at unit tests
      */
     public static SceneTracking fromInitialScene(final Scene scene) {
-        // IMPLEMENT FUNC {{{
-        return SceneTracking.builder()
-                .previousCityMap(scene.cityMap())
-                .previousRobots(HashSet.of(scene.robot()))
-                .loop(false)
-                .build();
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

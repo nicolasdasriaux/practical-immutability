@@ -44,9 +44,7 @@ public record Scene(
      * </ul>
      */
     public boolean completed() {
-        // IMPLEMENT FUNC {{{
-        return robot().dead();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -67,65 +65,7 @@ public record Scene(
      * </ul>
      */
     public Scene next() {
-        // IMPLEMENT FUNC {{{
-        final CityMap currentCityMap = cityMap();
-        final Robot currentRobot = robot();
-        final Position currentPosition = currentRobot.position();
-        final Tile currentTile = currentCityMap.tile(currentPosition);
-
-        return switch (currentTile) {
-            case Empty() -> {
-                final Robot updatedRobot = currentRobot.move(currentCityMap);
-                yield this.withRobot(updatedRobot);
-            }
-            case Start() -> {
-                final Robot updatedRobot = currentRobot.move(currentCityMap);
-                yield this.withRobot(updatedRobot);
-            }
-            case Booth() -> {
-                final Robot updatedRobot = currentRobot.die();
-                yield  this.withRobot(updatedRobot);
-            }
-            case Obstacle() -> throw new IllegalStateException("Position should never be on Obstacle tile");
-            case BreakableObstacle() -> {
-                final CityMap updatedCityMap = currentCityMap.breakObstacle(currentPosition);
-                final Robot updatedRobot = currentRobot.move(updatedCityMap);
-
-                yield this.toBuilder()
-                        .cityMap(updatedCityMap)
-                        .robot(updatedRobot)
-                        .build();
-            }
-            case DirectionModifier(Direction direction) -> {
-                final Robot updatedRobot = currentRobot
-                        .changeDirection(direction)
-                        .move(currentCityMap);
-
-                yield this.withRobot(updatedRobot);
-            }
-            case CircuitInverter() -> {
-                final Robot updatedRobot = currentRobot
-                        .invert()
-                        .move(currentCityMap);
-
-                yield  this.withRobot(updatedRobot);
-            }
-            case Beer() -> {
-                final Robot updatedRobot = currentRobot
-                        .toggleBreaker()
-                        .move(currentCityMap);
-
-                yield  this.withRobot(updatedRobot);
-            }
-            case Teleporter() -> {
-                final Robot updatedRobot = currentRobot
-                        .triggerTeleporter(currentCityMap)
-                        .move(currentCityMap);
-
-                yield  this.withRobot(updatedRobot);
-            }
-        };
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -143,12 +83,7 @@ public record Scene(
      * Use {@link Iterator#concat(Iterable[])} to concat both iterators (scenes before completion, scene at completion)
      */
     public Iterator<Scene> run() {
-        // IMPLEMENT FUNC {{{
-        final Tuple2<Iterator<Scene>, Iterator<Scene>> prefixAndReminder =
-                Iterator.iterate(this, Scene::next).span(scene -> !scene.completed());
-
-        return Iterator.concat(prefixAndReminder._1, prefixAndReminder._2.take(1));
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -157,13 +92,6 @@ public record Scene(
      * Difficulty: *
      */
     public static Scene fromCityMap(final CityMap cityMap) {
-        // IMPLEMENT FUNC {{{
-        final Robot robot = Robot.fromStart(cityMap.start());
-
-        return Scene.builder()
-                .cityMap(cityMap)
-                .robot(robot)
-                .build();
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

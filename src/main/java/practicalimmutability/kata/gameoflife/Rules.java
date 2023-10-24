@@ -16,18 +16,6 @@ public class Rules {
      * @return Next cell state
      */
     public static CellState nextCellState(CellState cellState, int neighbourCount) {
-        // IMPLEMENT FUNC {{{
-        if (neighbourCount < 2) {
-            return CellState.DEAD;
-        } else if (neighbourCount > 3) {
-            return CellState.DEAD;
-        } else if (neighbourCount == 2) {
-            return cellState;
-        } else if (neighbourCount == 3) {
-            return CellState.ALIVE;
-        } else {
-            throw new IllegalArgumentException("Invalid neighbour count (%d)".formatted(neighbourCount));
-        }
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

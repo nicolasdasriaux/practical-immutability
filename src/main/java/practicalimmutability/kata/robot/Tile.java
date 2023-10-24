@@ -96,19 +96,7 @@ public sealed interface Tile {
      * </ul>
      */
     default char toCode() {
-        // IMPLEMENT FUNC {{{
-        return switch (this) {
-            case Empty() -> ' ';
-            case Start() -> '@';
-            case Booth() -> '$';
-            case Obstacle() -> '#';
-            case BreakableObstacle() -> 'X';
-            case DirectionModifier(Direction direction) -> direction.toCode();
-            case CircuitInverter() -> 'I';
-            case Beer() -> 'B';
-            case Teleporter() -> 'T';
-        };
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -120,19 +108,6 @@ public sealed interface Tile {
      * </ul>
      */
     static Tile fromCode(final char code) {
-        // IMPLEMENT FUNC {{{
-        return switch (code) {
-            case ' ' -> Empty.of();
-            case '@' -> Start.of();
-            case '$' -> Booth.of();
-            case '#' -> Obstacle.of();
-            case 'X' -> BreakableObstacle.of();
-            case 'N', 'S', 'E', 'W' -> DirectionModifier.of(Direction.fromCode(code));
-            case 'I' -> CircuitInverter.of();
-            case 'B' -> Beer.of();
-            case 'T' -> Teleporter.of();
-            default -> throw new IllegalArgumentException(String.format("Unknown tile code (%s)", code));
-        };
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

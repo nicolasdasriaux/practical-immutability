@@ -43,11 +43,7 @@ public record Position(int x, int y) {
      * @return Set of neighbour position
      */
     public Set<Position> neighbours() {
-        // IMPLEMENT FUNC {{{
-        return DELTAS
-                .map(delta -> Position.of(x + delta._1(), y + delta._2()))
-                .toSet();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     public static Position of(int x, int y) {

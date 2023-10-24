@@ -36,9 +36,7 @@ public record Robot(
      * <p>Difficulty: *</p>
      */
     public Robot changeDirection(final Direction direction) {
-        // IMPLEMENT FUNC {{{
-        return this.withDirection(direction);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -46,9 +44,7 @@ public record Robot(
      * <p>Difficulty: *</p>
      */
     public Robot toggleBreaker() {
-        // IMPLEMENT FUNC {{{
-        return this.withBreaker(!breaker());
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -56,9 +52,7 @@ public record Robot(
      * <p>Difficulty: *</p>
      */
     public Robot invert() {
-        // IMPLEMENT FUNC {{{
-        return this.withInverted(!inverted());
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -66,9 +60,7 @@ public record Robot(
      * <p>Difficulty: *</p>
      */
     public Robot die() {
-        // IMPLEMENT FUNC {{{
-        return this.withDead(true);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -80,9 +72,7 @@ public record Robot(
      * </ul>
      */
     public static final Seq<Direction> PRIORITIES =
-            // IMPLEMENT CONST {{{
-            List.of(SOUTH, EAST, NORTH, WEST);
-            // }}}
+            io.vavr.API.TODO();
 
     /**
      * Inverted priorities
@@ -94,9 +84,7 @@ public record Robot(
      * </ul>
      */
     public static final Seq<Direction> INVERTED_PRIORITIES =
-            // IMPLEMENT CONST {{{
-            PRIORITIES.reverse();
-            // }}}
+            io.vavr.API.TODO();
 
     /**
      * Get current robot priorities
@@ -108,9 +96,7 @@ public record Robot(
      * </ul>
      */
     public Seq<Direction> priorities() {
-        // IMPLEMENT FUNC {{{
-        return inverted() ? INVERTED_PRIORITIES : PRIORITIES;
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -126,22 +112,7 @@ public record Robot(
      * </ul>
      */
     public Robot move(final CityMap cityMap) {
-        // IMPLEMENT FUNC {{{
-        final Direction currentDirection = direction();
-
-        final Direction updatedDirection;
-
-        if (obstacleInDirection(currentDirection, cityMap)) {
-            updatedDirection = priorities().find(direction -> !obstacleInDirection(direction, cityMap)).get();
-        } else {
-            updatedDirection = currentDirection;
-        }
-
-        return this.toBuilder()
-                .position(position().move(updatedDirection))
-                .direction(updatedDirection)
-                .build();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -154,9 +125,7 @@ public record Robot(
      * </ul>
      */
     private boolean obstacleInDirection(final Direction direction, final CityMap cityMap) {
-        // IMPLEMENT FUNC {{{
-        return obstacle(cityMap.tile(position().move(direction)));
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -169,23 +138,14 @@ public record Robot(
      * </ul>
      */
     private boolean obstacle(final Tile tile) {
-        // IMPLEMENT FUNC {{{
-        return switch (tile) {
-            case Obstacle() -> true;
-            case BreakableObstacle() -> !breaker();
-            default -> false;
-        };
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
      * Trigger teleporter at current position and teleport robot to destination
      */
     public Robot triggerTeleporter(final CityMap cityMap) {
-        // IMPLEMENT FUNC {{{
-        final Position outPosition = cityMap.teleporterOutPosition(position());
-        return this.withPosition(outPosition);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -193,14 +153,6 @@ public record Robot(
      * <p>Difficulty: *</p>
      */
     public static Robot fromStart(final Position position) {
-        // IMPLEMENT FUNC {{{
-        return Robot.builder()
-                .position(position)
-                .direction(SOUTH)
-                .breaker(false)
-                .inverted(false)
-                .dead(false)
-                .build();
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

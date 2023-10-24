@@ -16,14 +16,7 @@ public record Position(int x, int y) {
      * <p>Difficulty: *</p>
      */
     public Position move(final Direction direction) {
-        // IMPLEMENT FUNC {{{
-        return switch (direction) {
-            case NORTH -> this.withY(y() - 1);
-            case SOUTH -> this.withY(y() + 1);
-            case WEST -> this.withX(x() - 1);
-            case EAST -> this.withX(x() + 1);
-        };
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -31,8 +24,6 @@ public record Position(int x, int y) {
      * <p>Difficulty: *</p>
      */
     public static Position of(final int x, final int y) {
-        // IMPLEMENT FUNC {{{
-        return new Position(x, y);
-        // }}}
+        return io.vavr.API.TODO();
     }
 }

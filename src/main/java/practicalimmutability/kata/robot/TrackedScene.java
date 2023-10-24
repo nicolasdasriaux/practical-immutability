@@ -22,9 +22,7 @@ public record TrackedScene(
      * <p>Difficulty: *</p>
      */
     public boolean completed() {
-        // IMPLEMENT FUNC {{{
-        return scene().completed() || tracking().loop();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -32,9 +30,7 @@ public record TrackedScene(
      * <p>Difficulty: *</p>
      */
     public boolean loop() {
-        // IMPLEMENT FUNC {{{
-        return tracking().loop();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -47,13 +43,7 @@ public record TrackedScene(
      * </ul>
      */
     public TrackedScene next() {
-        // IMPLEMENT FUNC {{{
-        final Scene currentScene = scene();
-        final SceneTracking currentTracking = tracking();
-        final Scene updatedScene = currentScene.next();
-        final SceneTracking updatedTracking = currentTracking.track(updatedScene);
-        return TrackedScene.of(updatedScene, updatedTracking);
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -83,17 +73,7 @@ public record TrackedScene(
      * </ul>
      */
     public Iterator<TrackedScene> run() {
-        // IMPLEMENT FUNC {{{
-        return Iterator.unfoldRight(Option.of(this), maybeCurrentScene -> {
-            return maybeCurrentScene.map(scene -> {
-                if (scene.completed()) {
-                    return Tuple.of(scene, Option.none());
-                } else {
-                    return Tuple.of(scene, Option.of(scene.next()));
-                }
-            });
-        });
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -106,9 +86,7 @@ public record TrackedScene(
      * </ul>
      */
     public static TrackedScene fromInitialScene(final Scene scene) {
-        // IMPLEMENT FUNC {{{
-        return TrackedScene.of(scene, SceneTracking.fromInitialScene(scene));
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     private static TrackedScene of(Scene scene, SceneTracking tracking) {

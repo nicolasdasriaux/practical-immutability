@@ -19,9 +19,7 @@ public record Area(Position p1, Position p2) {
      * @return Width
      */
     public int width() {
-        // IMPLEMENT FUNC {{{
-        return p2.x() - p1.x() + 1;
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -29,9 +27,7 @@ public record Area(Position p1, Position p2) {
      * @return Height
      */
     public int height() {
-        // IMPLEMENT FUNC {{{
-        return p2.y() - p1.y() + 1;
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -40,10 +36,7 @@ public record Area(Position p1, Position p2) {
      * @return {@code true} if position is inside the area
      */
     public boolean contains(Position position) {
-        // IMPLEMENT FUNC {{{
-        return p1().x() <= position.x() && position.x() <= p2().x() &&
-                p1().y() <= position.y() && position.y() <= p2().y();
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     /**
@@ -52,9 +45,7 @@ public record Area(Position p1, Position p2) {
      * @return Normalized position
      */
     public Position normalize(Position position) {
-        // IMPLEMENT FUNC {{{
-        return Position.of(position.x() - p1.x(), position.y() - p1.y());
-        // }}}
+        return io.vavr.API.TODO();
     }
 
     public static Area of(Position p1, Position p2) {
